@@ -1,11 +1,20 @@
-\documentclass[fontsize=11pt, paper=a4, titlepage]{article}
-
-%\input{config}
-
-%\input{abstract}
+\documentclass[journal]{IEEEtran}
+\input{config}
 
 \begin{document}
 
+\title{Temporary Sucky title}
+\author{Christian~Chavez}
+\thanks{Nico~Reissmann and Magnus~Jahre is with the Norwegian University of Science and Technology.}
+
+\maketitle
+
+\begin{IEEEkeywords}
+Inlining, Jive, Compiler, 2015, NTNU
+\end{IEEEkeywords}
+\IEEEpeerreviewmaketitle
+
+\input{abstract}
 \input{introduction}
 \input{related_work}
 \input{scheme}
@@ -14,6 +23,7 @@
 \input{discussion}
 \input{conclusion}
 
-%\bibliography{bibliography}
+\bibliography{bibliography}
+\bibliographystyle{plain}
 
 \end{document}
