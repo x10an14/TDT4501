@@ -1,6 +1,9 @@
 ## Sublime Files
 *.sublime-*
 
+## Project files
+report/report.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
