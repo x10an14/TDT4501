@@ -1,0 +1,39 @@
+% !TEX root = ./report.tex
+
+\section{Related Work}
+
+In this section we first explain why inlining is a practice found in almost
+every compiler to date, before we list (in order of relevance)\todo{To do?} the
+papers contributing to the background of this report, and finally summarize what
+each paper brings to this report.
+
+\subsection{Inlining}
+\todo[inline]{Decide whether to keep or throw out.}
+
+\subsection{Read papers}
+
+\begin{itemize}
+	\item ``\textbf{Secrets of the Glasgow Haskell Compiler inliner}'', written
+by Simon Peyton Jones and Simon Marlow, at Microsoft. \\
+
+This paper explains how inlining is dealt with by the GHC compiler. It spreads
+this into the following sections:
+\begin{enumerate}[a)]
+	\item Short section describing what inlining is, and its most obvious and
+generic properties and pitfalls (Section 2).
+	\item An explanation of a strategy of how (and when) to inline recursive
+functions (Section 3).
+	\item How they so deal with name capture (Section 4).
+	\item As well as discussing certain moments/situations when inlining is
+carefully considered by the GHC. They also have a section describe how they
+exploit their name-capture solution to support accurate tracking of both lexical
+and evalutation-state environments (Section 5+6).
+	\item Finally they sketch their implementation (Section 7).
+\end{enumerate}
+
+	\item ``\textbf{Automatic Autotuning of Inlining Heuristics}'', written by
+John Cavazos and Michael F.P. O'Boyle, at School of Informatics University of
+Edinburg. \\
+	\todo[inline]{Summary of paper.}
+
+\end{itemize}
