@@ -7,15 +7,49 @@ every compiler to date, before we list (in order of relevance)\todo{To do?} the
 papers contributing to the background of this report, and finally summarize what
 each paper brings to this report.
 
-\subsection{Inlining}
-\todo[inline]{Decide whether to keep or throw out.}
+\subsection{Unread (but found interesting) papers}
+
+\begin{itemize}
+	\item ``\textbf{On building a Supercompiler for GHC}''', Peter A. Jonsson
+and Johan Nordlander, at Luleå University of Technology.
+\url{http://pure.ltu.se/portal/files/2231262/nwpt08-scp.pdf}
+	\item ``\textbf{Automatic Tuning of Inlining Heuristics}'', written by John
+Cavazos and Michael F.P. O'Boyle, at School of Informatics University of
+Edinburg.
+\url{http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1559966}
+	\item ``\textbf{Optimizing Generics Is Easy!}'', written by José Pedro
+Magalhães and Stefan Holdermans and Johan Jeuring and Andres Löh, at Utrecht
+University, The Netherlands.
+\url{http://www.andres-loeh.de/OptimizingGenerics/}
+\textit{Looks more like a description of how GHC inlines than anything else to
+do with inlining.}
+	\item ``\textbf{Inline expansion: when and how?}'', Manuel Serrano, at
+University of Geneva, Switzerland.
+\url{http://dl.acm.org/citation.cfm?id=692960}
+\textit{Most interesting of this list at the moment.}
+	\item ``\textbf{Region-based compilation: an introduction and motivation}'',
+Richard E. Hank and Wen-Mei W. Hwu, at University of Illinois, and B.
+Ramakrishna Rau, at Hewlett Packard Laboratories, Plo Alto California.
+\url{http://dl.acm.org/citation.cfm?id=225160.225189&coll=DL&dl=ACM&CFID=470941312&CFTOKEN=25125832}
+\textit{Second most interesting on this list at the moment.}
+	\item ``\textbf{Bigloo: a portable and optimizing compiler for strict
+functional languages}'', by Manuel Serrano and Pierre Weis.
+\url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.50.8424}
+	\item ``\textbf{Losing functions without gaining data: another look at
+defunctionalisation}'', by Neil Mitchell and Colin Runciman, at University of
+York, UK.
+\url{http://dl.acm.org/citation.cfm?id=1596641}
+	\item ``\textbf{Statically Unrolling Recursion to Improve Opportunities for
+Parallelism}'', by Neil Deshpande and Stephen A. Edwards, at Columbia University
+NY.
+\url{http://www.cs.columbia.edu/~sedwards/papers/deshpande2012statically.pdf}
+\end{itemize}
 
 \subsection{Read papers}
 
 \begin{enumerate}[1)]
 	\item ``\textbf{Secrets of the Glasgow Haskell Compiler inliner}'', written
 by Simon Peyton Jones and Simon Marlow, at Microsoft. \\
-
 This paper explains how inlining is dealt with by the GHC compiler. It spreads
 this into the following sections:
 \begin{enumerate}[a)]
@@ -31,9 +65,5 @@ and evalutation-state environments (Section 5+6).
 	\item Finally they sketch their implementation (Section 7).
 \end{enumerate}
 
-	\item ``\textbf{Automatic Autotuning of Inlining Heuristics}'', written by
-John Cavazos and Michael F.P. O'Boyle, at School of Informatics University of
-Edinburg. \\
-	\todo[inline]{Summary of paper.}
 
 \end{enumerate}
