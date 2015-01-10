@@ -4,21 +4,32 @@
 
 \todo[inline]{Figure out the terms found in papers...}
 
-\subsection{\textit{placeholder}}
-\todo[inline]{Insert reference to ``GHC secrets'' -paper in subsection title above}
-
+\subsection{\cite{GHC-paper}}
 \begin{itemize}
 
 	\item Section 1
 \begin{itemize}
 
 	\item ``inlining subsumes''
+Something gets removed by inlining.
+
 	\item ``lexical scopes''
+Scope of a program/function/block/variable.
+
 	\item ``pure'' (\textit{language})
+
 	\item ``explicitly typed'' (\textit{language})
+That the compiler knows at compile time (static) what types all the variables
+and return values have.
+
 	\item ``strictness analysis''
+
 	\item ``\textit{let}-floating'' (\textit{Haskell})
+Not important.
+
 	\item ``name capture''
+Making sure each name is an unique identifier. This gets complicated when
+compiler has to rename things for program correctness. Like when inlining.
 
 \end{itemize}
 
@@ -33,7 +44,13 @@
 	\item ``closure'' (\textit{scopes of functions?})
 	\item ``lambda calculus''
 	\item ``literals''
+The string ``abcd'' is a literal. As is the number 1, when used to assign value
+to an integer, just like the string is used to assign value to a string-variable.
+
 	\item ``primitive operators''
+Operators that are in one way ``basic'', but not necessarily only (nor all) of
+the operations supported by hardware. Think of it as the most basic operators
+which together build up all others.
 
 \end{itemize}
 
@@ -41,6 +58,11 @@
 \begin{itemize}
 
 	\item ``bound variable''
+A variable that is not free, that is, a variable which has been specified as an
+input to a function call. (The opposite of a free variable, which is a variable
+used in a function, but declared outside of it, and not listed as one of its
+parameters).
+
 	\item ``recursive binding groups''
 	\item ``strongly-connected components''
 	\item ``one-shot lambdas''
