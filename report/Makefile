@@ -2,6 +2,8 @@
 .PHONY: all
 
 all: clean report
+	sleep 0.5
+	make clean
 
 report: report.tex bibliography.bib
 	pdflatex report.tex
