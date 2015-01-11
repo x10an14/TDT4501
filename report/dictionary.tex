@@ -1,11 +1,9 @@
 % !TEX root = ./report.tex
 
-\section{Dictionary}
-
 \todo[inline]{Figure out the terms found in papers...}
 
 \subsection{\cite{GHC-paper}}
-\begin{itemize}
+\begin{enumerate}
 
 	\item Section 1
 \begin{itemize}
@@ -30,9 +28,10 @@ Great explanation: \url{http://programmers.stackexchange.com/questions/181154/ty
 	\item ``strictness analysis''
 \todo[inline]{Need more research}
 \url{http://en.wikipedia.org/wiki/Strictness_analysis}
+\url{https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/Demand}
 
 	\item ``\textit{let}-floating'' (\textit{Haskell})
-Nico: Not important
+Nico: Not important.
 
 	\item ``name capture''
 Making sure each name is an unique identifier. This gets complicated when
@@ -44,7 +43,7 @@ compiler has to rename things for program correctness. Like when inlining.
 \begin{itemize}
 
 	\item ``\textit{$\beta$}-reduction''
-A way of utilizing lambda-calculus to simply a lambda expression?
+A way of utilizing lambda-calculus to simplify a lambda expression. Closely related to simplifying anonymous functions (lambda functions) in pure functional programming languages like Haskell.
 
 	\item ``invariant'' (\textit{language artifact/variable/expression?})
 Constant/Unchanging: Unchanged by mathematical or physical operations or
@@ -61,6 +60,10 @@ Ensuring correct lexical scope for (free)variables, mainly needed in languages
 permitting nested function.
 
 	\item ``lambda calculus''
+An important language, focusing on ``\textit{computational mathematics}''. It is
+\textit{Turing complete}, and it can represent any program. As mentioned, it
+focuses on the computational operations of a ($\lambda$-)function, unlike
+``normal functions'' which focus on their respective inputs and outputs.
 
 	\item ``literals''
 The string ``abcd'' is a literal. As is the number 1, when used to assign value
@@ -83,13 +86,28 @@ used in a function, but declared outside of it, and not listed as one of its
 parameters).
 
 	\item ``recursive binding groups''
+When you have calls between groups of recursive functions, complicated
+situations arise. See \cite{GHC-paper}, Section 3.5 for example of a ``recursive
+binding group''.
+
 	\item ``strongly-connected components''
-	\item ``one-shot lambdas''
+A group of nodes (\textit{components}) in a DAG where you can reach every other
+node/component/vertex from any other. Hence, a DAG might have several \textit
+{strongly-connected components}, composed of a multiple of
+nodes/vertices/components.
+
 	\item ``contravariantly''
 	(\textit{(..) it appears contravariantly in its own definition.})
-	\item ``ùntyped programs''
+Best guess: This term refers to variables or functions which are declared, and then used in a manner contradicting the nature of their declaration. Which possibly can become a problem when inlining recursive functions.
+
+	\item ``untyped programs''
+Nico: Not relevant.
+
 	\item ``pathological programs''
+Forgot, ask Nico again.
+
 	\item ``static analysis''
+Analysis at compile time.
 
 \end{itemize}
 
@@ -100,4 +118,4 @@ parameters).
 
 \end{itemize}
 
-\end{itemize}
+\end{enumerate}
