@@ -5,7 +5,7 @@ all: clean report
 
 report: report.tex bibliography.bib
 	pdflatex report.tex
-	#bibtex report.aux
+	bibtex report.aux
 	pdflatex report.tex
 	pdflatex report.tex #Two runs for references
 

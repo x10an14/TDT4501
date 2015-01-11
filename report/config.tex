@@ -1,7 +1,14 @@
 % !TEX root = ./report.tex
 
-\usepackage{todonotes}
-\usepackage{datetime}
-\usepackage[utf8]{inputenc}
+\usepackage{datetime}	%For \newdateformat
+\usepackage{float}		%For forcing position of figures
+\usepackage{listings}	%For code in document
+\usepackage[usenames,dvipsnames]{color}	%For the SkyBlue background color for lstlistings
+\usepackage{todonotes}	%For \todo
+\usepackage{tabularx}	%for tablecontents wrapping inside cell, instead of cell breaking page width.
+\usepackage{enumerate}	%For getting different types of lists like a) II) and so forth.
+\usepackage[utf8, utf8x]{inputenc}	%For norwegian letters and UTF8 encoding support
+\usepackage{lastpage}	%For the command \pageref{lastpage}
+\usepackage{hyperref}	%For \url{}
 
 \newdateformat{CurMonth}{\monthname[\THEMONTH],~\THEYEAR}
