@@ -2,57 +2,65 @@
 
 \section{Related Work}
 
-In this section we first explain why inlining is a practice found in almost
-every compiler to date, before we list (in order of relevance)\todo{To do?} the
-papers contributing to the background of this report, and finally summarize what
-each paper brings to this report.
+In this section (...)\todo[inline]{To do...}
 
 \subsection{Unread (but found interesting) papers}
 
 \begin{itemize}
-	\item ``\textbf{On building a Supercompiler for GHC}''', Peter A. Jonsson
-and Johan Nordlander, at Luleå University of Technology.
+	\item ``\textbf{On building a Supercompiler for GHC}''', \\ Peter A. Jonsson
+and Johan Nordlander, at Luleå University of Technology. \\
 \url{http://pure.ltu.se/portal/files/2231262/nwpt08-scp.pdf}
-	\item ``\textbf{Automatic Tuning of Inlining Heuristics}'', written by John
-Cavazos and Michael F.P. O'Boyle, at School of Informatics University of
-Edinburg.
-\url{http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1559966}
-	\item ``\textbf{Optimizing Generics Is Easy!}'', written by José Pedro
+	\item ``\textbf{Optimizing Generics Is Easy!}'', \\ written by José Pedro
 Magalhães and Stefan Holdermans and Johan Jeuring and Andres Löh, at Utrecht
 University, The Netherlands.
+\textit{Looks more like a description of how GHC inlining than anything else on
+the subject of inlining.}\\
 \url{http://www.andres-loeh.de/OptimizingGenerics/}
-\textit{Looks more like a description of how GHC inlines than anything else to
-do with inlining.}
-	\item ``\textbf{Inline expansion: when and how?}'', Manuel Serrano, at
-University of Geneva, Switzerland.
-\url{http://dl.acm.org/citation.cfm?id=692960}
-\textit{Most interesting of this list at the moment.}
+	\item ``\textbf{Should potential loop optimizations influence inlining
+decisions?}'', by Christopher Barton and José Nelson Amaral and Bob Blainey, at
+University of Alberta and IBM Toronto Software Laboratory, Canada.
+\textit{Perhaps most 2n interesting at this moment?}\\
+\url{http://dl.acm.org/citation.cfm?id=961329}
 	\item ``\textbf{Region-based compilation: an introduction and motivation}'',
-Richard E. Hank and Wen-Mei W. Hwu, at University of Illinois, and B.
+\\ byRichard E. Hank and Wen-Mei W. Hwu, at University of Illinois, and B.
 Ramakrishna Rau, at Hewlett Packard Laboratories, Plo Alto California.
+\textit{3rd most interesting on this list at the moment.} \\
 \url{http://dl.acm.org/citation.cfm?id=225160.225189&coll=DL&dl=ACM&CFID=470941312&CFTOKEN=25125832}
-\textit{Second most interesting on this list at the moment.}
 	\item ``\textbf{Bigloo: a portable and optimizing compiler for strict
-functional languages}'', by Manuel Serrano and Pierre Weis.
+functional languages}'', \\ by Manuel Serrano and Pierre Weis.
+\textit{Does not really seem interesting/relevant, but Manuel Serrano has
+written several relevant papers, and strict functional languages are some of
+the more viable languages for this type of optimization...} \\
 \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.50.8424}
 	\item ``\textbf{Losing functions without gaining data: another look at
-defunctionalisation}'', by Neil Mitchell and Colin Runciman, at University of
+defunctionalisation}'', \\ by Neil Mitchell and Colin Runciman, at University of
 York, UK.
+\textit{Not really sure what to make of this one.} \\
 \url{http://dl.acm.org/citation.cfm?id=1596641}
 	\item ``\textbf{Statically Unrolling Recursion to Improve Opportunities for
-Parallelism}'', by Neil Deshpande and Stephen A. Edwards, at Columbia University
-NY.
+Parallelism}'', \\by Neil Deshpande and Stephen A. Edwards, at Columbia
+University NY.
+\textit{This one sounds cool, and being static is a plus. But that's all its got going for it without having read it more closely. It does discuss
+inlining.}\\
 \url{http://www.cs.columbia.edu/~sedwards/papers/deshpande2012statically.pdf}
+	\item ``\textbf{An adaptive strategy for inline substitution}'', \\ by Keith
+D. Cooper and Timothy J. Harvey and Todd Waterman, at Rice University Houston
+and Texas Instruments Inc. Stafford, Texas.
+\textit{Perhaps most interesting at this time due to discussing global/static
+optimizations as well as being relatively new compared to other papers in this
+list?}\\
+\url{http://dl.acm.org/citation.cfm?id=1788381}
 \end{itemize}
 
 \subsection{Read papers}
 
-\begin{enumerate}[1)]
-	\item ``\textbf{Secrets of the Glasgow Haskell Compiler inliner}'', written
-by Simon Peyton Jones and Simon Marlow, at Microsoft. \\
+\begin{enumerate}
+	\item ``\textbf{Secrets of the Glasgow Haskell Compiler inliner}'',
+\cite{GHC-paper}
+
 This paper explains how inlining is dealt with by the GHC compiler. It spreads
 this into the following sections:
-\begin{enumerate}[a)]
+\begin{enumerate}
 	\item Short section describing what inlining is, and its most obvious and
 generic properties and pitfalls (Section 2).
 	\item An explanation of a strategy of how (and when) to inline recursive
@@ -64,6 +72,27 @@ exploit their name-capture solution to support accurate tracking of both lexical
 and evalutation-state environments (Section 5+6).
 	\item Finally they sketch their implementation (Section 7).
 \end{enumerate}
+
+	\item ``\textbf{Inline expansion: when and how?}'',
+\cite{InlineWhenHowSerrano}
+
+This paper focuses on \textit{when} and \textit{how} to inline functions,
+classified as either \textit{recursive} or \textit{non-recursive} functions.
+This is done in the programming language Scheme, with \todo{confirm this?}the
+Bigloo compiler M. Serrano has created.
+
+The paper gives an algorithm for when to inline (which \cite{GHC-paper} remarks
+upon), as well as comments and results on their inlining wrt. the two classes of
+functions the paper defines.
+
+	\item ``\textbf{Automatic Tuning of Inlining Heuristics}'',
+\cite{AutoTuningJavaHeuristics}
+
+This paper explores and explains the advantages of genetic algorithm  heuristics
+when dynamically compiling Java. Since it is dynamically compiled, it's harder
+for the compilation unit to get a proper global view of the compilation job,
+required resources, and beneficial trade-offs. All of which play important roles
+when deciding whether to incur the cost of increased code size when inlining.
 
 
 \end{enumerate}
