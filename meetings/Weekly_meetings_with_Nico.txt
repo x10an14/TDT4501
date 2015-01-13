@@ -1,9 +1,9 @@
 Weekly meetings with Nico:
 
+Until further notice: Weekly meetings at Wednesday 1100.
+
 7th Jan, 2015:
 	Read: Skim through book on programming languages, parts of Nico's master
 thesis
 	Read more papers.
 	Write background into related work.
-
-Until further notice: Weekly meetings at Wednesday 1100.
