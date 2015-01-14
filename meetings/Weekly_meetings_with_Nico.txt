@@ -2,6 +2,72 @@ Weekly meetings with Nico:
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+14th Jan, 2015:
+	Kick out:
+		Building a supercompiler
+		Optimizing generics is easy
+		Bigloo compiler
+			Not so relevant.
+		Losing functions without Gaining Data
+
+	No extensions on paper; hard deadline end of May.
+
+	Short high-level summaries of papers in the read papers list.
+	Think shortened abstract.
+		Re-do the ones already written.
+
+	Problemsetting comes before introduction.
+		Write problem setting inside introduciton
+		Add problemset (/"assignment") pdf from Nico in the appendix
+
+	Start writing background into paper as its own section, after introduction
+		Write about the RVSDG!!! (In this section, its own subsections)
+
+	Basic architecture of an inliner
+		How to take care of recursive functions
+		Inline recursive function until a certain depth.
+		Or use the GHC strongly component strategy
+
+	Need to decide which properties to use to decide when to inline the recursive
+functions.
+
+	Jive compiler:
+		Phi region/block is the one entails each  mutually recursive binding
+groups.
+		Phi is a mutually recursive environment
+		Lambda is a function
+		Gamma is conditional
+		Theta is loop construct
+
+	Related work preferably finished end of january
+	Backrgound preferably finished by middle of february
+
+	Remove personal stuff from report. Keep only what should stay in the final
+version of the report.
+
+
+	Code:
+		First look at the recursive functions
+			Return which lambdas you can inline and which you cannot
+		Those you can inline: move onto the architecture.
+		Inline literal, class
+		abstract function bool performInline(Apply node) = 0;
+
+
+	Relevant:
+		Should potential loop optimizations
+		Region based compilation has section with references to relevant papers
+			Section 3: references 3 & 4! (Not alot relevant in the rest of the
+paper, but a little bit here and there.)
+		Static Unrolling Recursion to Improve Opportunities for Parallelism
+		Adaptive compilations and inlining
+		Rest of papers: all interesting
+
+Next to read:
+	Adaptive compilation to read next
+
+
+
 7th Jan, 2015:
 	Read: Skim through book on programming languages, parts of Nico's master
 thesis
