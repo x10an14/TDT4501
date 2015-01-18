@@ -2,16 +2,28 @@
 
 \section{Background}
 
-\subsection{RVSDG}
+\subsection{The Regionalized Value-State Depenency Graph}
+\label{background:RVSDG}
 
 \begin{itemize}
 
-	\item \textit{$\phi$}
+	\item \textit{$\gamma$} blocks/regions in the RVSDG are conditionals. The
+inputs of each $\gamma$ block is the variables(/data) upon which the conditional
+depends, as well as the operation performed on these. A CNF may then be
+represented as several nested $\gamma$ blocks, all the while retaining the
+properties of a demand-dependence graph.
 
-	\item \textit{$\lambda$}
+	\item \textit{$\theta$} blocks/regions are the loop constructs.
+\todo[inline]{Need better explanation.}
 
-	\item \textit{$\gamma$}
+	\item \textit{$\lambda$} blocks/regions are the functions. They retain the
+demand-dependency graph properties by implementing\todo{Ask Nico for help?}
 
-	\item \textit{$\theta$}
+	\item \textit{$\phi$} blocks/regions are the ones describing mutually
+recursive environments. Inside a $\phi$ region, the RVSDG will have at least one
+$\lambda$ region, and perhaps more. If there is more than one $\lambda$ present,
+then the ``mutually recursive binding group'' situation which P. Jones and
+Marlow \cite{GHC-paper} describe when discussing how to inline recursive
+functions, is also present in the program flow represented by this RVSDG.
 
 \end{itemize}
