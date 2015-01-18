@@ -58,3 +58,50 @@ relatable to Jive.} \\
 
 \end{itemize}
 
+\subsection{Read papers}
+
+Below papers are listed according to perceived relevance/usefulness for this
+project.\\
+
+\begin{enumerate}
+	\item ``\textbf{Secrets of the Glasgow Haskell Compiler inliner}'',
+\cite{GHC-paper}
+
+This paper explains how inlining is dealt with by the GHC compiler. It spreads
+this into the following sections:
+\begin{enumerate}
+	\item Short section describing what inlining is, and its most obvious and
+generic properties and pitfalls (Section 2).
+	\item An explanation of a strategy of how (and when) to inline recursive
+functions (Section 3).
+	\item How they so deal with name capture (Section 4).
+	\item As well as discussing certain moments/situations when inlining is
+carefully considered by the GHC. They also have a section describe how they
+exploit their name-capture solution to support accurate tracking of both lexical
+and evalutation-state environments (Section 5+6).
+	\item Finally they sketch their implementation (Section 7).
+\end{enumerate}
+
+	\item ``\textbf{Inline expansion: when and how?}'',
+\cite{InlineWhenHowSerrano}
+
+This paper focuses on \textit{when} and \textit{how} to inline functions,
+classified as either \textit{recursive} or \textit{non-recursive} functions.
+This is done in the programming language Scheme, with \todo{confirm this?}the
+Bigloo compiler M. Serrano has created.
+
+The paper gives an algorithm for when to inline (which \cite{GHC-paper} remarks
+upon), as well as comments and results on their inlining wrt. the two classes of
+functions the paper defines.
+
+	\item ``\textbf{Automatic Tuning of Inlining Heuristics}'',
+\cite{AutoTuningJavaHeuristics}
+
+This paper explores and explains the advantages of genetic algorithm  heuristics
+when dynamically compiling Java. Since it is dynamically compiled, it's harder
+for the compilation unit to get a proper global view of the compilation job,
+required resources, and beneficial trade-offs. All of which play important roles
+when deciding whether to incur the cost of increased code size when inlining.
+
+
+\end{enumerate}

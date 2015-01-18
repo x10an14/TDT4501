@@ -4,50 +4,36 @@
 
 In this section (...)\todo[inline]{To do...}
 
-\subsection{Read papers}
+\subsection{Regionalized Value-State Dependency Graph}
+\todo[inline]{Insert reference/summary of HiPEAC paper when published}
 
-Below papers are listed according to perceived relevance/usefulness for this
-project.\\
+\subsection{Inlining}
 
-\begin{enumerate}
-	\item ``\textbf{Secrets of the Glasgow Haskell Compiler inliner}'',
-\cite{GHC-paper}
+Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} explores the heuristic
+approach on when to inline functions, and in its paper shows how conjunctive
+normalform can easily be used to decide if and when to inline a specific call
+site. They report between 17\% and 37\% execution time improvements without
+code explosion in their testing of their genetic algorithm auto-tuning.
 
-This paper explains how inlining is dealt with by the GHC compiler. It spreads
-this into the following sections:
-\begin{enumerate}
-	\item Short section describing what inlining is, and its most obvious and
-generic properties and pitfalls (Section 2).
-	\item An explanation of a strategy of how (and when) to inline recursive
-functions (Section 3).
-	\item How they so deal with name capture (Section 4).
-	\item As well as discussing certain moments/situations when inlining is
-carefully considered by the GHC. They also have a section describe how they
-exploit their name-capture solution to support accurate tracking of both lexical
-and evalutation-state environments (Section 5+6).
-	\item Finally they sketch their implementation (Section 7).
-\end{enumerate}
+Serrano \cite{InlineWhenHowSerrano} explains when to inline functions in the
+Scheme programming language, by classifying them as either recursive or  non-
+recursive functions, and thereafter mainly inlining non-recursive functions if
+they do not bloat the code size above a certain treshold.
 
-	\item ``\textbf{Inline expansion: when and how?}'',
-\cite{InlineWhenHowSerrano}
+Serrano \cite{InlineWhenHowSerrano} also takes overhead into account when
+deciding on when to inline, and hence also looks at inlining certain recursive
+functions which fulfill some requirements, at least to a certain \todo{Find a
+good reference?}depth.
 
-This paper focuses on \textit{when} and \textit{how} to inline functions,
-classified as either \textit{recursive} or \textit{non-recursive} functions.
-This is done in the programming language Scheme, with \todo{confirm this?}the
-Bigloo compiler M. Serrano has created.
+\subsection{Recursive Inlining}
 
-The paper gives an algorithm for when to inline (which \cite{GHC-paper} remarks
-upon), as well as comments and results on their inlining wrt. the two classes of
-functions the paper defines.
+P. Jones and Marlow \cite{GHC-paper} explore how the decision of when to inline
+mutually recursive binding groups in Haskell, through the use of a novel
+approach using strictness-analysis and forming a graph of the strongly connected
+components (\textbf{SCC}) in said mutually recursive binding group.
 
-	\item ``\textbf{Automatic Tuning of Inlining Heuristics}'',
-\cite{AutoTuningJavaHeuristics}
-
-This paper explores and explains the advantages of genetic algorithm  heuristics
-when dynamically compiling Java. Since it is dynamically compiled, it's harder
-for the compilation unit to get a proper global view of the compilation job,
-required resources, and beneficial trade-offs. All of which play important roles
-when deciding whether to incur the cost of increased code size when inlining.
-
-
-\end{enumerate}
+They also show how this approach in the Haskell core language does not explode
+code size when inlining some of the recursive functions. Through the use of
+their SCC they show how instead of not inlining any recursive function (like
+Serrano \cite{InlineWhenHowSerrano}), the SCC graph and some other flags can
+show when it is not only safe, but desirable to inline a recursive function.
