@@ -16,7 +16,7 @@ site. They report between 17\% and 37\% execution time improvements without
 code explosion in their testing of their genetic algorithm auto-tuning.
 
 Serrano \cite{InlineWhenHowSerrano} explains when to inline functions in the
-Scheme programming language, by classifying them as either recursive or  non-
+Scheme programming language, by classifying them as either recursive or non-
 recursive functions, and thereafter mainly inlining non-recursive functions if
 they do not bloat the code size above a certain treshold.
 
@@ -24,6 +24,19 @@ Serrano \cite{InlineWhenHowSerrano} also takes overhead into account when
 deciding on when to inline, and hence also looks at inlining certain recursive
 functions which fulfill some requirements, at least to a certain \todo{Find a
 good reference?}depth.
+
+Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
+techniques to adaptively decide which functions to inline during program
+compilation, to show that they can be used to improve the performance of
+specific optimizations.
+
+The adaptive technique both matches, and at times, beats ATLAS \todo{need ATLAS
+cite?} and gcc on one of the object oriented biggest programs in the SPEC
+CINT2000 test suite. The technique accepts condition strings (like in
+\cite{AutoTuningJavaHeuristics}) to determine which call sites are inlined. The
+condition strings provide a flexible inliner by combining various program
+properties in CNF, and exposes a large space of different inlining decisions
+with the potential to outperform static techniques when used adaptively.
 
 \subsection{Recursive Inlining}
 
