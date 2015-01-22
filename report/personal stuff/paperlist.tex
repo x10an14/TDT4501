@@ -68,6 +68,19 @@ project.\\
 	\item ``\textbf{Adaptive Compilation and Inlining}'', by Todd
 Waterman (Ph.D. Thesis)
 
+Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
+techniques to adaptively decide which functions to inline during program
+compilation, to show that they can be used to improve the performance of
+specific optimizations.
+
+The adaptive technique both matches, and at times, beats ATLAS \todo{need ATLAS
+cite?} and gcc on one of the object oriented biggest programs in the SPEC
+CINT2000 test suite. The technique accepts condition strings (like in
+\cite{AutoTuningJavaHeuristics}) to determine which call sites are inlined. The
+condition strings provide a flexible inliner by combining various program
+properties in CNF, and exposes a large space of different inlining decisions
+with the potential to outperform static techniques when used adaptively.
+
 	\item ``\textbf{Secrets of the Glasgow Haskell Compiler inliner}'',
 \cite{GHC-paper}
 
@@ -107,5 +120,12 @@ for the compilation unit to get a proper global view of the compilation job,
 required resources, and beneficial trade-offs. All of which play important roles
 when deciding whether to incur the cost of increased code size when inlining.
 
+	\item ``\textbf{Region-Based Compilation: An Introduction and Motivation}'',
+
+Instruction level pralallelism (\textbf{ILP}) has become an increasing focus in
+further development and improvement in code efficiency. This paper looks at how
+in a new technique, region-based compilation, can use inlining of functions to
+further the achievement of better code efficiency. The authors of this paper
+used the \textit{Multiflow} compiler when doing their research for this paper.
 
 \end{enumerate}

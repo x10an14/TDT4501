@@ -38,6 +38,14 @@ condition strings provide a flexible inliner by combining various program
 properties in CNF, and exposes a large space of different inlining decisions
 with the potential to outperform static techniques when used adaptively.
 
+E. Hank, W. Hwu, and R. Rau \cite{RegionBasedCompilationIntroduction} introduces
+a new technique called \textit{Region-Based Compilation}, and in their paper
+exhibits the benefits an aggressive compiler can have from inlining, bringing
+the percentage of dynamic acyclic code down to below 10\% in almost all tests.
+The paper thus shows that inlining is an important technique for aggressive
+compilation techniques, and both apt and useful for the Region-Based compilation
+technique.
+
 \subsection{Recursive Inlining}
 
 P. Jones and Marlow \cite{GHC-paper} explore how the decision of when to inline
