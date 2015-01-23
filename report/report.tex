@@ -1,4 +1,4 @@
-\documentclass[journal, a4paper, twoside, romanappendices]{IEEEtran}
+\documentclass[a4paper]{article}
 \input{config}
 
 \begin{document}
@@ -11,25 +11,30 @@
 Norwegian University of Science and Technology (NTNU).}
 
 
-\begin{IEEEkeywords}
-Function inlining, Jive, Compiler, 2015, NTNU
-\end{IEEEkeywords}
+%\begin{IEEEkeywords}
+%Function inlining, Jive, Compiler, 2015, NTNU
+%\end{IEEEkeywords}
 
+\vfill
 \input{abstract}
+\clearpage
+\tableofcontents
+\clearpage
 \input{introduction}
-\input{related_work}
 \input{background}
 \input{scheme}
 \input{methodology}
 \input{results}
 \input{discussion}
+\input{related_work}
 \input{conclusion}
 
 \bibliography{bibliography}
 \bibliographystyle{plain}
 
 \clearpage
-\appendices
-\input{appendices}
+\appendix
+\addappheadtotoc
+\input{appendix}
 
 \end{document}
