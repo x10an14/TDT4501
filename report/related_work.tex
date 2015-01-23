@@ -9,10 +9,17 @@ In this section (...)\todo[inline]{To do...}
 
 \subsection{Inlining}
 
-Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} explores the heuristic
-approach on when to inline functions, and in its paper shows how conjunctive
-normalform can easily be used to decide if and when to inline a specific call
-site. They report between 17\% and 37\% execution time improvements without
+W. Davidson and M. Holler \cite{SubprogInlining} examine the proposition that
+the increased size of inlined code affects the execution time performance on
+demand-paged virtual memory machines. Their paper details how well the equations
+developed to describe inlined versions of a programs execution time, match with
+the aforementioned proposition by utilizing a source-to-source subprogram
+inliner. In doing this, they also examine the overhead costs of running inlined
+functions, like register allocation issues.
+
+Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} show how conjunctive
+normalform (CNF) can easily be used to decide if and when to inline a specific
+call site. They report between 17\% and 37\% execution time improvements without
 code explosion in their testing of their genetic algorithm auto-tuning.
 
 Serrano \cite{InlineWhenHowSerrano} explains when to inline functions in the
