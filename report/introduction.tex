@@ -5,21 +5,23 @@
 
 \subsection{Problemsetting}
 
-In these days, optimizing data movemement with regards to the memory hierarchy
-in computers, is much more relevant than optimizations removing or simplifying
-operations/computations. The removal of the CPU cycles spent waiting for the
-necessary data to traverse to the top of the memory hierarchy is a much more
-rewarding optimization, than optimizing away the instruction counts using the
-on-chip ALUs in a processor.
+\todo[inline]{Re-state the assignment: Inlining -> Easy, what is it, benefits/drawbacks. \\
+``This paper details the problems and benefits of inlining'' \\
+Introduce Jive in a few sentences, say that it's further introduced in section
+2.}
 
-This paper explores when inlining should be performed in the Jive compiler,
-using the new novel approach of the Regionalized Value-State Dependency Graph
-(\textbf{RVSDG})\footnote{See Appendix \ref{app:reportdesc} for a the
-problemsetting in its original PDF.} to allow the compiler perform just such
-optimizations on inlined code.
+Inlining is a simple and straight-forward technique used in code compilation,
+where one replaces the call of a function with the body of said function. Its
+benefits include removal of function call overhead, and more importantly,
+unveiling of additional potential optimizations in the code. However, the
+drawback is potentially increased code size, and longer execution times for the
+compilation of the program.
 
-The RVSDG (Section \ref{background:RVSDG}) substitutes the known Control Flow
-Graph (CFG), moving the focus of the program flow graph away from explicitly
-describing operations and implicitly showing datamovements performed in the
-program, and instead doing the opposite: explicitly describing the data
-movement, and implicitly describing the operations performed by the program.
+This paper details the problem and benefits of inlining wrt. the Jive \todo{
+insert reference} compiler. The Jive compiler is a new backend compiler using
+intermediate representation (IR), and an alternative to the control flow graph
+(CFG); the regionalized value-state dependency graph (RVSDG\footnote{Detailed in
+Section \ref{background:RVSDG}.}).
+
+Further details of this assignment can be found in Appendix
+\ref{app:reportdesc}.
