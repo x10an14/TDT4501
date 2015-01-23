@@ -10,58 +10,30 @@ In this section (...)\todo[inline]{To do...}
 \subsection{Inlining}
 
 W. Davidson and M. Holler \cite{SubprogInlining} examine the proposition that
-the increased size of inlined code affects the execution time performance on
-demand-paged virtual memory machines. Their paper details how well the equations
-developed to describe inlined versions of a programs execution time, match with
-the aforementioned proposition by utilizing a source-to-source subprogram
-inliner. In doing this, they also examine the overhead costs of running inlined
-functions, like register allocation issues.
+the increased codesize of inlined code affects the execution time performance on
+demand-paged virtual memory machines. Using equations developed to the describe
+an inlined programs' execution time, they test this propositing through the use
+of a source-to-source subprogram inliner.
 
-Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} show how conjunctive
-normalform (CNF) can easily be used to decide if and when to inline a specific
-call site. They report between 17\% and 37\% execution time improvements without
-code explosion in their testing of their genetic algorithm auto-tuning.
+Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} uses a genetic
+algorithm in their auto-tuning heuristics to show how conjunctive normalform
+(CNF) can easily be used to decide if and when to inline a specific call site.
+They report between 17\% and 37\% execution time improvements without code
+explosion.
 
-Serrano \cite{InlineWhenHowSerrano} explains when to inline functions in the
-Scheme programming language, by classifying them as either recursive or non-
-recursive functions, and thereafter mainly inlining non-recursive functions if
-they do not bloat the code size above a certain treshold.
-
-Serrano \cite{InlineWhenHowSerrano} also takes overhead into account when
-deciding on when to inline, and hence also looks at inlining certain recursive
-functions which fulfill some requirements, at least to a certain \todo{Find a
-good reference?}depth.
+Serrano \cite{InlineWhenHowSerrano} implements an inliner in the Scheme
+programming language. He details an algorithm for which functions to inline, as
+well as an algorithm for how to inline reccursive functions and non-recursive
+functions.
 
 Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
-techniques to adaptively decide which functions to inline during program
-compilation, to show that they can be used to improve the performance of
-specific optimizations.
-
-The adaptive technique both matches, and at times, beats ATLAS \todo{need ATLAS
-cite?} and gcc on one of the object oriented biggest programs in the SPEC
-CINT2000 test suite. The technique accepts condition strings (like in
-\cite{AutoTuningJavaHeuristics}) to determine which call sites are inlined. The
-condition strings provide a flexible inliner by combining various program
-properties in CNF, and exposes a large space of different inlining decisions
-with the potential to outperform static techniques when used adaptively.
+techniques to adaptively decide which functions to inline.
 
 E. Hank, W. Hwu, and R. Rau \cite{RegionBasedCompilationIntroduction} introduces
-a new technique called \textit{Region-Based Compilation}, and in their paper
-exhibits the benefits an aggressive compiler can have from inlining, bringing
-the percentage of dynamic acyclic code down to below 10\% in almost all tests.
-The paper thus shows that inlining is an important technique for aggressive
-compilation techniques, and both apt and useful for the Region-Based compilation
-technique.
+a new technique called \textit{Region-Based Compilation}. And
+exhibits the benefits an aggressive compiler can have from inlining.
 
-\subsection{Recursive Inlining}
-
-P. Jones and Marlow \cite{GHC-paper} explore how the decision of when to inline
-mutually recursive binding groups in Haskell, through the use of a novel
-approach using strictness-analysis and forming a graph of the strongly connected
-components (\textbf{SCC}) in said mutually recursive binding group.
-
-They also show how this approach in the Haskell core language does not explode
-code size when inlining some of the recursive functions. Through the use of
-their SCC they show how instead of not inlining any recursive function (like
-Serrano \cite{InlineWhenHowSerrano}), the SCC graph and some other flags can
-show when it is not only safe, but desirable to inline a recursive function.
+P. Jones and Marlow \cite{GHC-paper} explore a inlining approach for the Glasgow
+Haskell Compiler (GHC). The paper introduces a novel approach for deciding which
+mutually recursive functions can be (if any) safely inlined for optimization
+purposes.
