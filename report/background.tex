@@ -2,28 +2,56 @@
 
 \section{Background}
 
+\subsection{The Jive Compiler}
+\label{background:jive}
+
+\todo[inline]{Fill in when read up on.}
+
 \subsection{The Regionalized Value-State Dependency Graph}
 \label{background:RVSDG}
 
+\todo[inline]{Fill in when read up on.}
+
 \begin{itemize}
 
-	\item \textit{$\gamma$} blocks/regions in the RVSDG are conditionals. The
-inputs of each $\gamma$ block is the variables(/data) upon which the conditional
-depends, as well as the operation performed on these. A CNF may then be
-represented as several nested $\gamma$ blocks, all the while retaining the
-properties of a demand-dependence graph.
+	\item \textit{$\gamma$} nodes in the RVSDG represent conditional statements.
+Each $\gamma$ node has two sets of inputs: the predicate, and the
+variables\todo{This is wrong term, check up on this.} the predicate depend upon.
+The outputs are X\todo{same as previous todo.}, representing the dataflow of the
+RVSDG.
 
-	\item \textit{$\theta$} blocks/regions are the loop constructs.
-\todo[inline]{Need better explanation.}
+	\item \textit{$\theta$} nodes(/regions) represent loops in the program. They
+are structured as do-while-loops, with a $\gamma$ node in front of the loop if
+it's representing a for-loop. The $\gamma$ node at the end of the node/region
+has a directed edge back to the top of the node (containing the representation
+of the body of the loop), or onwards out of the node/region onto the next one in
+the control flow of the program.
 
-	\item \textit{$\lambda$} blocks/regions are the functions. They retain the
-demand-dependency graph properties by implementing\todo{Ask Nico for help?}
+	\item \textit{$\lambda$} nodes(/regions) represent functions. Their input
+edges represent all data worked upon by the function, as well as the function's
+input parameter variables. The RVSDG forces all $\lambda$ nodes to represent
+strict functions.
 
-	\item \textit{$\phi$} blocks/regions are the ones describing mutually
-recursive environments. Inside a $\phi$ region, the RVSDG will have at least one
-$\lambda$ region, and perhaps more. If there is more than one $\lambda$ present,
-then the ``mutually recursive binding group'' situation which P. Jones and
-Marlow \cite{GHC-paper} describe when discussing how to inline recursive
-functions, is also present in the program flow represented by this RVSDG.
+	\item \textit{Apply} nodes are ``call nodes'', nodes which represent places
+where a function is called. When scanning the program represented by the RVSDG,
+it is these nodes that are looked upon as potential places upon which to perform
+inlining.
+
+	\item \textit{$\phi$} regions are nodes representing parts of the program's
+control flow where either a functions behave recursively either by calling
+themselves (mutually recursive), or each two or more calling each other in turn.
+
+A $\phi$ region needs to have at least one $\lambda$ node and one $\gamma$ node.
+It may have apply nodes instead of $\lambda$ nodes, as long as these $\lambda$
+nodes exist somewhere else in the graph. A mutually recursive function will then
+have an output edge from the $\gamma$ node going back ``up'' to the $\lambda$
+node supplying the input for said $\gamma$ node.
+
+In functional languages such as Haskell, there can be several mutually recursive
+functions calling each other, ``mutually recursive binding groups''
+\cite{GHCPaper}. This is represented in the RVSDG as several $\lambda$ nodes
+where the trailing $\gamma$ nodes have one or more output edges going to one or
+more $\lambda$ nodes. It must have at least one edge going to a different
+$\lambda$ node for the RVSDG to represent a mutually recursive binding group.
 
 \end{itemize}
