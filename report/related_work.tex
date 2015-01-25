@@ -15,11 +15,10 @@ demand-paged virtual memory machines. Using equations developed to the describe
 an inlined programs' execution time, they test this propositing through the use
 of a source-to-source subprogram inliner.
 
-Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} uses a genetic
-algorithm in their auto-tuning heuristics to show how conjunctive normalform
-(CNF) can easily be used to decide if and when to inline a specific call site.
-They report between 17\% and 37\% execution time improvements without code
-explosion.
+Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} use a genetic algorithm
+in their auto-tuning heuristics to show how conjunctive normalform (CNF) can
+easily be used to decide if and when to inline a specific call site. They report
+between 17\% and 37\% execution time improvements without code explosion.
 
 Serrano \cite{InlineWhenHowSerrano} implements an inliner in the Scheme
 programming language. He details an algorithm for which functions to inline, as
@@ -27,11 +26,12 @@ well as an algorithm for how to inline reccursive functions and non-recursive
 functions.
 
 Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
-techniques to adaptively decide which functions to inline.
+techniques to adaptively decide which functions to inline. The thesis shows the
+use of CNF for deciding which functions to inline.
 
 E. Hank, W. Hwu, and R. Rau \cite{RegionBasedCompilationIntroduction} introduces
-a new technique called \textit{Region-Based Compilation}. And
-exhibits the benefits an aggressive compiler can have from inlining.
+a new technique called \textit{Region-Based Compilation}. And exhibits the
+benefits an aggressive compiler can have from inlining.
 
 P. Jones and Marlow \cite{GHC-paper} explore a inlining approach for the Glasgow
 Haskell Compiler (GHC). The paper introduces a novel approach for deciding which
