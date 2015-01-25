@@ -23,13 +23,14 @@ well as an algorithm for how to inline reccursive functions and non-recursive
 functions.
 
 Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
-techniques to adaptively decide which functions to inline.
+techniques to adaptively decide which functions to inline. The thesis shows the
+use of CNF for deciding which functions to inline.
 
 E. Hank, W. Hwu, and R. Rau \cite{RegionBasedCompilationIntroduction} introduces
 a new technique called \textit{Region-Based Compilation}. And examines the
 benefits an aggressive compiler can gain from inlining.
 
-P. Jones and Marlow \cite{GHC-paper} explore a inlining approach for the Glasgow
+P. Jones and Marlow \cite{GHCPaper} explore a inlining approach for the Glasgow
 Haskell Compiler (GHC). The paper introduces a novel approach for deciding which
 mutually recursive functions can be (if any) safely inlined for optimization
 purposes.

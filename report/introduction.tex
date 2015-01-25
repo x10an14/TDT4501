@@ -12,18 +12,16 @@ Introduce Jive in a few sentences, say that it's further introduced in section
 
 Inlining is a simple and straight-forward technique used in code compilation,
 where one replaces the call of a function with the body of said function. Its
-benefits include removal of function call overhead, and more importantly,
-unveiling of additional potential optimizations in the code. However, the
-drawback is potentially increased code size, and longer execution times for the
-compilation of the program.
+benefits include removal of function call overhead and unveiling of additional
+potential optimizations in the code. The drawbacks are potentially increased
+code size as well as longer execution times for the compilation of the program.
 
-The contribution of this paper is an inliner for the Jive compiler, and
-detailing the problems and benefits of inlining wrt. the Jive \todo{insert
-reference} compiler. Jive is a new backend compiler using intermediate
-representation (IR), and an alternative to the control flow graph (CFG); the
+The contribution of this paper is an inliner for the \todo{insert reference}Jive
+compiler, and detailing the problems and benefits of inlining wrt. the Jive
+compiler. Jive is a new backend compiler which works on intermediate
+representation (IR) code, and optimizes it with a new type of graph; the
 regionalized value-state dependency graph (RVSDG\footnote{Detailed in Section
-\ref{background:RVSDG}.}).
-
+\ref{background:jive}.}).
 
 Further details of this assignment can be found in Appendix
 \ref{app:projdesc}.
