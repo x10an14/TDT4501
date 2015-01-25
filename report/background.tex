@@ -10,13 +10,25 @@
 \subsection{The Regionalized Value-State Dependency Graph}
 \label{background:RVSDG}
 
-\todo[inline]{Fill in when read up on.}
+The RVSDG is a directed acyclic graph (DAG), upon which the Jive compiler bases
+its operations on. Jive converts the control flow graph (CFG) representing the
+control flow of a program in IR code into an RVSDG graph.
+
+The RVSDG, fulfilling the properties required by a DAG, have different types of
+nodes. These nodes are (among others) the $\gamma$, $\theta$, $\lambda$, apply,
+and $\phi$ nodes. Each type of node represents a different typical part of a
+program, like loops, functions, and if-statements.
+
+\todo{Cite HiPEAC paper}Bahmann et. al detail algorithms for how almost any CFG
+can be converted into an RVSDG, and any RVSDG back again into a CFG, with the
+consequence that \todo{Check up on the veracity of this}almost any program can
+be represented as a RVSDG.
 
 \begin{itemize}
 
 	\item \textit{$\gamma$} nodes in the RVSDG represent conditional statements.
 Each $\gamma$ node has two sets of inputs: the predicate, and the
-\todo{This is wrong term, check up on this.}variables the predicate depend upon.
+\todo{This term is wrong, check up on this.}variables the predicate depend upon.
 The outputs are \todo{same as previous todo.}X, representing the dataflow of the
 RVSDG.
 
