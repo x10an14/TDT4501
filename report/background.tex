@@ -10,46 +10,56 @@
 \subsection{The Regionalized Value-State Dependency Graph}
 \label{background:RVSDG}
 
-The RVSDG is a directed acyclic graph (DAG), upon which the Jive compiler bases
-its operations on. Jive converts the control flow graph (CFG) representing the
-control flow of a program in IR code into an RVSDG graph.
+The RVSDG is a directed acyclic graph (DAG), which is what separates the Jive
+compiler from the rest of the other available backend compilers. Jive converts
+the control flow graph (CFG) representing the control flow of a program
+(received as IR code) into an RVSDG graph.
 
-The RVSDG, fulfilling the properties required by a DAG, have different types of
-nodes. These nodes are (among others) the $\gamma$, $\theta$, $\lambda$, apply,
-and $\phi$ nodes. Each type of node represents a different typical part of a
-program, like loops, functions, and if-statements.
+The RVSDG, fulfilling the properties of a DAG, has different types of nodes.
+These nodes are (among others) the $\gamma$-, $\theta$-, $\lambda$-, apply-, and
+$\phi$- nodes. Each of these nodes represent a different (and typically common)
+aspect of a program, such as loops, functions, and if-statements.
 
 \todo{Cite HiPEAC paper}Bahmann et. al detail algorithms for how almost any CFG
 can be converted into an RVSDG, and any RVSDG back again into a CFG, with the
 consequence that \todo{Check up on the veracity of this}almost any program can
 be represented as a RVSDG.
 
-\begin{itemize}
+\subsubsection{If-Statements}
 
-	\item \textit{$\gamma$} nodes in the RVSDG represent conditional statements.
+\textit{$\gamma$} nodes in the RVSDG represent conditional statements.
 Each $\gamma$ node has two sets of inputs: the predicate, and the
 \todo{This term is wrong, check up on this.}variables the predicate depend upon.
 The outputs are \todo{same as previous todo.}X, representing the dataflow of the
 RVSDG.
 
-	\item \textit{$\theta$} nodes(/regions) represent loops in the program. They
-are structured as do-while-loops, with a $\gamma$ node in front of the loop if
-it's representing a for-loop. The $\gamma$ node at the end of the node/region
-has a directed edge back to the top of the node (containing the representation
-of the body of the loop), or onwards out of the node/region onto the next one in
-the control flow of the program.
+\subsubsection{Loops}
 
-	\item \textit{$\lambda$} nodes(/regions) represent functions. Their input
+\textit{$\theta$} nodes(/regions) represent loops in the program. They are
+structured as do-while-loops, with an extra $\gamma$ node in front of the
+$\theta$ node if it's representing a for-loop. The $\gamma$ node at the end of
+the node/region has an edge back to the start of the node $\theta$ node,
+containing the representation of the body of the loop. And also an edge onwards
+out of the node/region onto the next node in the graph.
+
+\subsubsection{Functions}
+
+\textit{$\lambda$} nodes(/regions) represent functions. Their input
 edges represent all data worked upon by the function, as well as the function's
 input parameter variables. The RVSDG forces all $\lambda$ nodes to represent
 strict functions.
 
-	\item \textit{Apply} nodes are ``call nodes'', nodes which represent places
+\subsubsection{Function call sites}
+
+\textit{Apply} nodes are ``call nodes'', nodes which represent places
 where a function is called. When scanning the program represented by the RVSDG,
 it is these nodes that are looked upon as potential places upon which to perform
 inlining.
 
-	\item \textit{$\phi$} regions are nodes representing parts of the program's
+\subsubsection{Something?}
+\todo[inline]{Need to find proper term for this subsubsection.}
+
+\textit{$\phi$} regions are nodes representing parts of the program's
 control flow where either a functions behave recursively either by calling
 themselves (mutually recursive), or each two or more calling each other in turn.
 
