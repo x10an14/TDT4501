@@ -63,17 +63,13 @@ inlining.
 control flow where either a functions behave recursively either by calling
 themselves (mutually recursive), or each two or more calling each other in turn.
 
-A $\phi$ region needs to have at least one $\lambda$ node and one $\gamma$ node.
-It may have apply nodes instead of $\lambda$ nodes, as long as these $\lambda$
-nodes exist somewhere else in the graph. A mutually recursive function will then
-have an output edge from the $\gamma$ node going back ``up'' to the $\lambda$
-node supplying the input for said $\gamma$ node.
-
-In functional languages such as Haskell, there can be several mutually recursive
-functions calling each other, ``mutually recursive binding groups''
-\cite{GHCPaper}. This is represented in the RVSDG as several $\lambda$ nodes
-where the trailing $\gamma$ nodes have one or more output edges going to one or
-more $\lambda$ nodes. It must have at least one edge going to a different
-$\lambda$ node for the RVSDG to represent a mutually recursive binding group.
-
-\end{itemize}
+A $\phi$ region needs to have at least one apply node and one $\gamma$ node. A
+mutually recursive function will have an output edge from the $\gamma$ node
+going back to the start of the apply node supplying the input for said $\gamma$
+node\footnote{In functional languages such as Haskell, there can be several
+mutually recursive functions calling each other, ``mutually recursive binding
+groups'' \cite{GHCPaper}. This is represented in the RVSDG as several different
+apply nodes in a $\phi$ region  where the trailing $\gamma$ nodes have one or
+more output edges going to one or more apply nodes. It must have at least one
+edge going to a different apply node for the RVSDG to represent a mutually
+recursive binding group.}.
