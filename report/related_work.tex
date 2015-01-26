@@ -4,9 +4,6 @@
 
 In this section (...)\todo[inline]{To do...}
 
-\subsection{Regionalized Value-State Dependency Graph}
-\todo[inline]{Insert reference/summary of HiPEAC paper when published}
-
 \subsection{Inlining}
 
 W. Davidson and M. Holler \cite{SubprogInlining} examine the proposition that
@@ -18,7 +15,7 @@ of a source-to-source subprogram inliner.
 Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} use a genetic algorithm
 in their auto-tuning heuristics to show how conjunctive normalform (CNF) can
 easily be used to decide if and when to inline a specific call site. They report
-between 17\% and 37\% execution time improvements without code explosion.
+between 17\% and 37\% execution time improvements without an explosion of the resulting code size.
 
 Serrano \cite{InlineWhenHowSerrano} implements an inliner in the Scheme
 programming language. He details an algorithm for which functions to inline, as
@@ -30,10 +27,13 @@ techniques to adaptively decide which functions to inline. The thesis shows the
 use of CNF for deciding which functions to inline.
 
 E. Hank, W. Hwu, and R. Rau \cite{RegionBasedCompilationIntroduction} introduces
-a new technique called \textit{Region-Based Compilation}. And exhibits the
-benefits an aggressive compiler can have from inlining.
+a new technique called \textit{Region-Based Compilation}. And examines the
+benefits an aggressive compiler can gain from inlining.
 
 P. Jones and Marlow \cite{GHCPaper} explore a inlining approach for the Glasgow
 Haskell Compiler (GHC). The paper introduces a novel approach for deciding which
 mutually recursive functions can be (if any) safely inlined for optimization
 purposes.
+
+\subsection{Regionalized Value-State Dependency Graph}
+\todo[inline]{Insert reference/summary of HiPEAC paper when published}
