@@ -30,10 +30,19 @@ E. Hank, W. Hwu, and R. Rau \cite{RegionBasedCompilationIntroduction} introduces
 a new technique called \textit{Region-Based Compilation}. And examines the
 benefits an aggressive compiler can gain from inlining.
 
-P. Jones and Marlow \cite{GHCPaper} explore a inlining approach for the Glasgow
+P. Jones and Marlow \cite{GHCPaper} explore an inlining approach for the Glasgow
 Haskell Compiler (GHC). The paper introduces a novel approach for deciding which
 mutually recursive functions can be (if any) safely inlined for optimization
 purposes.
+
+Barton, N. Amaral, and Blainey \cite{ShouldLoopOptsInfluenceInlining} tests
+whether there should be put more effort into making better inlining decisions,
+with the intent on helping the compilers improve on loop optimizations.
+
+Deshpande and A. Edwards \cite{deshpande2012statically} detial how inlining
+should be done in the GHC, how it is useful, and the correctness of their
+presented algorithm.
+
 
 \subsection{Regionalized Value-State Dependency Graph}
 \todo[inline]{Insert reference/summary of HiPEAC paper when published}
