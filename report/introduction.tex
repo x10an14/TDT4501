@@ -14,16 +14,16 @@ Inlining is a straight-forward technique used in code compilation, which
 replaces the call of a function with the body of said function. Its benefits
 include removal of function call overhead (1) and unveiling of additional
 potential optimizations in the code (2). The drawbacks are potentially increased
-code size (3) as well as longer execution times for the compilation of the
+code size (3), as well as longer execution times for the compilation of the
 program (4).
 
-The contribution of this paper is an inliner for the \todo{insert reference}Jive
-backend compiler, detailing the problems and benefits of inlining wrt. inlining
-in the Jive compiler. Jive is a new backend compiler which works on intermediate
-representation (IR) code, and performs the typically expected compiler
-techniques and optimizations on said IR code with the help of a new type of
-graph; the regionalized value-state dependency graph (RVSDG\footnote{Detailed in
-Section \ref{background:jive}.}).
+The contribution of this paper is an inliner for the Jive backend
+compiler\footnote{Detailed in Section \ref{background:jive}.}, detailing the
+problems and benefits of inlining wrt. inlining in the Jive compiler. Jive is a
+new backend compiler which works on intermediate representation (IR) code, and
+performs the typically expected compiler techniques and optimizations on said IR
+code with the help of a new type of graph; the regionalized value-state
+dependency graph (RVSDG\footnote{Detailed in Section \ref{background:RVSDG}.}).
 
 Further details of this assignment can be found in Appendix
 \ref{app:projdesc}.
