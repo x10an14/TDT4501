@@ -1,11 +1,12 @@
 % !TEX root = ./report.tex
 
 \section{Background}
+\label{background}
 
 \subsection{The Jive Compiler}
 \label{background:jive}
 
-\todo[inline]{Fill in when read up on.}
+\todo[inline]{Fill in later.}
 
 \subsection{The Regionalized Value-State Dependency Graph}
 \label{background:RVSDG}
@@ -20,9 +21,9 @@ These nodes are (among others) the $\gamma$-, $\theta$-, $\lambda$-, apply-, and
 $\phi$- nodes. Each of these nodes represent a different (and typically common)
 aspect of a program, such as loops, functions, and if-statements.
 
-\todo{Cite HiPEAC paper}Bahmann et. al detail algorithms for how almost any CFG
-can be converted into an RVSDG, and any RVSDG back again into a CFG, with the
-consequence that \todo{Check up on the veracity of this}almost any program can
+\todo{Cite HiPEAC paper}Bahmann et. al detail algorithms for how any CFG can be
+converted into an RVSDG, and any RVSDG back again into a CFG. Hence, due to the
+RVSDG being a demand dependence graph, with the consequence that any program can
 be represented as a RVSDG.
 
 \subsubsection{If-Statements}
@@ -40,7 +41,7 @@ structured as do-while-loops, with an extra $\gamma$ node in front of the
 $\theta$ node if it's representing a for-loop. The $\gamma$ node at the end of
 the node/region has an edge back to the start of the node $\theta$ node,
 containing the representation of the body of the loop. And also an edge onwards
-out of the node/region onto the next node in the graph.
+out of the nodes onto the next node in the graph.
 
 \subsubsection{Functions}
 
@@ -57,7 +58,7 @@ it is these nodes that are looked upon as potential places upon which to perform
 inlining.
 
 \subsubsection{Something?}
-\todo[inline]{Need to find proper term for this subsubsection.}
+\todo[inline]{Need to remember proper term for this subsubsection.}
 
 \textit{$\phi$} regions are nodes representing parts of the program's
 control flow where either a functions behave recursively either by calling
@@ -67,9 +68,9 @@ A $\phi$ region needs to have at least one apply node and one $\gamma$ node. A
 mutually recursive function will have an output edge from the $\gamma$ node
 going back to the start of the apply node supplying the input for said $\gamma$
 node\footnote{In functional languages such as Haskell, there can be several
-mutually recursive functions calling each other, ``mutually recursive binding
-groups'' \cite{GHCPaper}. This is represented in the RVSDG as several different
-apply nodes in a $\phi$ region  where the trailing $\gamma$ nodes have one or
-more output edges going to one or more apply nodes. It must have at least one
-edge going to a different apply node for the RVSDG to represent a mutually
-recursive binding group.}.
+mutually recursive functions calling each other, which P. Jones and Marlow
+\cite{GHCPaper} call ``mutually recursive binding groups''. This is represented
+in the RVSDG as several different apply nodes in a $\phi$ region  where the
+trailing $\gamma$ nodes have one or more output edges going to one or more apply
+nodes. It must have at least one edge going to a different apply node for the
+RVSDG to represent a mutually recursive binding group.}.
