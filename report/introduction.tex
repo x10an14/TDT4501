@@ -1,29 +1,32 @@
 % !TEX root = ./report.tex
 
 \section{Introduction}
-\todo[inline]{Describe layout of paper. What does each section in turn discuss?}
 
-\subsection{Problemsetting}
+Since the 1950s, compilers have played an important role in the way programming
+code is translated into machine languages. In broad terms, compilers perform two
+things; The translation of human-readable code to machine language, and
+optimizing the translated programs. One such optimization is inlining.
 
-\todo[inline]{Re-state the assignment: Inlining -> Easy, what is it, benefits/drawbacks. \\
-``This paper details the problems and benefits of inlining'' \\
-Introduce Jive in a few sentences, say that it's further introduced in section
-2.}
+Inlining is a straight-forward optimization, which replaces the call of a
+function with its body. Its benefits include removal of function call overhead
+and unveiling of additional optimizations. The drawbacks are potential code
+duplication, work duplication, as well as longer execution times for the
+compilation of the program. Not all functions are straight-forward to inline,
+recursive functions being part of this subset.
 
-Inlining is a straight-forward technique used in code compilation, which
-replaces the call of a function with the body of said function. Its benefits
-include removal of function call overhead (1) and unveiling of additional
-potential optimizations in the code (2). The drawbacks are potentially increased
-code size (3), as well as longer execution times for the compilation of the
-program (4).
+This paper details the inliner for the new compiler backend,
+Jive\footnote{Detailed in Section \ref{background:jive}.}, the decisions made
+for its architecture, and \todo{Maybe to vague? Figure out how to make it less
+ambiguous/sound better.}evaluates its performance. Jive takes code in
+intermediate representation (IR) as input and works on a new IR representation,
+the regionalized value-state dependency graph (RVSDG\footnote{Detailed in
+Section \ref{background:RVSDG}.}).
 
-The contribution of this paper is an inliner for the Jive backend
-compiler\footnote{Detailed in Section \ref{background:jive}.}, detailing the
-problems and benefits of inlining wrt. inlining in the Jive compiler. Jive is a
-new backend compiler which works on intermediate representation (IR) code, and
-performs the typically expected compiler techniques and optimizations on said IR
-code with the help of a new type of graph; the regionalized value-state
-dependency graph (RVSDG\footnote{Detailed in Section \ref{background:RVSDG}.}).
+We will also discuss how the decision of which functions to inline (inlining
+heuristics) is made by the inliner and how these decisions can be
+influenced/changed. Further details of the assignment of this paper can be found
+in Appendix \ref{app:projdesc}. \\
 
-Further details of this assignment can be found in Appendix
-\ref{app:projdesc}.
+
+\todo[inline]{Todo: Describe layout of paper. What does each section in turn
+discuss?}
