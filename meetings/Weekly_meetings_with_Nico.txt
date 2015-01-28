@@ -2,6 +2,40 @@ Weekly meetings with Nico:
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+28th Jan, 2015:
+	Replace proposition with hypothesis
+
+	Related work:
+		Proposal, how they do it, results.
+		Add the introduction to this section (see todo)
+		GHC: "present an inliner"
+
+	Introduction:
+		Don't jump straight into inlining, introduce what inlining is.
+		"with its body"
+		Insert examples after the first paragraph.
+		backend compilers don't exist, its compiler backend.
+
+	Background:
+		Look at the midterm representation, and using the graph to show how
+Jive works overview
+		Stop with "typically common".
+		Hyphen between nodes.
+
+
+	RVSDG:
+		State dependency edges
+			Show order of operations when you have two sub-graphs whith with no
+dependencies.
+		data dependendcy edges
+			Straightforward
+		Complex nodes are regions
+		Remember to talk about arity.
+		Strictness is enforced by the semantics of the RVSDG, not the RVSDG itself
+
+	Make lots of graphs and visual examples!
+
+
 23rd Jan, 2015:
 	Background:
 		RVSDG: is a DAG nodes represent operations edges .
