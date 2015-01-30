@@ -1,11 +1,14 @@
 % !TEX root = ./report.tex
 
 \section{Introduction}
+\label{introduction}
 
 Since the 1950s, compilers have played an important role in the way programming
 code is translated into machine languages. In broad terms, compilers perform two
 things; The translation of human-readable code to machine language, and
 optimizing the translated programs. One such optimization is inlining.
+
+\todo[inline]{Nico said an example here?}
 
 Inlining is a straight-forward optimization, which replaces the call of a
 function with its body. Its benefits include removal of function call overhead
@@ -14,19 +17,18 @@ duplication, work duplication, as well as longer execution times for the
 compilation of the program. Not all functions are straight-forward to inline,
 recursive functions being part of this subset.
 
-This paper details the inliner for the new compiler backend,
-Jive\footnote{Detailed in Section \ref{background:jive}.}, the decisions made
-for its architecture, and \todo{Maybe to vague? Figure out how to make it less
-ambiguous/sound better.}evaluates its performance. Jive takes code in
-intermediate representation (IR) as input and works on a new IR representation,
-the regionalized value-state dependency graph (RVSDG\footnote{Detailed in
-Section \ref{background:RVSDG}.}).
+We will also discuss how the inlining heuristics used, and how these decisions
+can be influenced/changed. Further details of the assignment of this paper can
+be found in Appendix \ref{app:projdesc}.
 
-We will also discuss how the decision of which functions to inline (inlining
-heuristics) is made by the inliner and how these decisions can be
-influenced/changed. Further details of the assignment of this paper can be found
-in Appendix \ref{app:projdesc}. \\
+\subsection{Report Outline}
 
+\todo[inline]{Todo: Describe layout/outline of paper. What does each section in
+turn discuss?}
 
-\todo[inline]{Todo: Describe layout of paper. What does each section in turn
-discuss?}
+This paper \todo{Todo: Fill in for the empty sections as they come.}details the
+inliner for the new compiler backend, Jive, the decisions made for its
+architecture, and evaluates its performance. Jive takes code in intermediate
+representation (IR) as input and works on a new IR representation, the
+regionalized value-state dependency graph (RVSDG\footnote{Detailed in Section
+\ref{background:RVSDG}.}).
