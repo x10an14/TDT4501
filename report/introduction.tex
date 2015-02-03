@@ -8,19 +8,20 @@ code is translated into machine languages. In broad terms, compilers perform two
 things; The translation of human-readable code to machine language, and
 optimizing the translated programs. One such optimization is inlining.
 
-\todo[inline]{Need inlining example here.  Plan to do it with code / latex
-listing}
+\todo[inline]{Need lslisting inlining example here of inlining, code
+duplication, and work duplication.}
 
 Inlining is a straight-forward optimization, which replaces the call of a
 function with its body. Its benefits include removal of function call overhead
 and unveiling of additional optimizations. The drawbacks are potential code
 duplication, work duplication, as well as longer execution times for the
 compilation of the program. Not all functions are straight-forward to inline,
-recursive functions being part of this subset.
+recursive functions being part of this subset, and subsequently an area of focus
+in this report.
 
-We will also discuss how the inlining heuristics used, and how these decisions
-can be influenced/changed. Further details of the assignment of this paper can
-be found in Appendix \ref{app:projdesc}.
+We will also discuss how the inlining heuristics in the Jive backend compiler
+are used, and how the heuristic can be controlled/modified. Further details of
+the assignment of this paper can be found in Appendix \ref{app:projdesc}.
 
 \subsection{Report Outline}
 
