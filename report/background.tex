@@ -3,36 +3,33 @@
 \section{Background}
 \label{background}
 
-\subsection{The Regionalized Value-State Dependency Graph}
+\subsection{The Regionalized Value-State Dependence Graph}
 \label{background:RVSDG}
 
-The RVSDG is a directed acyclic graph (DAG). The RVSDGhas different types of
+The RVSDG is a directed acyclic graph (DAG). The RVSDG has different types of
 nodes, and two types of edges. The nodes are the $\gamma$-, $\theta$-,
 $\lambda$-, apply-, and $\phi$-nodes. The edges will be discussed first.
 
-\subsubsection{Data-dependency edges}
+\todo[inline]{Finish this introduction of the graph, don't forget operations,
+``simple nodes'', like +, - and so on. \\ ``Once a node contains a subgraph,
+it's a complex node''.}
 
 There are two types of edges in the RVSDG.
 
-The first type is the data-dependency edge. This edge describes a data-
-dependency one node has from its parent node. In other words, an edge saying
-which nodes need to finish first before the necessary data is ready for the
-current node.
+The first type is the data-dependence edge. This edge describes a data
+dependence one node has from its parent node.
 
-\subsubsection{State-dependency edges}
-
-The other type of edge is the state-dependency edge. This edge is meant to keep
-the ordering of the nodes consistent with the execution flow of the program,
-when there are no data-dependencies between them. \todo{Remove this last
-sentence?}Stipled lines are used to denote state-dependency edges.
+The other type of edge is the state-dependence edge. This edge is meant to keep
+the ordering of the nodes consistent with the original flow of execution.
+Stipled lines are used to denote state-dependence edges.
 
 See figure \todo{Make Fibonacci figure example with RVSDG nodes with a printf in
-main()}X for an example of why state-dependency edges are necessary for the
+main()}X for an example of why state-dependence edges are necessary for the
 RVSDG.
 
 \subsubsection{N-way statements}
 
-\textit{$\gamma$}-nodes in the RVSDG represent conditional statements. Each
+\textit{$\gamma$}-nodes represent conditional statements. Each
 $\gamma$-node has two sets of inputs: the predicate, and the data dependencies
 the predicate depend upon. The outputs are any data dependencies used further in
 the graph (program).
@@ -43,13 +40,13 @@ predicate is evaluated to true and false, respectively.
 
 \subsubsection{Tail-controlled loops}
 
-\textit{$\theta$}-nodes represent loops in the program. They are do-while loops
-containing the representation of the body of the loop, as well as an edge
-onwards out of the nodes onto the next node in the graph. $\theta$-nodes
+\textit{$\theta$}-nodes represent tail loops in the program. They are equivalent
+to do-while loops containing the representation of the body of the loop, as well
+as an edge onwards out of the nodes onto the next node in the graph.
 
 A for-loop would be presented with an if-else $\gamma$-node, with a
 $\theta$-node in the body of the $\gamma$-node representing the ``true''
-subgraph
+subgraph.
 
 \subsubsection{Functions}
 
@@ -67,6 +64,5 @@ mutually recursive function will have an output edge from the $\gamma$-node
 going back to the start of the apply node supplying the input for said
 $\gamma$-node.
 
-\subsubsection{Fibonacci example}
 \todo[inline]{Abovementioned Fibonacci example with examples of graphnodes,
 maybe code too?}
