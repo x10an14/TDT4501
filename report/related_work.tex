@@ -6,13 +6,13 @@
 
 As mentioned in Section \ref{introduction}, inlining has been done since the
 last half of the 20th century. Following comes the related research used as
-basis for the work done in this report. \\
+basis for the work done in this report.
 
-W. Davidson and M. Holler \cite{SubprogInlining} examine the hypothesis that
-the increased code size of inlined code affects the execution time performance on
-demand-paged virtual memory machines. Using equations developed to the describe
-an inlined programs' execution time, they test this hypothesis through the use
-of a source-to-source subprogram inliner.
+W. Davidson and M. Holler \cite{SubprogInlining} examine the hypothesis that the
+increased code size of inlined code affects the execution time on demand-paged
+virtual memory machines. Using equations developed to the describe an inlined
+programs' execution time, they test this hypothesis through the use of a source-
+to-source subprogram inliner.
 
 Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} use a genetic algorithm
 in their auto-tuning heuristics to show how conjunctive normalform (CNF) can
@@ -46,10 +46,10 @@ technique called \textit{Region-Based Compilation}. They examine the benefits an
 aggressive compiler can gain from inlining in conjunction with very long
 instruction words (VLIW) architecture. They report that aggresive inlining can
 be expensive with an average code expansion of 400\%. Yet, they also show that
-aggressive inlining is able to also unveil further compiler optimizations,
-leading to averages of 50\% of program execution time spent in functions with
-more than 1000 operations, instead of more than 80\% of execution time spent in
-functions with less than 250 operations when run without inlining.
+aggressive inlining is able to unveil further compiler optimizations, leading to
+averages of 50\% of program execution time spent in functions with more than
+1000 operations, instead of more than 80\% of execution time spent in functions
+with less than 250 operations when run without inlining.
 
 P. Jones and Marlow \cite{GHCPaper} explore an inlining approach for the Glasgow
 Haskell Compiler (GHC) detail the inner workings of the GHC. Their paper also
@@ -77,5 +77,7 @@ information could be used to decide whether or not to inline C functions
 statically. Their motivation was to remove costly function calls in a C program,
 in addition to statically unveil potential optimizations. Through the use of the
 IMPACT-I C compiler, they profile dynamic program information, resulting in a
-call graph with weighted edges. They report an average elimination of dynamic
-function calls across their 14 test benchmarks at 16.17\%.
+call graph with weighted edges. They \todo{Fix result report ``0 to X\%'' or
+something instead of something they didn't actually report.}report an average
+elimination of dynamic function calls across their 14 test benchmarks at
+16.17\%.
