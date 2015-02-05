@@ -1,68 +1,113 @@
 % !TEX root = ./report.tex
 
+\clearpage
 \section{Background}
 \label{background}
 
 \subsection{The Regionalized Value-State Dependence Graph}
 \label{background:RVSDG}
 
-The RVSDG is a directed acyclic graph (DAG). The RVSDG has different types of
-nodes, and two types of edges. The nodes are the $\gamma$-, $\theta$-,
-$\lambda$-, apply-, and $\phi$-nodes. The edges will be discussed first.
+The RVSDG is a Directed Acyclic Graph (DAG).
+
+An RVSDG has different kinds of nodes, and two types of edges. Nodes can be
+generalized into two categories detailed in this section; simple and complex
+nodes. Simple nodes are the nodes representing the most ``basic operations'' a
+program performs. Complex nodes are nodes which contain an RVSDG subgraph. The
+complex nodes presented below are the $\gamma$-, $\theta$-, $\lambda$-, apply-,
+and $\phi$-nodes. The edges will be discussed first.
 
 \todo[inline]{Finish this introduction of the graph, don't forget operations,
 ``simple nodes'', like +, - and so on. \\ ``Once a node contains a subgraph,
 it's a complex node''.}
 
-There are two types of edges in the RVSDG.
+\subsubsection{Edges}
 
-The first type is the data-dependence edge. This edge describes a data
-dependence one node has from its parent node.
+One type of edge used in an RVSDG is the data dependence edge. This edge
+represents a data dependency one node has before it can be computed/executed.
 
-The other type of edge is the state-dependence edge. This edge is meant to keep
-the ordering of the nodes consistent with the original flow of execution.
-Stipled lines are used to denote state-dependence edges.
+The other type of edge is the state dependence edge. This edge is meant to keep
+the ordering of the nodes consistent with the original flow of execution, when
+there is no ordering by data dependencies between them. Stippled lines are
+commonly used to denote state dependence edges.
 
 See figure \todo{Make Fibonacci figure example with RVSDG nodes with a printf in
-main()}X for an example of why state-dependence edges are necessary for the
+main()}X for an example of why state dependency edges are necessary for the
 RVSDG.
 
-\subsubsection{N-way statements}
+\subsubsection{Simple nodes}
 
-\textit{$\gamma$}-nodes represent conditional statements. Each
-$\gamma$-node has two sets of inputs: the predicate, and the data dependencies
-the predicate depend upon. The outputs are any data dependencies used further in
-the graph (program).
+Simple nodes are defined by their inability to contain an RVSDG subgraph.
 
-If-else statements are represented as a $\gamma$-node, which is split vertically
-in two. Each subsection has the subgraph and operations to be performed if the
-predicate is evaluated to true and false, respectively.
+Simple nodes are used in an RVSDG to represent simple operations, such as
+addition, subtraction, and similarly simple operations often referred to as
+\textit{primitive operations} in programming languages.
 
-\subsubsection{Tail-controlled loops}
+\subsubsection{Complex nodes}
+
+\begin{itemize}
+
+\item \textbf{N-way statements}
+
+\textit{$\gamma$}-nodes represent conditional statements. Each $\gamma$-node has
+two sets of inputs: the predicate, and all other edges its subgraph depend upon.
+
+An if-statement is represented as a $\gamma$-node containing the subgraph
+representing the body of the if-statement. If the predicate evaluates to true,
+the subgraph will be executed.
+
+If-else statements are also represented as $\gamma$-nodes, but they are
+divided\footnote{Typically vertically.} into two subsections. One subsection of
+the node contains the subgraph of what will happen if the predicate evaluates to
+true, and the other will contain the subgraph representing the body of the else-
+statement.
+
+Statements such as the ones listed in \todo{Make listing}Listing X, are
+represented by nesting the $\gamma$-nodes representing each if-statement. Figure
+\todo{Make figure} X illustrates this.
+
+
+\item \textbf{Tail-controlled loops}
 
 \textit{$\theta$}-nodes represent tail loops in the program. They are equivalent
-to do-while loops containing the representation of the body of the loop, as well
-as an edge onwards out of the nodes onto the next node in the graph.
+to do-while loops containing the representation of the body of the loop. All
+dependencies any node in the subgraph of the $\theta$-node may have, need to be
+routed into the $\theta$-node so as to be available for the subgraph.
+
+Other loops, such as for-loops, can be represented by wrapping a $\theta$-node
+inside of a $\gamma$-node with an empty false-subsection. For this to represent
+a for-loop, both the $\theta$- and the $\gamma$-node need to each have the same
+predicate as the other.
 
 A for-loop would be presented with an if-else $\gamma$-node, with a
 $\theta$-node in the body of the $\gamma$-node representing the ``true''
 subgraph.
 
-\subsubsection{Functions}
+\item \textbf{Functions}
 
-\textit{$\lambda$}-nodes represent functions, and \textit{apply}-nodes are
-``call-nodes'' which represent where a function is called in the RVSDG.
+\textit{$\lambda$}-nodes represent functions, and their \textit{apply}-nodes are
+call sites of the function in the program. There should only exist one
+$\lambda$-node containing a subgraph in an RVSDG, per function in the program
+the RVSDG represents. As each \textit{apply}-node represents a call site, all
+\textit{apply}-node have an edge linking it to the $\lambda$-node corresponding
+to the function called.
 
-\subsubsection{Mutually recursive functions}
+\item \textbf{Mutually recursive functions}
 
-\textit{$\phi$}-regions are nodes representing parts of the program's
-control flow where either a functions behave recursively either by calling
-themselves (mutually recursive), or two or more calling each other in turn.
+\textit{$\phi$}-regions are nodes representing parts of the program's control
+flow where functions behave recursively, either by calling themselves, or two or
+more calling each other in turn (mutually recursive).
 
-A $\phi$-region needs to have at least one apply node and one $\gamma$-node. A
-mutually recursive function will have an output edge from the $\gamma$-node
-going back to the start of the apply node supplying the input for said
-$\gamma$-node.
+To uphold the DAG properties of an RVSDG, there is only one edge going from the
+inner border of the $\phi$-node to the outer border of its contained
+$\lambda$-node. Equivalently, an edge going out from the outer border of the
+$\lambda$-node, to the inner edge of the $\phi$-node.
+
+There is hence no cycle, due to there being no edge going back to the start of
+the $\lambda$-node inside the $\phi$-node.
+
+\todo[inline]{Need to justify the above two sentences.}
+
+\end{itemize}
 
 \todo[inline]{Abovementioned Fibonacci example with examples of graphnodes,
 maybe code too?}
