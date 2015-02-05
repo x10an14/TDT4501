@@ -5,13 +5,13 @@
 
 Since the 1950s, compilers have played an important role in the way programming
 code is translated into machine languages. In broad terms, compilers perform two
-things: The translation of human-readable code to machine language, and
+actions: the translation of human-readable code to machine language, and
 optimizing the translated programs. There exists many optimization techniques
 compilers use. One such optimization is inlining, exemplified below in Listing
 \ref{lst:inlining}.
 
-\begin{lstlisting}[caption={Function inlining}, label={lst:inlining},
-style=customcpp]
+\begin{lstlisting}[label={lst:inlining}, style=customcpp,
+caption={Function \textit{foo()} inlined into function \textit{bar()}.}]
 int foo(int x){
 	return x + 3;
 }
@@ -38,9 +38,9 @@ duplication, shown in Listings \ref{lst:code-dup} and \ref{lst:work-dup},
 respectively. Additionally, inlining can also negatively affect the compile
 time, unless optimizations to counteract this are unveiled.
 
-%\begin{paracol}{2}
-\begin{lstlisting}[caption={Code duplication through inlining},
-label={lst:code-dup}, style=customcpp]
+\begin{lstlisting}[label={lst:code-dup}, style=customcpp,
+caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
+\textit{bar()}.}]
 	typedef struct{
 		int x;
 		int y;
@@ -74,9 +74,10 @@ label={lst:code-dup}, style=customcpp]
 		return b;
 	}
 \end{lstlisting}
-%\switchcolumn
-\begin{lstlisting}[caption={Work duplication if inlined},
-label={lst:work-dup}, style=customcpp]
+
+\begin{lstlisting}[label={lst:work-dup}, style=customcpp,
+caption={Work duplication in \textit{bar()}, when inlining \textit{foo()} into
+\textit{bar()}.}]
 	int foo(int x){
 		//Computationally expensive function,
 		//such as Fibonacci for very high numbers
@@ -86,23 +87,23 @@ label={lst:work-dup}, style=customcpp]
 		return foo(y) + foo(y+4000);
 	}
 \end{lstlisting}
-%\end{paracol}
 
 \todo[inline]{Todo: Describe layout/outline of paper. What does each section in
 turn discuss?}
 
 This report describes the inliner for the new compiler backend Jive. It will
-detail the decisions made for its architecture and heuristics. Jive takes code
-in intermediate representation (IR) as input and works on a new IR
-representation, the regionalized value-state dependence graph
+detail the decisions made for its architecture and heuristics. Jive takes
+program code in Intermediate Representation (IR) as input and works on a new IR
+representation, the Regionalized Value-State Dependence Graph
 (RVSDG\footnote{Detailed in Section \ref{background:RVSDG}.}).
 
 Not all functions are straight-forward to inline, such as recursive functions.
-Recursive functions, the heuristics parameter space, and how the inliner enables
-rapid exploration of the parameter space, are other topics this report will
-discuss in turn. Recursive functions need to be handled carefully by an inliner
-for an additional reason. Not all recursive functions can be inlined, and if one
-is inlined incorrectly, it can lead to non-termination of the compiler.
+Only an unknown subset of all recursive functions can be inlined, and if one is
+inlined incorrectly, it can lead to non-termination of the compiler. Recursive
+functions, the heuristics parameter space, and how the inliner enables rapid
+exploration of the parameter space, are other topics this report will discuss in
+turn. Recursive functions need to be handled carefully by an inliner for an
+additional reason.
 
 With RVSDG being a new way to represent IR code, this report will also look into
 how the RVSDG affects the design of an inliner, and the process of inlining.
