@@ -15,7 +15,7 @@
 \usepackage[nottoc,numbib]{tocbibind}	%For references in Table of Contents
 \usepackage[english]{babel}	%For filltext in conjunction with blindtext
 \usepackage{blindtext}		%For filltext (see comment for babel)
-%\usepackage{paracol}		%For spreading content over multiple coloumns in single-coloumn document
+\usepackage{parcolumns}	%For spreading content over multiple coloumns in single-coloumn document
 
 \newdateformat{CurMonth}{\monthname[\THEMONTH],~\THEYEAR}
 
@@ -59,7 +59,7 @@
 	identifierstyle=\color{Blue},		%
 	backgroundcolor=\color{White},		% choose the background color. You must add \usepackage{color}
 	belowcaptionskip=1\baselineskip,	%
-	basicstyle=\footnotesize\ttfamily,	%
+	basicstyle=\footnotesiz,	%
 	commentstyle=\itshape\color{Brown},%
 	keywordstyle=\bfseries\color{Green},% sets the graphical style of keywords in the language
 }
