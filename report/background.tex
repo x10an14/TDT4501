@@ -61,11 +61,11 @@ The equivalent of the C/C++ code shown in Listing~\ref{lst:nested_ifs} is
 represented by nesting the $\gamma$-nodes representing each if-statement.
 Figure~\ref{fig:nested_ifs} illustrates this.
 
-%\begin{center}
-%	\noindent\begin{minipage}{0.48\textwidth}
+\begin{center}
+	\noindent\begin{minipage}{0.35\textwidth}
 		\begin{lstlisting}[label={lst:nested_ifs}, style=customcpp,
-caption={If- else if- else statement example corresponding to
-Figure~\ref{fig:nested_ifs}.}]
+caption={C/C++ code statements corresponding to Figure~\ref{fig:nested_ifs} to the
+right.}]
 if(smth){
 	//do something 1
 } else if(smth2){
@@ -74,17 +74,16 @@ if(smth){
 	//do something else
 }
 		\end{lstlisting}
-%	\end{minipage}
-%	\noindent\begin{minipage}{0.48\textwidth}
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.75\textwidth]{figures/if_elseif_else_example}
-		\caption{Minimal example of two nested $\gamma$-nodes representing the
-the same control flow as the code in Listing~\ref{lst:nested_ifs}.}
+	\end{minipage}
+	\noindent\begin{minipage}{0.55\textwidth}
+		\captionsetup{type=figure}
+		\includegraphics[width=\textwidth]{figures/if_elseif_else_example}
+		\captionof{figure}{Minimal example of two nested $\gamma$-nodes
+representing the the same control flow as the code in
+Listing~\ref{lst:nested_ifs} to the left.}
 		\label{fig:nested_ifs}
-	\end{figure}
-%	\end{minipage}
-%\end{center}
+	\end{minipage}
+\end{center}
 
 
 \item \textbf{Tail-controlled loops}
@@ -105,7 +104,7 @@ predicate as the other.
 call sites of the function in the program. There should only exist one
 $\lambda$-node containing a subgraph in an RVSDG, per function in the program
 the RVSDG represents. As each \textit{apply}-node represents a call site, all
-\textit{apply}-node have an edge linking it to the $\lambda$-node corresponding
+\textit{apply}-nodes have an edge linking it to the $\lambda$-node corresponding
 to the function called. See $\lambda$-node inside of the $\phi$-node in
 Fĩgure~\ref{fig:rec_fib_phi} for an example of a $\lambda$-node.
 
