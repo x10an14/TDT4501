@@ -88,16 +88,18 @@ coords_t* bar(){
 	coords_t* a = foo();
 	coords_t* b = foo();
 
-	b->x += a->x; .y += a->y;
+	b->x += a->x; b.y += a->y;
 	return b;
 }
 
 // bar() with foo() inlined, with code duplication
 coords_t* bar(){
-	// Line which is duplicated unnecessarily
+
+	// Lines which are duplicated unnecessarily
 	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
 	a->x = 1; a->y = 2;
-	// Line which is duplicating unnecessarily
+
+	// Lines which are duplicating unnecessarily
 	coords_t* b = (coords_t*) malloc(sizeof(coords_t));
 	b->x = 1; b->y = 2;
 
