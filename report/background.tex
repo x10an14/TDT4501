@@ -9,16 +9,12 @@
 
 The RVSDG is a Directed Acyclic Graph (DAG).
 
-An RVSDG has different kinds of nodes, and two types of edges. Nodes can be
-generalized into two categories detailed in this section; simple and complex
-nodes. Simple nodes are the nodes representing the most ``basic operations'' a
-program performs. Complex nodes are nodes which contain an RVSDG subgraph. The
-complex nodes presented below are the $\gamma$-, $\theta$-, $\lambda$-, apply-,
-and $\phi$-nodes. The edges will be discussed first.
-
-\todo[inline]{Finish this introduction of the graph, don't forget operations,
-``simple nodes'', like +, - and so on. \\ ``Once a node contains a subgraph,
-it's a complex node''.}
+A RVSDG has different kinds of nodes, and two types of edges. Nodes can be
+generalized into two categories, simple and complex nodes. Simple nodes are the
+nodes representing the ``basic operations'' a program performs, such as addition
+and subtraction of integers. Complex nodes are nodes which contain an RVSDG
+subgraph. The complex nodes presented below are the $\gamma$-, $\theta$-,
+$\lambda$-, apply-, and $\phi$-nodes. The edges will be discussed first.
 
 \subsubsection{Edges}
 
@@ -61,9 +57,34 @@ the node contains the subgraph of what will happen if the predicate evaluates to
 true, and the other will contain the subgraph representing the body of the else-
 statement.
 
-Statements such as the ones listed in \todo{Make listing}Listing X, are
-represented by nesting the $\gamma$-nodes representing each if-statement. Figure
-\todo{Make figure} X illustrates this.
+The equivalent of the C/C++ code shown in Listing~\ref{lst:nested_ifs} is
+represented by nesting the $\gamma$-nodes representing each if-statement.
+Figure~\ref{fig:nested_ifs} illustrates this.
+
+%\begin{center}
+%	\noindent\begin{minipage}{0.48\textwidth}
+		\begin{lstlisting}[label={lst:nested_ifs}, style=customcpp,
+caption={If- else if- else statement example corresponding to
+Figure~\ref{fig:nested_ifs}.}]
+if(smth){
+	//do something 1
+} else if(smth2){
+	//do something 2
+} else{
+	//do something else
+}
+		\end{lstlisting}
+%	\end{minipage}
+%	\noindent\begin{minipage}{0.48\textwidth}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.75\textwidth]{figures/if_elseif_else_example}
+		\caption{Minimal example of two nested $\gamma$-nodes representing the
+the same control flow as the code in Listing~\ref{lst:nested_ifs}.}
+		\label{fig:nested_ifs}
+	\end{figure}
+%	\end{minipage}
+%\end{center}
 
 
 \item \textbf{Tail-controlled loops}
@@ -78,10 +99,6 @@ inside of a $\gamma$-node with an empty false-subsection. For this to represent
 a for-loop, both the $\theta$- and the $\gamma$-node need to each have the same
 predicate as the other.
 
-A for-loop would be presented with an if-else $\gamma$-node, with a
-$\theta$-node in the body of the $\gamma$-node representing the ``true''
-subgraph.
-
 \item \textbf{Functions}
 
 \textit{$\lambda$}-nodes represent functions, and their \textit{apply}-nodes are
@@ -89,7 +106,8 @@ call sites of the function in the program. There should only exist one
 $\lambda$-node containing a subgraph in an RVSDG, per function in the program
 the RVSDG represents. As each \textit{apply}-node represents a call site, all
 \textit{apply}-node have an edge linking it to the $\lambda$-node corresponding
-to the function called.
+to the function called. See $\lambda$-node inside of the $\phi$-node in
+Fĩgure~\ref{fig:rec_fib_phi} for an example of a $\lambda$-node.
 
 \item \textbf{Mutually recursive functions}
 
@@ -100,14 +118,19 @@ more calling each other in turn (mutually recursive).
 To uphold the DAG properties of an RVSDG, there is only one edge going from the
 inner border of the $\phi$-node to the outer border of its contained
 $\lambda$-node. Equivalently, an edge going out from the outer border of the
-$\lambda$-node, to the inner edge of the $\phi$-node.
+$\lambda$-node, to the inner edge of the $\phi$-node. There is hence no cycle,
+due to there being no edge going back to the start of the $\lambda$-node inside
+the $\phi$-node.
 
-There is hence no cycle, due to there being no edge going back to the start of
-the $\lambda$-node inside the $\phi$-node.
-
-\todo[inline]{Need to justify the above two sentences.}
+Figure~\ref{fig:rec_fib_phi} illustrates how a $\phi$-node representing a
+recursive fibonacci function would look like.
 
 \end{itemize}
 
-\todo[inline]{Abovementioned Fibonacci example with examples of graphnodes,
-maybe code too?}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/recursive_fibonacci}
+	\caption{A $\phi$-node containing a $\lambda$-node representing a recursive
+version of a function producing the $n$ first numbers in the Fibonacci series.}
+	\label{fig:rec_fib_phi}
+\end{figure}
