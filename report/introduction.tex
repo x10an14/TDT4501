@@ -10,7 +10,7 @@ optimizing the translated programs. There exist many optimization techniques
 compilers use. One such optimization is inlining, a straight-forward
 optimization which replaces the call of a function with its body. See example
 below in Listing \ref{lst:inlining}.
-%\clearpage
+
 \begin{center}
 	\noindent\begin{minipage}{0.48\textwidth}
 		\begin{lstlisting}[label={lst:inlining}, style=customcpp,
@@ -29,8 +29,6 @@ int bar(int y){
 }
 		\end{lstlisting}
 	\end{minipage}
-%	\hfill
-
 	\noindent\begin{minipage}{0.48\textwidth}
 		\begin{lstlisting}[label={lst:work-dup}, style=customcpp,
 caption={Work duplication in \textit{bar()}, when inlining \textit{foo()} into
@@ -45,7 +43,6 @@ int bar(int y){
 }
 		\end{lstlisting}
 	\end{minipage}
-
 \end{center}
 
 However, the decision of which functions to inline has long been treated as
