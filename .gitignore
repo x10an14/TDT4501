@@ -13,6 +13,9 @@ report/report.pdf
 *.out
 *.toc
 
+## Files related to export from Inkscape
+*.pdf_tex
+
 ## Intermediate documents:
 *.dvi
 *-converted-to.*
