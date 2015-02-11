@@ -26,10 +26,8 @@ the ordering of the nodes consistent with the original flow of execution, when
 there is no ordering by data dependencies between them. Stippled lines are
 commonly used to denote state dependence edges.
 
-\todo[inline]{Make tail-controlled $theta$-node example with some printfs for
-showing state dependency edges?}
-
-See Figure~\ref{missing_loop_figure_example?} for an example of why state
+See the stipled edges with red body on the arrows in
+Figure~\ref{fig:for_loop_rec_fib_print_ex} for an example of why state
 dependency edges are necessary for the RVSDG.
 
 \subsubsection{Simple nodes}
@@ -100,6 +98,28 @@ empty subsection for the \textit{false} clause. If this textual example is to
 represent a for-loop, both the $\theta$- and the $\gamma$-nodes need to each
 have the same predicate.
 
+See Figure~\ref{fig:for_loop_rec_fib_print_ex} for an example of a
+$\theta$-node. Notice that the dotted edges are used to enlighten the reader for
+where the body of the loop is contained, and which variables are brought on to
+the next iteration. An actual RVSDG however, does not contain these dotted lines
+that make a cycle.
+
+\todo[inline]{Perhaps put listing with the code that
+Figure~\ref{fig:for_loop_rec_fib_print_ex} represents here? There should be
+sufficient space for it.}
+
+\clearpage
+\begin{figure}[ht!]
+	\centering
+	\includegraphics[width=\textwidth]{figures/for-loop-printf-rec_fib-example}
+	\caption{A program consisting of a $\theta$-node looping 7 iterations,
+calculating and printing the 7 first Fibonacci numbers. The $\theta$-node's
+apply-node uses the same recursive Fibonacci function as in
+Figure~\ref{fig:rec_fib_phi}.}
+	\label{fig:for_loop_rec_fib_print_ex}
+\end{figure}
+
+\clearpage
 \item \textbf{Functions}
 
 \textit{$\lambda$}-nodes represent functions, and these are paired with
@@ -133,7 +153,7 @@ representation of a recursive fibonacci function would look like in an RVSDG.
 
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.75\textwidth]{figures/recursive_fibonacci}
 	\caption{A $\phi$-node containing a $\lambda$-node representing a recursive
