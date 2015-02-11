@@ -58,7 +58,9 @@ this are unveiled.}.
 
 \begin{lstlisting}[label={lst:code-dup}, style=customcpp,
 caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
-\textit{bar()}.}]
+\textit{bar()}. Total code size (counted by number of statements) for the
+functions \textit{foo()} and \textit{bar()} are 11 when not inlined, and 13 when
+inlined.}]
 typedef struct{
 	int x;
 	int y;
@@ -80,17 +82,19 @@ coords_t* bar(){
 }
 
 // bar() with foo() inlined, with code duplication
-coords_t* bar(){
+coords_t* bar(int z){
 
 	// Lines which are duplicated unnecessarily
 	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
 	a->x = 1; a->y = 2;
+	a->x *= z; a->y *= z;
 
 	// Lines which are duplicating unnecessarily
 	coords_t* b = (coords_t*) malloc(sizeof(coords_t));
 	b->x = 1; b->y = 2;
-
+	b->x *= z; b->y *= z;
 	b->x += a->x; b.y += a->y;
+
 	return b;
 }
 \end{lstlisting}
