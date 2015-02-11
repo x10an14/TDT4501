@@ -11,9 +11,9 @@ The RVSDG is a Directed Acyclic Graph (DAG).
 
 A RVSDG has different kinds of nodes, and two types of edges. Nodes can be
 generalized into two categories, simple and complex nodes. Simple nodes are the
-nodes representing the ``basic operations'' a program performs, such as addition
-and subtraction of integers. Complex nodes are nodes which contain an RVSDG
-subgraph. The complex nodes presented below are the $\gamma$-, $\theta$-,
+nodes representing the ``basic operations'' a program performs, such as the
+addition and subtraction of integers. Complex nodes are nodes which contain an
+RVSDG subgraph. The complex nodes presented below are the $\gamma$-, $\theta$-,
 $\lambda$-, apply-, and $\phi$-nodes. The edges will be discussed first.
 
 \subsubsection{Edges}
@@ -26,9 +26,11 @@ the ordering of the nodes consistent with the original flow of execution, when
 there is no ordering by data dependencies between them. Stippled lines are
 commonly used to denote state dependence edges.
 
-See figure \todo{Make Fibonacci figure example with RVSDG nodes with a printf in
-main()}X for an example of why state dependency edges are necessary for the
-RVSDG.
+\todo[inline]{Make tail-controlled $theta$-node example with some printfs for
+showing state dependency edges?}
+
+See Figure~\ref{missing_loop_figure_example?} for an example of why state
+dependency edges are necessary for the RVSDG.
 
 \subsubsection{Simple nodes}
 
@@ -57,9 +59,9 @@ the node contains the subgraph of what will happen if the predicate evaluates to
 true, and the other will contain the subgraph representing the body of the else-
 statement.
 
-The equivalent of what will happen with nested if-statements is shown with C/C++
-in Listing~\ref{lst:nested_ifs}, and its representative RVSDG figure in
-Figure~\ref{fig:nested_ifs} illustrates this.
+The equivalent of how an RVSDG representing nested if-statements looks like, is
+shown with C/C++ in Listing~\ref{lst:nested_ifs}, and its representative RVSDG
+example in Figure~\ref{fig:nested_ifs}.
 
 \begin{center}
 	\noindent\begin{minipage}{0.35\textwidth}
@@ -88,24 +90,26 @@ Listing~\ref{lst:nested_ifs} to the left.}
 \item \textbf{Tail-controlled loops}
 
 \textit{$\theta$}-nodes represent tail loops in the program. They are equivalent
-to do-while loops containing the representation of the body of the loop. All
-dependencies any node in the subgraph of the $\theta$-node may have, need to be
-routed into the $\theta$-node so as to be available for the subgraph.
+to do-while loops containing the representation of the body of the loop. Like
+with the $\gamma$-node, its inputs are all the dependencies needed by its
+subgraph that represents the body of the loop.
 
-Other loops, such as for-loops, can be represented by wrapping a $\theta$-node
-inside of a $\gamma$-node with an empty false-subsection. For this to represent
-a for-loop, both the $\theta$- and the $\gamma$-node need to each have the same
-predicate as the other.
+Other loops, like for example for-loops, can be represented by putting a
+$\theta$-node inside of the \textit{true} clause of a $\gamma$-node with an
+empty subsection for the \textit{false} clause. If this textual example is to
+represent a for-loop, both the $\theta$- and the $\gamma$-nodes need to each
+have the same predicate.
 
 \item \textbf{Functions}
 
-\textit{$\lambda$}-nodes represent functions, and their \textit{apply}-nodes are
-call sites of the function in the program. There should only exist one
-$\lambda$-node containing a subgraph in an RVSDG, per function in the program
-the RVSDG represents. As each \textit{apply}-node represents a call site, all
-\textit{apply}-nodes have an edge linking it to the $\lambda$-node corresponding
-to the function called. See $\lambda$-node inside of the $\phi$-node in
-Fĩgure~\ref{fig:rec_fib_phi} for an example of a $\lambda$-node.
+\textit{$\lambda$}-nodes represent functions, and these are paired with
+\textit{apply}-nodes. Their \textit{apply}-nodes represent the call sites of the
+function in the graph (read: program). There should only exist one
+$\lambda$-node per function in the program the RVSDG represents. As each
+\textit{apply}-node represents a call site, all \textit{apply}-nodes have an
+edge linking it to its corresponding $\lambda$-node. See the $\lambda$- and its
+\textit{apply}-node inside of the $\phi$-node in Fĩgure~\ref{fig:rec_fib_phi}
+for an example of a $\lambda$-node.
 
 \item \textbf{Mutually recursive functions}
 
@@ -116,12 +120,14 @@ more calling each other in turn (mutually recursive).
 To uphold the DAG properties of an RVSDG, there is only one edge going from the
 inner border of the $\phi$-node to the outer border of its contained
 $\lambda$-node. Equivalently, an edge going out from the outer border of the
-$\lambda$-node, to the inner edge of the $\phi$-node. There is hence no cycle,
-due to there being no edge going back to the start of the $\lambda$-node inside
-the $\phi$-node.
+$\lambda$-node, to the inner edge of the $\phi$-node. This is to denote that
+once the \textit{apply}-nodes have called the recursive function(s), the
+function(s) will complete their execution inside of the $\phi$-node before
+exiting the $\phi$-node. There is hence no cycle, and thus the DAG properties of
+an RVSDG are upheld.
 
-Figure~\ref{fig:rec_fib_phi} illustrates how a $\phi$-node representing a
-recursive fibonacci function would look like.
+Figure~\ref{fig:rec_fib_phi} illustrates how a $\phi$-node containing the
+representation of a recursive fibonacci function would look like in an RVSDG.
 
 \end{itemize}
 
