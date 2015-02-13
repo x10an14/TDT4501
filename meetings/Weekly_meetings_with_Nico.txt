@@ -2,6 +2,46 @@ Weekly meetings with Nico:
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+12th Feb, 2015:
+	Inliner abstract class
+		With conditional classes inheriting from this class.
+
+	Work duplcation is not an issue for us, or normally.
+		It's the GHC intermediate presentation whose modules mess it up
+		due to laziness being made eager. (slightly confused about this)
+
+	Report:
+		List of figures and listings (and more) on a page each @ end of document.
+		Don't say above/below in Latex, use "as shown as", don't say anything else.
+		Throw out work duplication.
+		Stop putting things side by side, at least as minipages, make a figure in inkscape and give them common caption.
+		Re-phrase black magic into black art, see what GHC paper wrote.
+		Kick out sentence about
+		Research word manifold.
+		State things more carefully!!!
+		Stop thinking introduction should be understandable for laymen.
+		See photo on cellphone for shorter code duplication example.
+		Completely rephrase recursive functions paragraph in introduction
+		Describe the project, not the report.
+		Put new words in italics.
+		Re-do the introduction of the assignment. Try again.
+
+		Remember to mention arity and order of arguments for nodes in background!
+		Make switch case example, nested can be left as exercise for the reader.
+
+
+
+
+4th Feb, 2015:
+
+	Too much "bullshit code" Remember that work duplication depends upon the
+inlined function being pure, otherwise it will be assumed state dependent by
+the RVSDG. State dependent function calls can have work duplication, if they
+are not, you can use CSE.
+
+	Fluffy introduction, can be done better.
+	"No results were reportd."
+
 28th Jan, 2015:
 	Replace proposition with hypothesis
 
