@@ -10,7 +10,7 @@ optimizing the translated programs. There exist many optimization techniques
 compilers use. One such optimization is inlining, a straight-forward
 optimization which replaces the call of a function with its body. See example
 below in Listing \ref{lst:inlining}.
-%\clearpage
+
 \begin{center}
 	\noindent\begin{minipage}{0.48\textwidth}
 		\begin{lstlisting}[label={lst:inlining}, style=customcpp,
@@ -29,12 +29,10 @@ int bar(int y){
 }
 		\end{lstlisting}
 	\end{minipage}
-%	\hfill
-
 	\noindent\begin{minipage}{0.48\textwidth}
 		\begin{lstlisting}[label={lst:work-dup}, style=customcpp,
 caption={Work duplication in \textit{bar()}, when inlining \textit{foo()} into
-\textit{bar()} due to the calculation of \textit{foo(y)}.}]
+\textit{bar()} due to the twice over calculation of \textit{foo(y)}.}]
 int foo(int x){
 	//Computationally expensive function,
 	//such as Fibonacci for very high numbers
@@ -45,9 +43,7 @@ int bar(int y){
 }
 		\end{lstlisting}
 	\end{minipage}
-
 \end{center}
-
 However, the decision of which functions to inline has long been treated as
 ``black magic'', due to the non-existence of a perfect inlining heuristic. This
 report attempts to answer exactly that question for the new compiler backend
@@ -57,7 +53,51 @@ The benefits of inlining are removal of function call overhead, and a potential
 for unveiling additional optimizations. The drawbacks are potential code- and
 work- duplication, shown in Listings \ref{lst:code-dup} and \ref{lst:work-dup},
 respectively. Additionally, inlining can also negatively affect the compile
-time, unless optimizations to counteract this are unveiled.
+time, and program executable size\footnote{Unless optimizations to counteract
+this are unveiled.}.
+
+\begin{lstlisting}[label={lst:code-dup}, style=customcpp,
+caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
+\textit{bar()}. Total code size (counted by number of statements) for the
+functions \textit{foo()} and \textit{bar()} are 11 when not inlined, and 13 when
+inlined.}]
+typedef struct{
+	int x;
+	int y;
+} coords_t;
+
+coords_t* foo(int z){
+	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
+	a->x = 1; a->y = 2;
+	a->x *= z; a->y *= z;
+	return a;
+}
+
+coords_t* bar(){
+	coords_t* a = foo();
+	coords_t* b = foo();
+
+	b->x += a->x; b.y += a->y;
+	return b;
+}
+
+// bar() with foo() inlined, with code duplication
+coords_t* bar(int z){
+
+	// Lines which are duplicated unnecessarily
+	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
+	a->x = 1; a->y = 2;
+	a->x *= z; a->y *= z;
+
+	// Lines which are duplicating unnecessarily
+	coords_t* b = (coords_t*) malloc(sizeof(coords_t));
+	b->x = 1; b->y = 2;
+	b->x *= z; b->y *= z;
+	b->x += a->x; b.y += a->y;
+
+	return b;
+}
+\end{lstlisting}
 
 Not all functions are straight-forward to inline, such as recursive functions.
 Only an unknown subset of all recursive functions can be inlined, and if one is
@@ -66,57 +106,19 @@ functions, the heuristics parameter space, and how the inliner enables rapid
 exploration of the parameter space, are other topics this report will discuss in
 turn.
 
-With RVSDG being a new way to represent IR code, this report will also look into
-how the RVSDG affects the design of an inliner, and the process of inlining.
-Focus will be put on whether the RVSDG simplifies or complicates the
-implementation of the inliner, and the process of inlining compared to commonly
-used IRs.
-
-\begin{lstlisting}[label={lst:code-dup}, style=customcpp,
-caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
-\textit{bar()}.}]
-typedef struct{
-	int x;
-	int y;
-} coords_t;
-
-
-coords_t* foo(){
-	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
-	a->x = 1; a->y = 2;
-	return a;
-}
-
-coords_t* bar(){
-	coords_t* a = foo();
-	coords_t* b = foo();
-
-	b->x += a->x; .y += a->y;
-	return b;
-}
-
-// bar() with foo() inlined, with code duplication
-coords_t* bar(){
-	// Line which is duplicated unnecessarily
-	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
-	a->x = 1; a->y = 2;
-	// Line which is duplicating unnecessarily
-	coords_t* b = (coords_t*) malloc(sizeof(coords_t));
-	b->x = 1; b->y = 2;
-
-	b->x += a->x; b.y += a->y;
-	return b;
-}
-\end{lstlisting}
-
-\todo[inline]{Todo: Describe layout/outline of paper. What does each section in
-turn discuss?}
-
 This report describes the inliner for the new compiler backend Jive. It will
 detail the decisions made for its architecture and heuristics. Jive takes
 program code in Intermediate Representation (IR) as input and works on a new IR
 representation, the Regionalized Value-State Dependence Graph
 (RVSDG\footnote{Detailed in Section \ref{background:RVSDG}.}).
+
+\todo[inline]{Todo: In the below text (write it into the text) describe
+layout/outline of paper. What does each section in turn discuss?}
+
+How the RVSDG affects the design of an inliner, and the process of inlining,
+will also be looked into in this report. Focus will be put on whether the RVSDG
+simplifies or complicates the implementation of the inliner, and the process of
+inlining compared to commonly used IRs.
 
 Finally, the implemented inlineris evaluated before we conclude. In the
 evaluation, focus will be put on how different heuristics have different

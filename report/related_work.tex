@@ -3,82 +3,78 @@
 \clearpage
 \section{Related Work}
 
-\todo[inline]{Insert HiPEAC paper}
-
-As mentioned in Section \ref{introduction}, inlining has been done since the
-last half of the 20th century. Following comes the related research used as
-basis for the work done in this report.
+As mentioned in Section \ref{introduction}, compilers have existed, and most
+likely optimized code, since the last half of the 20th century. Inlining has
+long been an important optimization for most compilers.
 
 W. Davidson and M. Holler \cite{SubprogInlining} examine the hypothesis that the
-increased code size of inlined code affects the execution time on demand-paged
-virtual memory machines. Using equations developed to the describe an inlined
-programs' execution time, they test this hypothesis through the use of a source-
-to-source subprogram inliner.
+increased code size of inlined code affects execution time on demand-paged
+virtual memory machines. Using equations developed to describe the execution
+time of an inlined program, they test this hypothesis through the use of a
+source-to-source subprogram inliner.
 
 Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} use a genetic algorithm
 in their auto-tuning heuristics to show how conjunctive normalform (CNF) can
 easily be used to decide if and when to inline a specific call site. They report
 between 17\% and 37\% execution time improvements without code size explosion,
-in java when testing on an Intel PC.
+for Java when testing on an Intel PC.
 
 Serrano \cite{InlineWhenHowSerrano} implements an inliner in the Scheme
 programming language. The paper details an heuristic for which functions to
-inline in scheme, as well as an algorithm for how to inline recursive functions
-and non-recursive functions. Serrano reports an average run time preformance
-increase of 15\% with the inlined Scheme programs.
+inline, as well as an algorithm for how to inline recursive functions. The paper
+reports an average run time decrease of 15\%.
+
+\todo[inline]{Insert HiPEAC paper between these two?}
 
 Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
-adaptive compilation techniques in combination with an inlining heuristic. The
-thesis shows how CNF can be used for deciding which functions to inline, and
-examines how there is no single given correct set of parameters for the search
-space of his hillclimbing algorithm that his heuristic uses. Waterman reports
-consistently better or equal run time performance when compared to the GCC
-inliner and ATLAS.
+adaptive compilation techniques in combination with an inlining heuristic. His
+thesis shows how CNF can be used for deciding which functions to inline. It also
+details how there can be no single given correct set of parameters for all
+programs, given the search space the heuristics hillclimbing algorithm
+uses\footnote{To decide which functions to inline.}. The thesis reports
+consistently better or equal run time compared to the GCC inliner and ATLAS.
 
-D. Cooper, J. Harvey, and Waterman \cite{AdaptvStratInlSubst} continue on
-Waterman's PhD Thesis \cite{AdaptvCompilAndInlingWaterman} research. Their paper
-details how proper use of the parameterization search space of an adaptive
-inlining scheme using the hillclimber algorithm can achieve great results
-compared to GCCs inlining scheme. Their results range from 4\% to 31\% run time
-performance increase when compared with GCCs inliner.
+D. Cooper et. al \cite{AdaptvStratInlSubst} expand on Waterman's PhD Thesis
+\cite{AdaptvCompilAndInlingWaterman}. Their paper details how the proper use of
+the parameterization search space\footnote{Using an hillclimber algorithm.} in
+an adaptive inlining scheme can achieve improved results compared to GCCs
+inliner. Their results range from 4\% to 31\% run time decrease compared to GCCs
+inliner.
 
 E. Hank et. al \cite{RegionBasedCompilationIntroduction} introduce a new
 technique called \textit{Region-Based Compilation}. They examine the benefits an
-aggressive compiler can gain from inlining in conjunction with very long
-instruction words (VLIW) architecture. They report that aggresive inlining can
-be expensive with an average code expansion of 400\%. Yet, they also show that
-aggressive inlining is able to unveil further compiler optimizations, leading to
-averages of 50\% of program execution time spent in functions with more than
-1000 operations, instead of more than 80\% of execution time spent in functions
-with less than 250 operations when run without inlining.
+aggressive compiler gains from inlining on Very Long Instruction Word (VLIW)
+architectures. The paper reports that aggresive inlining can become costly, with
+an average code size expansion of 400\%. Their results show that aggressive
+inlining is sufficiently able to unveil further compiler optimizations, leading
+to an average of 50\% of program execution time spent in functions with more
+than 1000 operations. This is an improvement, compared to their test result of
+more than 80\%, of execution time spent inside functions with less than 250
+operations when run without inlining.
 
-P. Jones and Marlow \cite{GHCPaper} explore an inlining approach for the Glasgow
-Haskell Compiler (GHC) detail the inner workings of the GHC. Their paper also
-introduces a novel approach for deciding which mutually recursive functions can
-be safely inlined without code explosion or non-terminating programs. Jones and
-Marlow report an average of 30\% run time performance increase when using the
-default settings on the GHC inliner.
+P. Jones and Marlow \cite{GHCPaper} describe the inlining approach for the
+Glasgow Haskell Compiler (GHC). Their paper introduces a novel approach for
+deciding which mutually recursive functions can safely be inlined without code
+size explosion or non-terminating compilation. Jones and Marlow report on
+average of 30\% run time increase.
 
-Barton et. al \cite{ShouldLoopOptsInfluenceInlining} tests whether the potential
-for loop fusion should be taken into consideration in the inlining decisions.
-They examine this through the use of the IBM\textregistered XL Compile
-Suite and measuring how many additional loops they were able to fuse in the
-SPECint2000 and SPECfp2000 benchmark suites. Their results indicate that the
-compiler already catches most of the potential loop fusion optimizations, and
-the results cannot justify an inter-procedural loop fusion implementation.
+The report of Barton et. al \cite{ShouldLoopOptsInfluenceInlining} tests whether
+the potential for loop fusion should be taken into consideration in the inliner.
+They disprove this using the IBM\textregistered XL Compile Suite, measuring how
+many additional loops they were able to fuse in the SPECint2000 and SPECfp2000
+benchmark suites. The results reported indicate that the compiler already
+catches most of the potential loop fusion optimizations, and the results cannot
+justify an inter-procedural loop fusion implementation.
 
-Deshpande and A. Edwards \cite{deshpande2012statically} detail how inlining
-should be done in the GHC, with a goal to improve parallelism of recursive
-functions by ``widening'' them into the equivalent of multiple recursive calls
-through unrolling recursion. They leave it as an exercise to the reader to find
-their performance results.
+Deshpande and A. Edwards \cite{deshpande2012statically} detail an inlining
+algorithm meant to improve inlining in the GHC. The algorithm improved the
+parallelism of recursive functions by ``widening'' them, into the equivalent of
+multiple recursive calls through unrolling recursion. No results were reported.
 
 W. Hwu and P. Chang \cite{InlineFuncExpCProgs} explore how program profile
-information could be used to decide whether or not to inline C functions
-statically. Their motivation was to remove costly function calls in a C program,
-in addition to statically unveil potential optimizations. Through the use of the
-IMPACT-I C compiler, they profile dynamic program information, resulting in a
-call graph with weighted edges. They \todo{Fix result report ``0 to X\%'' or
-something instead of something they didn't actually report.}report an average
-elimination of dynamic function calls across their 14 test benchmarks at
-16.17\%.
+information could be used to decide whether or not to statically inline C
+functions. Their motivation was to remove costly function calls in a C program,
+in addition to unveil potential optimizations. Through the use of the IMPACT-I C
+compiler, they profile dynamic program information, resulting in a call graph
+with weighted edges. They report 0\% to 99\% reduction of dynamic function calls
+in their test benchmarks.
