@@ -1,21 +1,29 @@
 % !TEX root = ./report.tex
 
-\usepackage{datetime}	%For \newdateformat
-\usepackage{float}		%For forcing position of figures
-\usepackage{listings}	%For code in document
-\usepackage[usenames,dvipsnames]{xcolor}	%For the SkyBlue background color for lstlistings
-\usepackage{todonotes}	%For \todo
-\usepackage{tabularx}	%for tablecontents wrapping inside cell, instead of cell breaking page width.
-\usepackage{enumerate}	%For getting different types of lists like a) II) and so forth.
-\usepackage[utf8, utf8x]{inputenc}	%For norwegian letters and UTF8 encoding support
-\usepackage{lastpage}	%For the command \pageref{lastpage}
-\usepackage{hyperref}	%For \url{}
-\usepackage{pdfpages}	%For including pdfs
-\usepackage{appendix}	%For appendix in article
-\usepackage[nottoc,numbib]{tocbibind}	%For references in Table of Contents
+\usepackage{datetime}		%For \newdateformat
+\usepackage{float}			%For forcing position of figures
+\usepackage{listings}		%For code in document
+\usepackage[usenames,%
+dvipsnames]{xcolor}			%For the SkyBlue background color for lstlistings
+\usepackage{todonotes}		%For \todo
+\usepackage{tabularx}		%for tablecontents wrapping inside cell, instead of cell breaking page width.
+\usepackage{enumerate}		%For getting different types of lists like a) II) and so forth.
+\usepackage[utf8,%
+utf8x]{inputenc}			%For norwegian letters and UTF8 encoding support
+\usepackage{lastpage}		%For the command \pageref{lastpage}
+\usepackage{hyperref}		%For \url{}
+\usepackage{pdfpages}		%For including pdfs
+\usepackage{appendix}		%For appendix in article
+\usepackage[nottoc,%
+numbib]{tocbibind}			%For references in Table of Contents
 \usepackage[english]{babel}	%For filltext in conjunction with blindtext
 \usepackage{blindtext}		%For filltext (see comment for babel)
-\usepackage{parcolumns}	%For spreading content over multiple coloumns in single-coloumn document
+\usepackage{caption}		%For use of the \caption command inside minipage environment
+%\usepackage{svg}			%For includesvg command
+%\usepackage{textgreek}	%Test
+
+%\setsvg{svgpath = figures/}
+%\setsvg{inkscape = inkscape -z -D}
 
 \newdateformat{CurMonth}{\monthname[\THEMONTH],~\THEYEAR}
 
@@ -59,7 +67,7 @@
 	identifierstyle=\color{Blue},		%
 	backgroundcolor=\color{White},		% choose the background color. You must add \usepackage{color}
 	belowcaptionskip=1\baselineskip,	%
-	basicstyle=\footnotesiz,	%
+	basicstyle=\footnotesize,			%
 	commentstyle=\itshape\color{Brown},%
 	keywordstyle=\bfseries\color{Green},% sets the graphical style of keywords in the language
 }
