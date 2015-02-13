@@ -3,21 +3,19 @@
 \clearpage
 \section{Related Work}
 
-As mentioned in Section \ref{introduction}, compilers have existed, and most
-likely optimized code, since the last half of the 20th century. Inlining has
-long been an important optimization for most compilers.
-
-W. Davidson and M. Holler \cite{SubprogInlining} examine the hypothesis that the
-increased code size of inlined code affects execution time on demand-paged
-virtual memory machines. Using equations developed to describe the execution
-time of an inlined program, they test this hypothesis through the use of a
-source-to-source subprogram inliner.
+As mentioned in Section \ref{introduction}, compilers have existed, and
+optimized code, since the last half of the 20th century. Inlining has long been
+an important optimization for most compilers. W. Davidson and M. Holler
+\cite{SubprogInlining} examine the hypothesis that the increased code size of
+inlined code affects execution time on demand-paged virtual memory machines.
+Using equations developed to describe the execution time of an inlined program,
+they test this hypothesis through the use of a source-to-source subprogram
+inliner.
 
 Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} use a genetic algorithm
 in their auto-tuning heuristics to show how conjunctive normalform (CNF) can
 easily be used to decide if and when to inline a specific call site. They report
-between 17\% and 37\% execution time improvements without code size explosion,
-for Java when testing on an Intel PC.
+between 17\% and 37\% execution time improvements without code size explosion.
 
 Serrano \cite{InlineWhenHowSerrano} implements an inliner in the Scheme
 programming language. The paper details an heuristic for which functions to
@@ -36,27 +34,26 @@ consistently better or equal run time compared to the GCC inliner and ATLAS.
 
 D. Cooper et. al \cite{AdaptvStratInlSubst} expand on Waterman's PhD Thesis
 \cite{AdaptvCompilAndInlingWaterman}. Their paper details how the proper use of
-the parameterization search space\footnote{Using an hillclimber algorithm.} in
-an adaptive inlining scheme can achieve improved results compared to GCCs
-inliner. Their results range from 4\% to 31\% run time decrease compared to GCCs
-inliner.
+the parameterization search space using a hillclimber algorithm, in an adaptive
+inlining scheme can achieve improved results compared to GCCs inliner. Their
+results range from 4\% to 31\% run time decrease compared to GCCs inliner.
 
 E. Hank et. al \cite{RegionBasedCompilationIntroduction} introduce a new
 technique called \textit{Region-Based Compilation}. They examine the benefits an
 aggressive compiler gains from inlining on Very Long Instruction Word (VLIW)
 architectures. The paper reports that aggresive inlining can become costly, with
-an average code size expansion of 400\%. Their results show that aggressive
+an average code size expansion of 400\%. However, their results also show that
 inlining is sufficiently able to unveil further compiler optimizations, leading
 to an average of 50\% of program execution time spent in functions with more
 than 1000 operations. This is an improvement, compared to their test result of
 more than 80\%, of execution time spent inside functions with less than 250
 operations when run without inlining.
 
-P. Jones and Marlow \cite{GHCPaper} describe the inlining approach for the
-Glasgow Haskell Compiler (GHC). Their paper introduces a novel approach for
-deciding which mutually recursive functions can safely be inlined without code
-size explosion or non-terminating compilation. Jones and Marlow report on
-average of 30\% run time increase.
+P. Jones and Marlow \cite{GHCPaper} describe the inliner for the Glasgow Haskell
+Compiler (GHC). Their paper introduces a novel approach for deciding which
+mutually recursive functions can safely be inlined without code size explosion
+or the risk of non-termination. Jones and Marlow report on average of 30\% run
+time decrease.
 
 The report of Barton et. al \cite{ShouldLoopOptsInfluenceInlining} tests whether
 the potential for loop fusion should be taken into consideration in the inliner.
