@@ -7,14 +7,16 @@ Since the 1950s, compilers have played an important role in the way programming
 code is translated into machine languages. In broad terms, compilers perform two
 actions: the translation from human-readable code to machine language, and
 optimizing the translated programs. There exist many optimization techniques
-compilers use. One such optimization is inlining, a straight-forward
-optimization which replaces the call of a function with its body. See example
-below in Listing \ref{lst:inlining}.
+compilers use. One such technique is inlining, where the call site of a function
+is replaced by the body of the function, as shown in Listing \ref{lst:inlining}.
 
-\begin{center}
-	\noindent\begin{minipage}{0.48\textwidth}
-		\begin{lstlisting}[label={lst:inlining}, style=customcpp,
-caption={Function \textit{foo()} inlined into function \textit{bar()}.}]
+\begin{lstlisting}[label={lst:inlining}, style=customcpp,
+caption={Function \textit{foo()} inlined into function \textit{bar()} would
+result in the body of \textit{bar()} being \textit{return x + 3 + 2}, in which
+case the optimization technique of constant folding is unveiled, permitting the
+compiler to replace the expression with its cheaper equivalent: \textit{x +
+5}.}]
+
 int foo(int x){
 	return x + 3;
 }
@@ -22,39 +24,13 @@ int foo(int x){
 int bar(int y){
 	return foo(y) + 2;
 }
+\end{lstlisting}
 
-// bar() with foo() inlined:
-int bar(int y){
-	y + 3 + 2;
-}
-		\end{lstlisting}
-	\end{minipage}
-	\noindent\begin{minipage}{0.48\textwidth}
-		\begin{lstlisting}[label={lst:work-dup}, style=customcpp,
-caption={Work duplication in \textit{bar()}, when inlining \textit{foo()} into
-\textit{bar()} due to the twice over calculation of \textit{foo(y)}.}]
-int foo(int x){
-	//Computationally expensive function,
-	//such as Fibonacci for very high numbers
-}
-
-int bar(int y){
-	return foo(y) + foo(y+4000);
-}
-		\end{lstlisting}
-	\end{minipage}
-\end{center}
-However, the decision of which functions to inline has long been treated as
-``black magic'', due to the non-existence of a perfect inlining heuristic. This
-report attempts to answer exactly that question for the new compiler backend
-Jive, introduced shortly.
-
-The benefits of inlining are removal of function call overhead, and a potential
-for unveiling additional optimizations. The drawbacks are potential code- and
-work- duplication, shown in Listings \ref{lst:code-dup} and \ref{lst:work-dup},
-respectively. Additionally, inlining can also negatively affect the compile
-time, and program executable size\footnote{Unless optimizations to counteract
-this are unveiled.}.
+The benefits of manifold. Removal of function call overhead, and a potential for
+unveiling the application of additional optimizations being among these. The
+drawbacks are potential code- and work- duplication, shown in
+Listings~\ref{lst:code-dup}. Additionally, inlining can also negatively affect
+the compile time, and program executable size.
 
 \begin{lstlisting}[label={lst:code-dup}, style=customcpp,
 caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
