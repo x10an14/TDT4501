@@ -16,7 +16,6 @@ result in the body of \textit{bar()} being \textit{return x + 3 + 2}, in which
 case the optimization technique of constant folding is unveiled, permitting the
 compiler to replace the expression with its cheaper equivalent: \textit{x +
 5}.}]
-
 int foo(int x){
 	return x + 3;
 }
@@ -25,80 +24,59 @@ int bar(int y){
 	return foo(y) + 2;
 }
 \end{lstlisting}
+\vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
-The benefits of manifold. Removal of function call overhead, and a potential for
-unveiling the application of additional optimizations being among these. The
-drawbacks are potential code- and work- duplication, shown in
-Listings~\ref{lst:code-dup}. Additionally, inlining can also negatively affect
-the compile time, and program executable size.
+The benefits are manifold. Removal of function call overhead, and a potential
+for unveiling the application of additional optimizations being among these. The
+drawbacks is potential code-duplication, exemplified in Listing~\ref{lst:code-dup},
+and in certain specific situations work-duplication\footnote{As detailed by P.
+Jones and Marlow~\cite{GHCPaper} to be the case for the \textit{Glasgow Haskell
+Compiler}.}. Another potential drawback is negatively affected compile time, and
+increased program executable size.
 
 \begin{lstlisting}[label={lst:code-dup}, style=customcpp,
 caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
-\textit{bar()}. Total code size (counted by number of statements) for the
-functions \textit{foo()} and \textit{bar()} are 11 when not inlined, and 13 when
-inlined.}]
-typedef struct{
-	int x;
-	int y;
-} coords_t;
-
-coords_t* foo(int z){
-	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
-	a->x = 1; a->y = 2;
-	a->x *= z; a->y *= z;
-	return a;
+\textit{bar()}. The big expression \textit{e} in \textit{foo()}, would be
+duplicated when inlined into \textit{bar()}. This replaces the cost of function
+call overhead with the increased size of the final program, unless potential
+optimizations that counteract this are unveiled when inlining \textit{foo()}.}]
+int foo(int a){
+	return e; //Big expression, output of which depends on a's value
 }
 
-coords_t* bar(){
-	coords_t* a = foo();
-	coords_t* b = foo();
-
-	b->x += a->x; b.y += a->y;
-	return b;
-}
-
-// bar() with foo() inlined, with code duplication
-coords_t* bar(int z){
-
-	// Lines which are duplicated unnecessarily
-	coords_t* a = (coords_t*) malloc(sizeof(coords_t));
-	a->x = 1; a->y = 2;
-	a->x *= z; a->y *= z;
-
-	// Lines which are duplicating unnecessarily
-	coords_t* b = (coords_t*) malloc(sizeof(coords_t));
-	b->x = 1; b->y = 2;
-	b->x *= z; b->y *= z;
-	b->x += a->x; b.y += a->y;
-
-	return b;
+int bar(int x, int y){
+	return f(x) + f(y);
 }
 \end{lstlisting}
+\vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
+\todo[inline]{Consider removing: \\
 Not all functions are straight-forward to inline, such as recursive functions.
-Only an unknown subset of all recursive functions can be inlined, and if one is
-inlined incorrectly, it can lead to non-termination of the compiler. Recursive
-functions, the heuristics parameter space, and how the inliner enables rapid
-exploration of the parameter space, are other topics this report will discuss in
-turn.
+At compile time, the needed depth of recursion might be unknown, leading to non-
+termination of the compiler as it tried to inline the recursive function until
+the necessary depth.}
 
-This report describes the inliner for the new compiler backend Jive. It will
-detail the decisions made for its architecture and heuristics. Jive takes
-program code in Intermediate Representation (IR) as input and works on a new IR
-representation, the Regionalized Value-State Dependence Graph
+This report describes the inliner project for the Jive compiler backend. It
+details the decisions made for the inliner's architecture. Jive takes program
+code in \textit{intermediate representation} (IR) as input and uses a new IR
+representation, the \textit{Regionalized Value-State Dependence Graph}
 (RVSDG\footnote{Detailed in Section \ref{background:RVSDG}.}).
 
 \todo[inline]{Todo: In the below text (write it into the text) describe
 layout/outline of paper. What does each section in turn discuss?}
 
-How the RVSDG affects the design of an inliner, and the process of inlining,
-will also be looked into in this report. Focus will be put on whether the RVSDG
-simplifies or complicates the implementation of the inliner, and the process of
-inlining compared to commonly used IRs.
+The report will detail how the inliner is able to handle recursive functions,
+and how the inliner permits the configuration of different heuristics to allow
+rapid exploration of the parameter space. How the RVSDG affects the design of an
+inliner, and the algorithms used by the heuristics deciding what to inline, is
+also looked into in this report. Focus is put on whether the RVSDG simplifies or
+complicates the implementation of the inliner (its impact), and the process of
+inlining, compared to commonly used IRs.
 
-Finally, the implemented inlineris evaluated before we conclude. In the
+Finally, the implemented inliner is evaluated before we conclude. In the
 evaluation, focus will be put on how different heuristics have different
-consequences, in terms of code- and work-duplication.
+consequences, in terms of code-duplication, in addition to what impact the RVSDG
+has on the design of an inliner.
 
-Further details of the assignment of this paper can be found in Appendix
-\ref{app:projdesc}.
+A detailed description of the project assignment of this paper can be found in
+Appendix~\ref{app:projdesc}.
