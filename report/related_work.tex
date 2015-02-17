@@ -28,14 +28,14 @@ Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
 adaptive compilation techniques in combination with an inlining heuristic. His
 thesis shows how CNF can be used for deciding which functions to inline. It also
 details how there can be no single given correct set of parameters for all
-programs, given the search space the heuristics hillclimbing algorithm
-uses\footnote{To decide which functions to inline.}. The thesis reports
-consistently better or equal run time compared to the GCC inliner and ATLAS.
+programs, given the search space of the heuristics hillclimbing algorithm. The
+thesis reports consistently better or equal run time compared to the GCC inliner
+and ATLAS.
 
 D. Cooper et. al \cite{AdaptvStratInlSubst} expand on Waterman's PhD Thesis
 \cite{AdaptvCompilAndInlingWaterman}. Their paper details how the proper use of
 the parameterization search space using a hillclimber algorithm, in an adaptive
-inlining scheme can achieve improved results compared to GCCs inliner. Their
+inlining scheme, can achieve improved results compared to GCCs inliner. Their
 results range from 4\% to 31\% run time decrease compared to GCCs inliner.
 
 E. Hank et. al \cite{RegionBasedCompilationIntroduction} introduce a new
@@ -43,11 +43,11 @@ technique called \textit{Region-Based Compilation}. They examine the benefits an
 aggressive compiler gains from inlining on Very Long Instruction Word (VLIW)
 architectures. The paper reports that aggresive inlining can become costly, with
 an average code size expansion of 400\%. However, their results also show that
-inlining is sufficiently able to unveil further compiler optimizations, leading
-to an average of 50\% of program execution time spent in functions with more
-than 1000 operations. This is an improvement, compared to their test result of
-more than 80\%, of execution time spent inside functions with less than 250
-operations when run without inlining.
+inlining is sufficiently able to unveil further compiler optimizations. Thus
+leading to an average of 50\% of program execution time spent in functions with
+more than 1000 operations. This is an improvement, compared to their test
+results where more than 80\% of the execution time was spent inside functions
+with less than 250 operations, when run without inlining.
 
 P. Jones and Marlow \cite{GHCPaper} describe the inliner for the Glasgow Haskell
 Compiler (GHC). Their paper introduces a novel approach for deciding which
