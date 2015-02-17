@@ -11,7 +11,7 @@ dvipsnames]{xcolor}			%For the SkyBlue background color for lstlistings
 \usepackage[utf8,%
 utf8x]{inputenc}			%For norwegian letters and UTF8 encoding support
 \usepackage{lastpage}		%For the command \pageref{lastpage}
-\usepackage{hyperref}		%For \url{}
+\usepackage[colorlinks]{hyperref}		%For \url{}
 \usepackage{pdfpages}		%For including pdfs
 \usepackage{appendix}		%For appendix in article
 \usepackage[nottoc,%
@@ -24,6 +24,10 @@ numbib]{tocbibind}			%For references in Table of Contents
 
 %\setsvg{svgpath = figures/}
 %\setsvg{inkscape = inkscape -z -D}
+
+\hypersetup{linkcolor=black}
+\hypersetup{citecolor=black}
+\hypersetup{urlcolor=black}
 
 \newdateformat{CurMonth}{\monthname[\THEMONTH],~\THEYEAR}
 
