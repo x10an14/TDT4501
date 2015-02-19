@@ -2172,7 +2172,7 @@
          height="489.10245"
          width="444.52145"
          id="rect3004-3"
-         style="fill:#cccccc;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none">
+         style="fill:#ffffff;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1">
         <title
            id="title3006-5">RVSDGNode</title>
       </rect>
@@ -2207,7 +2207,7 @@
          inkscape:connector-curvature="0"
          sodipodi:nodetypes="ccc" />
       <rect
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.11771679;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.11771679;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
          id="rect6551"
          width="74.463806"
          height="488.70694"
@@ -2259,7 +2259,7 @@
          height="393.96521"
          width="387.48898"
          id="rect3004"
-         style="fill:#aaccff;fill-opacity:1;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none">
+         style="fill:#dcdcdc;fill-opacity:1;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none">
         <title
            id="title3006">RVSDGNode</title>
       </rect>
@@ -2276,7 +2276,7 @@
            id="tspan3067"
            sodipodi:role="line">θ</tspan></text>
       <rect
-         style="fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:3.2007792;stroke-miterlimit:4;stroke-dasharray:none"
+         style="fill:#91dcff;fill-opacity:1;stroke:#000000;stroke-width:3.2007792;stroke-miterlimit:4;stroke-dasharray:none"
          y="657.72711"
          x="288.91272"
          height="286.41098"
@@ -2731,7 +2731,7 @@
          height="400.16516"
          width="615.82703"
          id="rect3004-4"
-         style="fill:#cccccc;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none">
+         style="fill:#ffffff;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1">
         <title
            id="title3006-8">RVSDGNode</title>
       </rect>
@@ -2753,7 +2753,7 @@
          height="353.09579"
          width="532.83081"
          id="rect3004-8"
-         style="fill:#aaccff;fill-opacity:1;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none"
+         style="fill:#dcdcdc;fill-opacity:1;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none"
          inkscape:connector-avoid="true">
         <title
            id="title3006-7">RVSDGNode</title>
@@ -2866,7 +2866,7 @@
          height="240.4214"
          width="222.70215"
          id="rect3004-6"
-         style="fill:#cccccc;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none">
+         style="fill:#91dcff;stroke:#000000;stroke-width:4.11771679;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1">
         <title
            id="title3006-5-1">RVSDGNode</title>
       </rect>
@@ -2876,7 +2876,7 @@
          height="240.61499"
          width="347.59225"
          id="rect6551-6"
-         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.11771679;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#91dcff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:4.11771679;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
       <rect
          style="fill:#b3ff80;stroke:#000000;stroke-width:2.95451808;stroke-miterlimit:4;stroke-dasharray:none"
          id="rect3004-6-5"

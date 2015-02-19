@@ -478,7 +478,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="866.58043"
+     inkscape:cx="867.99465"
      inkscape:cy="381.60768"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -511,7 +511,7 @@
        height="691.20026"
        width="876.99976"
        id="rect3004-4"
-       style="fill:#cccccc;stroke:#000000;stroke-width:8.48356152;stroke-miterlimit:4;stroke-dasharray:none">
+       style="fill:#ffffff;stroke:#000000;stroke-width:8.48356152;stroke-miterlimit:4;stroke-dasharray:none">
       <title
          id="title3006-8">RVSDGNode</title>
     </rect>
@@ -533,7 +533,7 @@
        height="609.89795"
        width="758.80475"
        id="rect3004"
-       style="fill:#aaccff;fill-opacity:1;stroke:#000000;stroke-width:8.90472507;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#dcdcdc;fill-opacity:1;stroke:#000000;stroke-width:8.90472507;stroke-miterlimit:4;stroke-dasharray:none"
        inkscape:connector-avoid="true">
       <title
          id="title3006">RVSDGNode</title>
@@ -646,7 +646,7 @@
        height="415.27686"
        width="317.1503"
        id="rect3004-6"
-       style="fill:#cccccc;stroke:#000000;stroke-width:6.66045952;stroke-miterlimit:4;stroke-dasharray:none">
+       style="fill:#91dcff;stroke:#000000;stroke-width:6.66045952;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1">
       <title
          id="title3006-5">RVSDGNode</title>
     </rect>
@@ -656,7 +656,7 @@
        height="415.61124"
        width="495.00638"
        id="rect6551"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:7.06133461;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#91dcff;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:7.06133461;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
     <rect
        style="fill:#b3ff80;stroke:#000000;stroke-width:4.63382149;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect3004-6-5"
