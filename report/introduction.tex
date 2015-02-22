@@ -3,19 +3,20 @@
 \section{Introduction}
 \label{introduction}
 
-Since the 1950s, compilers have played an important role in the way programming
-code is translated into machine languages. In broad terms, compilers perform two
-actions: the translation from human-readable code to machine language, and
-optimizing the translated programs. There exist many optimization techniques
-compilers use. One such technique is inlining, where the call site of a function
-is replaced by the body of the function, as shown in Listing \ref{lst:inlining}.
+Since the 1950s, compilers have played an important role in the way higher-level
+programming languages are translated into machine languages. In broad terms,
+compilers perform two actions: the translation of human-readable code into
+machine language, and optimizing the translated programs. There exist many
+optimization techniques compilers use, one being inlining, which replaces the
+call site of a function/procedure with its body. This is shown in
+Listing~\ref{lst:inlining}, where another optimization technique: constant
+folding, is shown to be unveiled by inlining.
 
 \begin{lstlisting}[label={lst:inlining}, style=customcpp,
 caption={Function \textit{foo()} inlined into function \textit{bar()} would
 result in the body of \textit{bar()} being \textit{return x + 3 + 2}, in which
-case the optimization technique of constant folding is unveiled, permitting the
-compiler to replace the expression with its cheaper equivalent: \textit{x +
-5}.}]
+case constant folding can be used, replacing the \textit{return} expression of
+\textit{bar()} with : \textit{x + 5}.}]
 int foo(int x){
 	return x + 3;
 }
@@ -26,20 +27,21 @@ int bar(int y){
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
-The benefits are manifold. Removal of function call overhead, and a potential
-for unveiling the application of additional optimizations being among these. The
-drawbacks is potential code-duplication, exemplified in Listing~\ref{lst:code-dup},
-and in certain specific situations work-duplication\footnote{As detailed by P.
-Jones and Marlow~\cite{GHCPaper} to be the case for the \textit{Glasgow Haskell
-Compiler}.}. Another potential drawback is negatively affected compile time, and
-increased program executable size.
+The benefits of inlining are manifold. One is the removal of function call
+overhead, and the potential for unveiling the application of additional
+optimizations being another. The drawbacks are potential code-duplication,
+exemplified in Listing~\ref{lst:code-dup}, and in specific situations
+work-duplication\footnote{As detailed by P. Jones and Marlow~\cite{GHCPaper} to
+be the case for the \textit{Glasgow Haskell Compiler}.}. Another potential
+drawback is increase of compile time, and an increased program executable size.
 
 \begin{lstlisting}[label={lst:code-dup}, style=customcpp,
 caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
 \textit{bar()}. The big expression \textit{e} in \textit{foo()}, would be
-duplicated when inlined into \textit{bar()}. This replaces the cost of function
-call overhead with the increased size of the final program, unless potential
-optimizations that counteract this are unveiled when inlining \textit{foo()}.}]
+duplicated when inlined into \textit{bar()}. The cost of function call overhead
+would be replaced with an increased size of the final program. However, in this
+example, the potential for \textit{Common Subexpression Elimination} (CSE) is
+likely able to negate some of the program size increase.}]
 int foo(int a){
 	return e; //Big expression, output of which depends on a's value
 }
@@ -50,33 +52,34 @@ int bar(int x, int y){
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
-\todo[inline]{Consider removing: \\
 Not all functions are straight-forward to inline, such as recursive functions.
-At compile time, the needed depth of recursion might be unknown, leading to non-
-termination of the compiler as it tried to inline the recursive function until
-the necessary depth.}
+At compile time, the needed depth of recursion might be unknown, leading to
+non-termination of the compiler as it tries to inline the recursive function
+until the necessary depth. Hence, extra care needs to be taken when trying to
+inline recursive functions.
 
-This report describes the inliner project for the Jive compiler backend. It
-details the decisions made for the inliner's architecture. Jive takes program
-code in \textit{intermediate representation} (IR) as input and uses a new IR
-representation, the \textit{Regionalized Value-State Dependence Graph}
-(RVSDG\footnote{Detailed in Section \ref{background:RVSDG}.}).
+This report describes the construction of an inliner for the Jive compiler
+backend. It details the decisions made for the inliner's architecture. Jive
+works on an \textit{intermediate representation} (IR) called
+\textit{Regionalized Value-State Dependence Graph}\footnote{Detailed in Section
+\ref{background:RVSDG}.} (RVSDG). The RVSDG is a \textit{directed acyclic graph}
+(DAG) and a \textit{demand-based dependence graph} (DDG), making it an IR well
+suited for effectively enabling worthwhile compiler optimizations.
 
 \todo[inline]{Todo: In the below text (write it into the text) describe
 layout/outline of paper. What does each section in turn discuss?}
 
-The report will detail how the inliner is able to handle recursive functions,
-and how the inliner permits the configuration of different heuristics to allow
-rapid exploration of the parameter space. How the RVSDG affects the design of an
-inliner, and the algorithms used by the heuristics deciding what to inline, is
-also looked into in this report. Focus is put on whether the RVSDG simplifies or
-complicates the implementation of the inliner (its impact), and the process of
-inlining, compared to commonly used IRs.
+The report details how the inliner is able to handle recursive functions, and
+how the inliner permits the configuration of different heuristics to allow rapid
+exploration of the parameter space. How the RVSDG affects the design of an
+inliner, and the algorithms used by the heuristics deciding what to inline, are
+also detailed in this report. Focus is put on whether the RVSDG simplifies or
+complicates the implementation of the inliner, as well as the impact of the
+RVSDG on an inliner, and the process of inlining, compared to commonly used IRs.
 
 Finally, the implemented inliner is evaluated before we conclude. In the
 evaluation, focus will be put on how different heuristics have different
-consequences, in terms of code-duplication, in addition to what impact the RVSDG
-has on the design of an inliner.
+consequences, in terms of code-duplication.
 
-A detailed description of the project assignment of this paper can be found in
+A detailed description of the project assignment can be found in
 Appendix~\ref{app:projdesc}.
