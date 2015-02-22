@@ -8,33 +8,31 @@
 \label{background:RVSDG}
 
 The \textit{Regionalized Value-State Dependence Graph} (RVSDG) is a
-\textit{directed acyclic graph} (DAG), consisting of nodes representing
-computations and edges representing dependencies. The input of each node are its
-dependencies, and their outputs are the dependencies that the following
-calculations need from that node. The arity and order of inputs and outputs for
-each node is important and immutable.There are different kinds of nodes, and two
-types of edges. Nodes can be categorized into two categories, simple and complex
-nodes.
+\textit{directed acyclic graph} (DAG) and a \textit{demand-based dependence
+graph} (DDG), consisting of nodes representing computations and edges
+representing the dependencies between nodes. Each node has inputs and outputs
+connected through edges. The arity and order of inputs and outputs depend on the
+operation the node represents, and they also needs to have the same arity and
+order across all nodes representing the same operation.
 
-Simple nodes are the nodes representing the ``basic operations'' a program
-performs, such as addition and subtraction. Complex nodes are nodes which
-contain another RVSDG subgraph, and hence sometimes called \textit{regions}. The
-complex nodes presented are the $\gamma$-, $\theta$-, $\lambda$-, apply-, and
-$\phi$-nodes.
+In this report, we will discuss two kinds of nodes, and two kinds of edges: the
+simple- and complex- nodes, and the data- and state- dependency edges. Simple
+nodes represent the ``basic operations'', such as addition and subtraction.
+Complex nodes contain another RVSDG subgraph, also called \textit{regions}. The
+Complex nodes presented in this section are the $\gamma$-, $\theta$-,
+$\lambda$-, and $\phi$-nodes.
 
 \subsubsection{Edges}
 
-One of the two types of edges used in an RVSDG is the data dependence edge. This
-edge represents a data dependency one node has to another. The computations of
-the first node need to finish before the data is ready to be computet in the
-second node.
+The RVSDG has two types of edges: the data dependence edge, and the state
+dependence edge, which represent the data and state values (respectively) of the
+edges. The data dependence edge represents a data dependency one node has to
+another, producing the value for the next computation.
 
-The other type of edge is the state dependence edge. This edge is meant to
-preserve the semantics of the original program, keeping the  the ordering of the
-nodes consistent with the program's semantics. Stippled lines are commonly used
-to denote state dependence edges.
-
-An example is shown in Figure~\ref{fig:for_loop_rec_fib_print_ex}.
+State dependence edges preserve the semantics of the original program, keeping
+the ordering of the nodes consistent with the program's flow of execution.
+Stippled lines are used to denote state dependence edges in the figures of this
+report. An example is shown in Figure~\ref{fig:for_loop_rec_fib_print_ex}.
 
 \subsubsection{Nodes}
 
