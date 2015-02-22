@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage[scale=0.75]{geometry}
+
+\title{Project Description: An Inliner for the Jive compiler}
+\author{Nico Reissmann}
+\date{\today}
+
+\begin{document}
+\setlength{\parskip}{1ex}
+\setlength{\parindent}{0pt}
+
+\maketitle
+
+Compilers have become an essential part of every modern computer system since their rise along with
+the emergence of machine-independent languages at the end of the 1950s. From the start, they not only
+had to translate between a high-level language and a specific architecture, but had to incorporate
+optimizations in order to improve code quality and be a par with human-produced assembly code. One
+such optimization performed by virtually every modern compiler is \textit{inlining}. In principle,
+inlining is very simple: just replace a call to a function by an instance of its body. However, in
+practice careless inlining can easily result in extensive \textit{work} and \textit{code
+duplication}. An inliner must therefore decide carefully when and where to inline a function in
+order to achieve good performance without unnecessary code bloat.
+
+The overall goal of this project is to implement and evaluate an inliner for the Jive compiler
+back-end. The project is split in a practical and an optional theoretical part. The practical part
+includes the following:
+
+\begin{itemize}
+	\item Implementation of an inliner for the Jive compiler back-end. The inliner must be able to
+	handle recursive functions and allow for the configuration of different heuristics to permit
+	rapid exploration of the parameter space.
+	\item An evaluation of the implemented inliner. A particular emphasis is given to different
+	heuristics and their consequences for the resulting code in terms of work and code duplication.
+\end{itemize}
+
+The Jive compiler back-end uses a novel intermediate representation (IR) called the Regionalized
+Value State Dependence Graph (RVSDG). If time permits, the theoretical part of the project is going
+to clarify the consequences of using the RVSDG along with an inliner. It tries to answer the
+following research questions:
+
+\begin{itemize}
+	\item What impact does the RVSDG have on the design of an inliner and the process of inlining?
+	\item Does the RVSDG simplify/complicate the implementation of an inliner and the process
+	of inlining compared to other commonly used IRs?
+\end{itemize}
+
+The outcome of this project is threefold:
+
+\begin{enumerate}
+	\item A working implementation of an inliner in the Jive compiler back-end fulfilling the
+		aforementioned criteria.
+	\item An evaluation of the implemented inliner.
+	\item A project report following the structure of a research paper.
+\end{enumerate}
+
+\end{document}
