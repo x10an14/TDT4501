@@ -30,8 +30,6 @@ Until further notice: Weekly meetings at Wednesday 1100.
 		Make switch case example, nested can be left as exercise for the reader.
 
 
-
-
 4th Feb, 2015:
 
 	Too much "bullshit code" Remember that work duplication depends upon the
