@@ -37,22 +37,32 @@ report. An example is shown in Figure~\ref{fig:for_loop_rec_fib_print_ex}.
 \subsubsection{Nodes}
 
 Of the two previously mentioned categories of nodes, simple nodes are used in an
-RVSDG to represent simple operations, such as addition, subtraction. The complex
-nodes of an RVSDG relevant for an inliner are as follows:
+RVSDG to represent simple operations, such as addition and subtraction.
+
+A special case of the simple nodes listed in this report is the
+\textit{apply}-node, which always has an edge linking a $\phi$-region or
+$\lambda$-node as first input. The arity and order of the rest of the
+\textit{apply}-node's inputs must match the order and arity of the inputs for
+the $\lambda$-node linked directly or through a $\phi$-region. While a
+$\phi$-region or $\lambda$-node may each link to duplicate \textit{apply}-nodes
+representing the same function call, an \textit{apply}-node can (and must)
+always one $\phi$-region or $\lambda$-node.
+
+The complex nodes of an RVSDG relevant for an inliner are as follows:
 
 \begin{itemize}
 
 \item \textbf{$\gamma$-nodes: N-way statements}
 
 \textit{$\gamma$}-nodes represent conditional statements. Each $\gamma$-node has
-one input, the predicate. All other edges passing into the $\gamma$-node are
-edges its subgraph(s) depend upon.
+a predicate as input. All other edges passing into the $\gamma$-node are edges
+its subsection's subgraph(s) depend upon. All subsections must have the same
+order and arity of inputs and outputs, even if the subgraph in each case does
+not depend on all of the inputs, or modify all of the outputs.
 
-A $\gamma$-node most closely represents a \textit{switch-case} with a \textit{break;} in
-each case. Each case of the switch statement corresponds with a subsection of
-the $\gamma$-node. All subsections must have the same order and arity of inputs
-and outputs, even if the subgraph in each case does not depend on all of the
-inputs, or modify all of the outputs.
+A $\gamma$-node most closely represents a \textit{switch-case} without fall-
+through in each case. Each case of the switch statement corresponds then with a
+subsection of the $\gamma$-node.
 
 Hence, a simple \textit{if-statement} with no else-clause can be represented by
 a $\gamma$-node with two subsections. The true subsection containing the RVSDG
@@ -85,29 +95,33 @@ the the same semantics as the C/C++ pseudo code on the left.}
 
 \item \textbf{$\theta$-nodes: Tail-controlled loops}
 
-\textit{$\theta$}-nodes represent tail controlled loops. In C/C++ they are
-equivalent to \textit{do-while loops} containing the representation of the body
-of the loop. Like with the $\gamma$-node, its input is the predicate. All other
-edges are the dependencies needed by its subgraph(s) representing the statements
-in the body of the loop.
+\textit{$\theta$}-nodes represent tail controlled loops. Like with the
+$\gamma$-node, its input is the predicate. All other edges are the dependencies
+needed by its subgraph(s) representing the statements in the body of the loop.
 
-Other loops, such as \textit{for-loops}, can be represented by putting a
-$\theta$-node inside of the \textit{true} clause of a $\gamma$-node with no
-subgraph in the subsection of the \textit{false} clause. The $\gamma$- and
-$\theta$-nodes both need to have the exact same predicate, and same dependencies
-on the predicate, if the combined subgraph is to represent a for-loop.
+In C/C++ $\theta$-nodes are equivalent to \textit{do-while loops} containing the
+subgraph representing of the body of the loop inside the node. Other loops, such
+as \textit{for-loops}, can be represented by putting a $\theta$-node inside of
+the \textit{true} clause of a $\gamma$-node with no subgraph in the subsection
+of the \textit{false} clause. The $\gamma$- and $\theta$-nodes both need to have
+the exact same predicate, and same dependencies on the predicate, if the
+combined subgraph is to represent a for-loop.
 
-See Figure~\ref{fig:for_loop_rec_fib_print_ex} for an example of a
-$\theta$-node. Notice that the dotted edges are used to enlighten the reader for
-where the body of the loop is contained, and which variables are brought on to
-the next iteration. An actual RVSDG however, does not contain these dotted
-lines, as these make a cycle.
+See Figure~\ref{fig:for_loop_rec_fib_print_ex} for an example of a $\theta$-node
+with corresponding C/C++ code in Listing~\ref{lst:for_loop_rec_fib_print_ex}.
+The stippled directed edges in Figure~\ref{fig:for_loob_rec_fib_print_ex} denote
+state dependencies between nodes.
 
-\todo[inline]{Perhaps put listing with the code that
-Figure~\ref{fig:for_loop_rec_fib_print_ex} represents here? There should be
-sufficient space for it.}
+\begin{lstlisting}[label={lst:for_loop_rec_fib_print_ex}, style=customcpp,
+caption={C/C++ code corresponding to the RVSDG subgraph in
+Figure~\ref{fig:for_loop_rec_fib_print_ex}.}]
+for(int i = 0; i < 7; ++i){
+	std::cout << "Fib #" << i << ": " << recursive_fibonacci(i) << std::endl;
+}
+\end{lstlisting}
+\vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
+\newpage
 
-\clearpage
 \begin{figure}[ht!]
 	\centering
 	\includegraphics[width=\textwidth]{figures/for-loop-printf-rec_fib-example}
