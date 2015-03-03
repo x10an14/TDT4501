@@ -44,9 +44,9 @@ A special case of the simple nodes listed in this report is the
 $\lambda$-node as first input. The arity and order of the rest of the
 \textit{apply}-node's inputs must match the order and arity of the inputs for
 the $\lambda$-node linked directly or through a $\phi$-region. While a
-$\phi$-region or $\lambda$-node may each link to duplicate \textit{apply}-nodes
+$\phi$-region or $\lambda$-node may each link to several \textit{apply}-nodes
 representing the same function call, an \textit{apply}-node can (and must)
-always one $\phi$-region or $\lambda$-node.
+always have a link to one $\phi$-region or $\lambda$-node as its first input.
 
 The complex nodes of an RVSDG relevant for an inliner are as follows:
 
@@ -54,7 +54,7 @@ The complex nodes of an RVSDG relevant for an inliner are as follows:
 
 \item \textbf{$\gamma$-nodes: N-way statements}
 
-\textit{$\gamma$}-nodes represent conditional statements. Each $\gamma$-node has
+\textit{$\gamma$-nodes} represent conditional statements. Each $\gamma$-node has
 a predicate as input. All other edges passing into the $\gamma$-node are edges
 its subsection's subgraph(s) depend upon. All subsections must have the same
 order and arity of inputs and outputs, even if the subgraph in each case does
@@ -95,7 +95,7 @@ the the same semantics as the C/C++ pseudo code on the left.}
 
 \item \textbf{$\theta$-nodes: Tail-controlled loops}
 
-\textit{$\theta$}-nodes represent tail controlled loops. Like with the
+\textit{$\theta$-nodes} represent tail controlled loops. Like with the
 $\gamma$-node, its input is the predicate. All other edges are the dependencies
 needed by its subgraph(s) representing the statements in the body of the loop.
 
@@ -140,54 +140,78 @@ Figure~\ref{fig:rec_fib_phi}.}
 \end{figure}
 
 \clearpage
-\item \textbf{$\lambda$- and \textit{apply}-nodes: Functions}
+\item \textbf{$\lambda$-nodes: Functions}
 
-\textit{$\lambda$}-nodes represent functions, and these are paired with at least
-one \textit{apply}-node. Their \textit{apply}-nodes represent the call sites of
-the function. There is only one $\lambda$-node per function in the program the
-RVSDG represents. All \textit{apply}-nodes have an edge linking it to its
-corresponding $\lambda$-node.
+\textit{$\lambda$-nodes} represent functions, and these are paired with at least
+one \textit{apply}-node. There is only one $\lambda$-node per function in the
+program the RVSDG represents. As with the other complex nodes, the order and
+arity of inputs needed for the subgraph of the $\lambda$-node need to match the
+order and arity of the inputs and edges in its corresponding
+\textit{apply}-nodes. However, there are never any RVSDG nodes connected to the
+inputs of a $\lambda$-node. They serve rather as placeholders, telling the
+\textit{apply}-nodes the arity and order of the inputs of the $\lambda$-node
+linked to each \textit{apply}-node.
 
-As with the other complex nodes, the order and arity of inputs needed for the
-subgraph of the $\lambda$-node need to match the order and arity of the inputs
-and edges in its corresponding \textit{apply}-nodes.
+As previously mentioned, \textit{apply}-nodes represent the call sites of the
+function represented by the $\lambda$-node. All \textit{apply}-nodes have an
+edge linking it to its corresponding $\lambda$-node as its first input. Hence,
+the only dependence edges going \textit{from} a $\lambda$-node are the edges
+linking it to its \textit{apply}-nodes.
 
-The \textit{apply}-nodes however, have an extra first input, the edge linking
-the corresponding $\lambda$-node to the \textit{apply}-node. Except for when the
-$\lambda$-node is in a $\phi$-region, there are no edges into a $\lambda$-node,
-only into \textit{apply}-nodes. Conversely, the only edges going out of
-$\lambda$-nodes when it's outside of a $\phi$-region, are the edges which each
-link to an \textit{apply}-node representing a call sites for the function.
+However, if the $\lambda$-node represents a recursive function, it will reside
+inside of a $\phi$-region. It's still linked with all \textit{apply}-nodes
+representing calls to the function, but instead of being directly linked, like
+$\lambda$-nodes representing non-recursive functions, the \textit{apply}-nodes
+are linked to an output of the $\phi$-region corresponding to the correct
+$\lambda$-node contained in the $\phi$-region. Figure~\ref{fig:rec_fib_phi}
+illustrates how a recursive $\lambda$-node is contained by a $\phi$-region in a
+RVSDG.
 
 \item \textbf{$\phi$-regions: Recursive environments}
 
-\textit{$\phi$}-regions represent parts of the program's semantics where
-functions behave recursively. They behave recursively either by calling
-themselves (regular recursion), or two or more calling each other and making a
-recursive tree or containing at least one cycle (mutually recursive).
+\textit{$\phi$-regions} contain $\lambda$-nodes representing recursive
+functions. $\phi$-regions, like $\lambda$-nodes, have no inputs for themselves.
+They may have inputs representing dependencies of their internal RVSDG
+subgraphs. The functions represented by $\lambda$-nodes contained in a
+$\phi$-node behave recursively either through calling themselves, or two or more
+calling each other (mutually recursive).
 
-To uphold the DAG properties of an RVSDG, the RVSDGs containing a $\phi$-region
-solve this by encasing the recursive/mutually recursive function(s), in a
-$\phi$-region. A $\phi$-region has, like the $\lambda$-nodes, no inputs, but an
-output for each function contained within.
+Internally,
+and externally, they have two sets of ``outputs''. The external ones can be
+considered ``actual'' outputs, enable links to any external \textit{apply}-nodes
+representing calls to $\lambda$-nodes residing inside of the $\phi$-region. The
+internal ``outputs'' are used to link the internal \textit{apply}-nodes, which
+give the $\lambda$-nodes contained by the $\phi$-region their recursive
+behaviour without breaking the DAG properties of the RVSDG.
 
-The recursion's implicit cycle is solved by having the link going from
-$\lambda$-nodes to  \textit{apply}-nodes go from the top of the $\phi$-region
-and down to each apply node contained in the subgraph within. The order and
-arity of the ``outputs'' going out from the top inside of the $\phi$-region and
-to each \textit{apply}-node, has to match the order and arity of the outputs for
-each function on the ``bottom'' and outside of the $\phi$-region.
-
+Hence, the $\lambda$-nodes inside of a $\phi$-region are not directly linked to
+any \textit{apply}-nodes, like $\lambda$-nodes representing non-recursive
+functions. Instead, the link used by non-recursive $\lambda$-nodes goes to the
+$\phi$-region itself, enabling the aforementioned linking between a
+$\phi$-region and internal/external \textit{apply}-nodes.
 Figure~\ref{fig:rec_fib_phi} illustrates how a $\phi$-node containing the
-representation of a recursive fibonacci function would look like in an RVSDG.
+representation of a recursive fibonacci function would look like in an RVSDG,
+and Figure~\ref{fig:for_loop_rec_fib_print_ex} illustrates how
+\textit{apply}-nodes can be linked with a $\phi$-region.
 
 \end{itemize}
 
-\todo[inline]{Fix Figure~\ref{fig:rec_fib_phi}...}
+\begin{lstlisting}[label={lst:rec_fib_phi}, style=customcpp,
+caption={C/C++ code corresponding to the RVSDG subgraph in
+Figure~\ref{fig:for_loop_rec_fib_print_ex}, which represents a simple recursive
+fibonacci function.}]
+int recursive_fibonacci(int n){
+	if (n == 1 || n == 0){
+		return n;
+	}
+	return recursive_fibonacci(n-1) + recursive_fibonacci(n-2);
+}
+\end{lstlisting}
+\vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.75\textwidth]{figures/recursive_fibonacci}
+	\includegraphics[width=\textwidth]{figures/recursive_fibonacci}
 	\caption{A $\phi$-node containing a $\lambda$-node representing a recursive
 version of a function producing the $n$ first numbers in the Fibonacci series.}
 	\label{fig:rec_fib_phi}
