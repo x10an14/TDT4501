@@ -109,13 +109,20 @@ combined subgraph is to represent a for-loop.
 
 See Figure~\ref{fig:for_loop_rec_fib_print_ex} for an example of a $\theta$-node
 with corresponding C/C++ code in Listing~\ref{lst:for_loop_rec_fib_print_ex}.
-The stippled directed edges in Figure~\ref{fig:for_loob_rec_fib_print_ex} denote
+The stippled directed edges in Figure~\ref{fig:for_loop_rec_fib_print_ex} denote
 state dependencies between nodes.
 
 \begin{lstlisting}[label={lst:for_loop_rec_fib_print_ex}, style=customcpp,
 caption={C/C++ code corresponding to the RVSDG subgraph in
 Figure~\ref{fig:for_loop_rec_fib_print_ex}.}]
-for(int i = 0; i < 7; ++i){
+int recursive_fibonacci(int n){
+	if (n == 1 || n == 0){
+		return n;
+	}
+	return recursive_fibonacci(n-1) + recursive_fibonacci(n-2);
+}
+
+for(int i = 0; i < 7; i++){
 	std::cout << "Fib #" << i << ": " << recursive_fibonacci(i) << std::endl;
 }
 \end{lstlisting}
