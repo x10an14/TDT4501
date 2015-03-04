@@ -3,32 +3,57 @@
 \clearpage
 \section{Inlining Heuristics using an RVSDG}
 
+\todo[inline]{\textbf{\textit{Scheme section}}}
+
 The project described in this report implements the heuristic(s) deciding which
-functions to inline, in the Jive compiler using an RVSDG IR.
+functions to inline, in the Jive compiler using an RVSDG IR. This section
+discusses first the utilization of the Heuristics used, then continues with how
+their implementation in this project.
 
 \subsection{Application of the Heuristics}
 
 The heuristics used in the project described by this report can be divided into
-to main subcategories: the heuristics of which \textit{apply}-nodes to look at
-first, and the heuristics of whether or not to inline a single
-\textit{apply}-node.
+to main subcategories: the heuristics used to decide the order of which
+\textit{apply}-nodes to look at first, and the heuristics used to decide whether
+or not to inline a single \textit{apply}-node.
 
 When traversing the RVSDG representing the program being compiled, the order of
 which \textit{apply}-nodes we find first makes no difference to the approach
-used in this project. However, the ordering used to sort the \textit{found}
-\textit{apply}-nodes makes a difference, due to this order deciding which
-\textit{apply}-node might be inlined first.
+used in this project. However, the ordering used to sort the
+\textit{apply}-nodes \textit{found} makes a difference, due to the ordering
+deciding which \textit{apply}-node might be inlined first.
 
-The heuristic used to order the \textit{apply}-node in this project uses the
-relative position of each \textit{apply}-node. The further away from the
-root-node which represents the final operation of the program, the higher the
-value representing this relative position.
+The
+heuristic used
+to order the \textit{apply}-node
+in this project uses the relative
+position of each \textit{apply}-node.
+The further away from the root-node (which
+represents the final operation of the program),
+the higher the value representing this relative position.
 
 \todo[inline]{Draw figure showing why this makes a difference.}
 
+Figure~\ref{X} illustrates why the order of functions inlined make a difference.
+Had we not traversed the RVSDG collecting all the \applyNode s before inlining
+them, the the impact of the inlining order would not be as simple to measure.
+
+\todo{What else can I say about this?}Using this approach, we can test the
+consequences of different heuristical orderings of \applyNode s in the RVSDG
+worked on by the compiler.
+
 \subsection{Implementation of the Heuristics}
 
+The codebase of the project this report describes, is implemented in C/C++. As
+such, \textit{Standard Template Library} (STL) additions such as vectors,
+templates, and containers, in addition to the \textit{Object Oriented} (OO)
+features in C++, are used in the implementation of the inliner.
+
 \subsubsection{Traversing the graph for \textit{apply}-nodes}
+
+First, we traverse the graph given as a parameter to the function we have
+analogous to \lstinline[style=customcpp]!main()!, namely
+\lstinline[style=customcpp]!apply_inliner_heuristic()!.
 
 \subsubsection{Ordering the \textit{apply}-nodes of the graph}
 

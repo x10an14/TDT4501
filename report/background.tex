@@ -133,8 +133,8 @@ for(int i = 0; i < 7; i++){
 	\centering
 	\includegraphics[width=\textwidth]{figures/for-loop-printf-rec_fib-example}
 	\caption{A program consisting of a $\theta$-node looping 7 iterations,
-calculating and printing the 7 first Fibonacci numbers. The $\theta$-node's
-apply-node uses the same recursive Fibonacci function as in
+calculating and printing the 7 first Fibonacci numbers. The \applyNode ~contained
+in the $\theta$-node links to the same recursive Fibonacci function as in
 Figure~\ref{fig:rec_fib_phi}.}
 	\label{fig:for_loop_rec_fib_print_ex}
 \end{figure}
@@ -176,13 +176,13 @@ subgraphs. The functions represented by $\lambda$-nodes contained in a
 $\phi$-node behave recursively either through calling themselves, or two or more
 calling each other (mutually recursive).
 
-Internally,
-and externally, they have two sets of ``outputs''. The external ones can be
-considered ``actual'' outputs, enable links to any external \textit{apply}-nodes
-representing calls to $\lambda$-nodes residing inside of the $\phi$-region. The
-internal ``outputs'' are used to link the internal \textit{apply}-nodes, which
-give the $\lambda$-nodes contained by the $\phi$-region their recursive
-behaviour without breaking the DAG properties of the RVSDG.
+Internally, and externally, they have two sets of ``outputs''. The external ones
+can be considered ``actual'' outputs, enable links to any external
+\textit{apply}-nodes representing calls to $\lambda$-nodes residing inside of
+the $\phi$-region. The internal ``outputs'' are used to link the internal
+\textit{apply}-nodes, which give the $\lambda$-nodes contained by the
+$\phi$-region their recursive behaviour without breaking the DAG properties of
+the RVSDG.
 
 Hence, the $\lambda$-nodes inside of a $\phi$-region are not directly linked to
 any \textit{apply}-nodes, like $\lambda$-nodes representing non-recursive
