@@ -1,4 +1,35 @@
 % !TEX root = ./report.tex
 
 \clearpage
-\section{Scheme}
+\section{Inlining Heuristics using an RVSDG}
+
+The project described in this report implements the heuristic(s) deciding which
+functions to inline, in the Jive compiler using an RVSDG IR.
+
+\subsection{Application of the Heuristics}
+
+The heuristics used in the project described by this report can be divided into
+to main subcategories: the heuristics of which \textit{apply}-nodes to look at
+first, and the heuristics of whether or not to inline a single
+\textit{apply}-node.
+
+When traversing the RVSDG representing the program being compiled, the order of
+which \textit{apply}-nodes we find first makes no difference to the approach
+used in this project. However, the ordering used to sort the \textit{found}
+\textit{apply}-nodes makes a difference, due to this order deciding which
+\textit{apply}-node might be inlined first.
+
+The heuristic used to order the \textit{apply}-node in this project uses the
+relative position of each \textit{apply}-node. The further away from the
+root-node which represents the final operation of the program, the higher the
+value representing this relative position.
+
+\todo[inline]{Draw figure showing why this makes a difference.}
+
+\subsection{Implementation of the Heuristics}
+
+\subsubsection{Traversing the graph for \textit{apply}-nodes}
+
+\subsubsection{Ordering the \textit{apply}-nodes of the graph}
+
+\subsubsection{Whether to inline each \textit{apply}-nodes}
