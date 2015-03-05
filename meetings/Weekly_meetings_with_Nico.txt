@@ -2,6 +2,43 @@ Weekly meetings with Nico:
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+5th Mar, 2015:
+	To test my code:
+		look in tests/types/function.c
+			"test_build_lambda()":133
+			"test_simple_lambda"
+		look in tests/vsdg/test-phi.c
+			tests/vsdg/phi-extension.c
+
+	How can I check constant parameters?
+		Each node has a reference to root_region
+		Check operators/nullary.h, unary.h, and binary.h
+
+	How can I find root_region() without passing it through as a parameter?
+
+	New pull on master branch!
+		Go to other computers:
+			git checkout master && git branch -D inliner && git branch inliner \
+				&& git pull inliner
+
+	report:
+		In general:
+			remove "procedure" in the whole report.
+
+		Introduction:
+			"purpose of compilers are twofold:" vs "In broad terms"
+			Add a paragraph for recursive functions. Read section 4.4 of the GHC
+			paper for recursion unrolling! (See notes from Nico on Report)
+
+		Background:
+			Do not mention other nodes when discussing the apply node. Say things like "the same arity and order of inputs as the function the apply node represents" and "the first input of the apply node is a link to the funciton the apply node represents a call to".
+			Theta-node:
+				Semantics of the theta node (remember to tell about the loop variant-variables!!!).
+				Replace example with a factorial example.
+				Kick out state edges for now.
+			Introduce internal/external inputs and outputs earlier in the background section than @ phi-nodes.
+
+
 12th Feb, 2015:
 	Inliner abstract class
 		With conditional classes inheriting from this class.
