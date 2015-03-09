@@ -13,10 +13,10 @@ Listing~\ref{lst:inlining}, where another optimization technique: constant
 folding, is shown to be unveiled by inlining.
 
 \begin{lstlisting}[label={lst:inlining}, style=customcpp,
-caption={Function \textit{foo()} inlined into function \textit{bar()} would
-result in the body of \textit{bar()} being \textit{return x + 3 + 2}, in which
-case constant folding can be used, replacing the \textit{return} expression of
-\textit{bar()} with : \textit{x + 5}.}]
+caption={Function \lstinline!foo()! inlined into function \lstinline!bar()!
+would result in the body of \lstinline!bar()! being \lstinline!return x + 3 +
+2!, in which case constant folding can be used, replacing the \textit{return}
+expression of \lstinline!bar()! with: \lstinline!x + 5!.}]
 int foo(int x){
 	return x + 3;
 }
@@ -36,12 +36,12 @@ be the case for the \textit{Glasgow Haskell Compiler}.}. Another potential
 drawback is increase of compile time, and an increased program executable size.
 
 \begin{lstlisting}[label={lst:code-dup}, style=customcpp,
-caption={Code duplication in \textit{bar()}, when inlining \textit{foo()} into
-\textit{bar()}. The big expression \textit{e} in \textit{foo()}, would be
-duplicated when inlined into \textit{bar()}. The cost of function call overhead
-would be replaced with an increased size of the final program. However, in this
-example, the potential for \textit{Common Subexpression Elimination} (CSE) is
-likely able to negate some of the program size increase.}]
+caption={Code duplication in \lstinline!bar()!, when inlining \lstinline!foo()!
+into \lstinline!bar()!. The big expression \lstinline!e! in \lstinline!foo()!,
+would be duplicated when inlined into \lstinline!bar()!. The cost of function
+call overhead would be replaced with an increased size of the final program.
+However, in this example, the potential for \textit{Common Subexpression
+Elimination} (CSE) is likely able to negate some of the program size increase.}]
 int foo(int a){
 	return e; //Big expression, output of which depends on a's value
 }
