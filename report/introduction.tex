@@ -3,19 +3,19 @@
 \section{Introduction}
 \label{introduction}
 
-Since the 1950s, compilers have played an important role in the way higher-level
-programming languages are translated into machine languages. In broad terms,
-compilers perform two actions: the translation of human-readable code into
-machine language, and optimizing the translated programs. There exist many
-optimization techniques compilers use, one being inlining, which replaces the
-call site of a function/procedure with its body. This is shown in
-Listing~\ref{lst:inlining}, where another optimization technique: constant
-folding, is shown to be unveiled by inlining.
+Since the 1950s, compilers played an important role in the way higher-level
+programming languages are translated into machine languages. The purpose of
+compilers is two-fold: the translation of human-readable code into machine
+language, and optimizing the translated code. There exist many optimization
+techniques compilers use, such as \textit{Common Subexpression Elimination}
+(CSE) and \textit{Dead Code Elimination} (DCE). Another one is inlining, which
+replaces the call site of a function with its body, shown in
+Listing~\ref{lst:inlining}.
 
 \begin{lstlisting}[label={lst:inlining}, style=customcpp,
 caption={Function \lstinline!foo()! inlined into function \lstinline!bar()!
-would result in the body of \lstinline!bar()! being \lstinline!return x + 3 +
-2!, in which case constant folding can be used, replacing the \textit{return}
+results in the body of \lstinline!bar()! being \lstinline!return x + 3 + 2!, in
+which case constant folding can be applied, replacing the \textit{return}
 expression of \lstinline!bar()! with: \lstinline!x + 5!.}]
 int foo(int x){
 	return x + 3;
@@ -27,23 +27,21 @@ int bar(int y){
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
-The benefits of inlining are manifold. One is the removal of function call
-overhead, and the potential for unveiling the application of additional
-optimizations being another. The drawbacks are potential code-duplication,
-exemplified in Listing~\ref{lst:code-dup}, and in specific situations
-work-duplication\footnote{As detailed by P. Jones and Marlow~\cite{GHCPaper} to
-be the case for the \textit{Glasgow Haskell Compiler}.}. Another potential
-drawback is increase of compile time, and an increased program executable size.
+The benefit of inlining are mainly twofold: The first one is the removal of
+function call overhead. The second is the potential for unveiling the
+application of additional optimizations as shown in Listing~\ref{list:inlining}.
+The drawbacks of inlining are potential code-duplication as exemplified in
+Listing~\ref{lst:code-dup}, and in specific situations
+work-duplication\footnote{As detailed by P. Jones and Marlow~\cite{GHCPaper}.},
+increase of compile time.
 
 \begin{lstlisting}[label={lst:code-dup}, style=customcpp,
 caption={Code duplication in \lstinline!bar()!, when inlining \lstinline!foo()!
 into \lstinline!bar()!. The big expression \lstinline!e! in \lstinline!foo()!,
-would be duplicated when inlined into \lstinline!bar()!. The cost of function
-call overhead would be replaced with an increased size of the final program.
-However, in this example, the potential for \textit{Common Subexpression
-Elimination} (CSE) is likely able to negate some of the program size increase.}]
+would be duplicated when inlined into \lstinline!bar()!, potentially leading to
+code-duplication. However, CSE might be able to mitigate code-duplication.}]
 int foo(int a){
-	return e; //Big expression, output of which depends on a's value
+	return e; //Big expression, depending on a
 }
 
 int bar(int x, int y){
@@ -52,6 +50,11 @@ int bar(int x, int y){
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
+Another factor to consider are recursive functions. Inlining recursive functions
+uncontrolled leads to non-termination of the compilation. This report will
+discuss the following techniques used to avoid this in the project:
+\todo[inline]{Finish this paragraph about recursive functions.}
+
 Not all functions are straight-forward to inline, such as recursive functions.
 At compile time, the needed depth of recursion might be unknown, leading to
 non-termination of the compiler as it tries to inline the recursive function
@@ -59,17 +62,18 @@ until the necessary depth. Hence, extra care needs to be taken when trying to
 inline recursive functions.
 
 This report describes the construction of an inliner for the Jive compiler
-backend. It details the decisions made for the inliner's architecture. Jive
+backend. It details the decisions made for the architecture of the inliner. Jive
 works on an \textit{intermediate representation} (IR) called
 \textit{Regionalized Value-State Dependence Graph}\footnote{Detailed in Section
 \ref{background:RVSDG}.} (RVSDG). The RVSDG is a \textit{directed acyclic graph}
-(DAG) and a \textit{demand-based dependence graph} (DDG), making it an IR well
-suited for effectively enabling worthwhile compiler optimizations.
+(DAG) representing the operations performed by any specific program through
+nodes, and any dependences between the nodes with edges.\todo{Add HiPEAC paper
+reference to this sentence/end of paragraph.}
 
-\todo[inline]{Todo: In the below text (write it into the text) describe
-layout/outline of paper. What does each section in turn discuss?}
+\todo[inline]{In the below paragraph; describe layout/outline of paper. What
+does each section in turn discuss?}
 
-The report details how the inliner is able to handle recursive functions, and
+This report details how the inliner is able to handle recursive functions, and
 how the inliner permits the configuration of different heuristics to allow rapid
 exploration of the parameter space. How the RVSDG affects the design of an
 inliner, and the algorithms used by the heuristics deciding what to inline, are
@@ -78,8 +82,6 @@ complicates the implementation of the inliner, as well as the impact of the
 RVSDG on an inliner, and the process of inlining, compared to commonly used IRs.
 
 Finally, the implemented inliner is evaluated before we conclude. In the
-evaluation, focus will be put on how different heuristics have different
-consequences, in terms of code-duplication.
-
-A detailed description of the project assignment can be found in
-Appendix~\ref{app:projdesc}.
+evaluation, focus is put on how different heuristics have different
+consequences, in terms of code-duplication. A detailed description of the
+project assignment can be found in Appendix~\ref{app:projdesc}.
