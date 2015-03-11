@@ -53,7 +53,7 @@ int bar(int x, int y){
 Another factor to consider are recursive functions. Inlining recursive functions
 uncontrolled leads to non-termination of the compilation. This report will
 discuss the following techniques used to avoid this in the project:
-\change[inline]{Finish this paragraph about recursive functions.}
+\todo[inline]{Finish this paragraph about recursive functions.}
 
 Not all functions are straight-forward to inline, such as recursive functions.
 At compile time, the needed depth of recursion might be unknown, leading to
@@ -67,11 +67,11 @@ works on an \textit{intermediate representation} (IR) called
 \textit{Regionalized Value-State Dependence Graph}\footnote{Detailed in Section
 \ref{background:RVSDG}.} (RVSDG). The RVSDG is a \textit{directed acyclic graph}
 (DAG) representing the operations performed by any specific program through
-nodes, and any dependences between the nodes with edges.\change{Add HiPEAC paper
+nodes, and any dependences between the nodes with edges.\todo{Add HiPEAC paper
 reference to this sentence/end of paragraph.}
 
-\change[inline]{Todo: In the below text (write it into the text) describe
-layout/outline of paper. What does each section in turn discuss?}
+\todo[inline]{In the below paragraph; describe layout/outline of paper. What
+does each section in turn discuss?}
 
 This report details how the inliner is able to handle recursive functions, and
 how the inliner permits the configuration of different heuristics to allow rapid
