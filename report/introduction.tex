@@ -29,11 +29,10 @@ int bar(int y){
 
 The benefit of inlining are mainly twofold: The first one is the removal of
 function call overhead. The second is the potential for unveiling the
-application of additional optimizations as shown in Listing~\ref{list:inlining}.
+application of additional optimizations as shown in Listing~\ref{lst:inlining}.
 The drawbacks of inlining are potential code-duplication as exemplified in
-Listing~\ref{lst:code-dup}, and in specific situations
-work-duplication\footnote{As detailed by P. Jones and Marlow~\cite{GHCPaper}.},
-increase of compile time.
+Listing~\ref{lst:code-dup}, in specific situations work-duplication\footnote{As
+detailed by P. Jones and Marlow~\cite{GHCPaper}.}, and increase of compile time.
 
 \begin{lstlisting}[label={lst:code-dup}, style=customcpp,
 caption={Code duplication in \lstinline!bar()!, when inlining \lstinline!foo()!
@@ -53,22 +52,27 @@ int bar(int x, int y){
 Another factor to consider are recursive functions. Inlining recursive functions
 uncontrolled leads to non-termination of the compilation. This report will
 discuss the following techniques used to avoid this in the project:
-\todo[inline]{Finish this paragraph about recursive functions.}
 
-Not all functions are straight-forward to inline, such as recursive functions.
-At compile time, the needed depth of recursion might be unknown, leading to
-non-termination of the compiler as it tries to inline the recursive function
-until the necessary depth. Hence, extra care needs to be taken when trying to
-inline recursive functions.
+(1) Only inline the function \lstinline!X! times, where \lstinline!X! is a
+maximum recursion depth\cite{GHCPaper}\cite{InlineWhenHowSerrano}. (2) If there
+are recursive bindings, make a dependency graph of the recursive calls, and scan
+the graph for \textit {strongly-connected components} which can then be broken.
+The key insight being that \textit{the inliner cannot loop if every cycle in the
+recursive dependency call graph is broken by a call that is never
+inlined}\cite{BasMscThesis}\cite{GHCPaper}.
 
 This report describes the construction of an inliner for the Jive compiler
 backend. It details the decisions made for the architecture of the inliner. Jive
 works on an \textit{intermediate representation} (IR) called
 \textit{Regionalized Value-State Dependence Graph}\footnote{Detailed in Section
-\ref{background:RVSDG}.} (RVSDG). The RVSDG is a \textit{directed acyclic graph}
-(DAG) representing the operations performed by any specific program through
-nodes, and any dependences between the nodes with edges.\todo{Add HiPEAC paper
-reference to this sentence/end of paragraph.}
+\ref{background:RVSDG}.} (RVSDG). The RVSDG is a \textit{demand based} DAG
+(\textit{directed acyclic graph}) representing the operations performed by any
+program through nodes, and any dependences between the nodes with
+edges. Bahmann et. al~\cite{RVSDG:HiPEACpaper} show how there is no intrinsic
+structural limitation in the control flow directly extractable from RVSDGs. They
+also prove in their report termination and correctnes of programs converted from
+a CFG (\textit{Control Flow Graph}) IR into an RVSDG and back again, without
+imposing additional overhead on the control flow of the produced object code.
 
 \todo[inline]{In the below paragraph; describe layout/outline of paper. What
 does each section in turn discuss?}
