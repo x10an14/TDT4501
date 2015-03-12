@@ -2,16 +2,38 @@
 
 \clearpage
 \section{Methodology}
+\label{sec:methodology}
 
 \todo[inline]{Need an introduction here, no?}
 
-\subsection{Heuristics}
 
-The heuristics used in the project described by this report can be divided into
-to main subcategories: the heuristics of which \textit{apply}-nodes to look at
-first, and the heuristics of whether or not to inline a single
-\textit{apply}-node.
+\subsection{Ordering of the call sites heuristic}
+\label{sub:method:apply_node_ordering_heur}
 
-\subsubsection{Ordering of the \textit{apply}-node}
+\subsection{Inlining conditions used to decide whether or not to inline}
 
-\subsubsection{The decision of inlining each \textit{apply}-node}
+Inliner conditions:
+
+\begin{itemize}
+
+	\item Statement Count
+
+	\item Loop nesting depth
+
+	\item Static call count
+
+	\item Parameter count
+
+	\item Constant parameter count
+
+	\item Calls in procedure
+
+	\item \unsure{Do we keep this one? How can we even get this one? Waterman used profiling of the program to get this...} Dynamic call count
+
+\end{itemize}
+
+\subsection{Heuristic inlining call sites representing recursive functions}
+\label{sub:method:recur_apply_node_inlining_heur}
+
+\subsection{Heuristic inlining call sites representing non-recursive functions}
+\label{sub:method:apply_node_inlining_heur}
