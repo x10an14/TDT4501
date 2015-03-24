@@ -6,34 +6,42 @@
 
 \todo[inline]{Need an introduction here, no?}
 
-
-\subsection{Ordering of the call sites heuristic}
-\label{sub:method:apply_node_ordering_heur}
-
-\subsection{Inlining conditions used to decide whether or not to inline}
+\subsection{Inlining conditions used when inlining}
 
 Inliner conditions:
 
 \begin{itemize}
 
-	\item Statement Count
+	\item Statement count: This function property is the number of C/C++
+statements contained within a function.A function's statement count is an
+inliner condition we want to utilize because it is gives us an idea of the size
+of the code- duplication if we inline the function.
 
-	\item Loop nesting depth
+	\item Loop nesting depth: This property tells us how potentially useful it
+is to inline this specific call site. The assumption is that most of a program's
+execution time is spent within loops, so there is potentially more to gain if
+optimizations are unveiled by inlining call sites inside nested loops.
 
-	\item Static call count
+	\item Static call count: This property tells us how many call sites there
+are for this function in the program. If this count is low, it may be worth
+inlining all the call sites and eliminating the original function.
 
-	\item Parameter count
+	\item Parameter count: The greater the amount of parameters a function has,
+the greater the invocation cost of said function. This is especially true when
+type conversion is required. In some cases, the computational cost of an inlined
+with low statement count may be smaller than the cost of invoking it if it has
+many parameters\cite{AdaptvCompilAndInlingWaterman}.
 
-	\item Constant parameter count
+	\item Constant parameter count: This property tells us how many of the call
+site's parameters are constant at the call site. Function invocations with
+constant parameters can often benefit more from unveiled optimizations after
+inlining.
 
-	\item Calls in procedure
-
-	\item \unsure{Do we keep this one? How can we even get this one? Waterman used profiling of the program to get this...} Dynamic call count
+	\item Calls in procedure: This function property tells us how many call
+sites are located inside the function the call site invocates. Hence, it enables
+finding leaf functions. Waterman~\cite{AdaptvCompilAndInlingWaterman} introduced
+this parameter for two distinct reasons: leaf functions are often small and
+easily inlined, and a high percentage of total execution time is spent in leaf
+functions.
 
 \end{itemize}
-
-\subsection{Heuristic inlining call sites representing recursive functions}
-\label{sub:method:recur_apply_node_inlining_heur}
-
-\subsection{Heuristic inlining call sites representing non-recursive functions}
-\label{sub:method:apply_node_inlining_heur}

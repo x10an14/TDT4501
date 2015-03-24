@@ -5,22 +5,31 @@
 
 \unsure[inline]{A graphical flow chart of the architecture?}
 
-In broad strokes, the inliner does two things. It traverses the RVSDG,
-collecting all the \applyNode s (1), before it attempts to inline each one in a
-certain order (2). This Section will describe how these two actions are
-performed when working with the RVSDG IR, while the actual heuristics are
-detailed in Section~\ref{sub:method:apply_node_ordering_heur} and Section
-\ref{sub:method:apply_node_inlining_heur}.
+The inliner this report describes performs the following when given an RVSDG as
+input:
 
-\subsection{Collecting all function call sites}
-\label{sub:scheme:collecting_apply_nodes}
+\begin{enumerate}
 
-The traversal of the RVSDG to collect all the apply nodes is simple. The inliner
-receives the RVSDG graph, iterates through every node of the RVSDG, and makes
-reference copies of each \applyNode . Seeing as the RVSDG is a DAG, no care
-needs to be taken when it comes to recursive functions in the inital collection,
-as nodes representing recursive environments do not have duplicate \applyNode
-present in the graph\footnote{As described in Section~\ref{background:RVSDG}.}.
+	\item Scan through the RVSDG, finding all the \applyNode s.
+
+	\item Order the \applyNode s according to the algorithm described in Section
+\ref{sub:scheme:ordering_apply_nodes}.
+
+	\item Use the ordering to evaluate each \applyNode~in turn and decide
+whether or not to inline all the non-recursive \applyNode s according to the
+algorithm described in Section \ref{sub:scheme:inlining_apply_nodes}*.
+
+	\item When all non-recursive \applyNode s have been evaluated, evaluate at
+the recursive ones according to the same ordering as the non-recursive ones.
+Then decide whether or not to inline each when evaluating them according to the
+algorithm described in Section \ref{sub:scheme:inlining_recur_apply_nodes}*.
+
+\end{enumerate}
+
+*Whenever an \applyNode~has been inlined, the RVSDG is ``pruned'' by Jive's
+optimizer. Hence, care needs to be taken to ensure that a previously collected
+\applyNode~still is present when we evaluate it. Previously inlined \applyNode s
+may have caused Jive's pruning to remove this \applyNode .
 
 \subsection{The order of inlining call sites}
 \label{sub:scheme:ordering_apply_nodes}
@@ -28,31 +37,45 @@ present in the graph\footnote{As described in Section~\ref{background:RVSDG}.}.
 \todo[inline]{Need a figure showing why the order of inlining matters. \\ +
 reference to further ideas when that's done/started on.}
 
+The ordering of the \applyNode s we look at when deciding whether or not to
+inline them, matters because inlining opportunities might be missed with one
+ordering, and unveiled with another.
+
+Our inliner orders them according to a property each node has in Jive,
+\lstinline!distance_from_root!. This property gives us an indication of where in
+the \textit{call graph} the call site is located, allowing us to iterate through
+the call sites with \unsure{Ensure the correctness of this statement. Also, need
+to add a statement saying something about bottom up.}a \textit{Depth First
+Search} (DFS) top-down through the call graph.
+
 \subsection{Inlining a call site}
 \label{sub:scheme:inlining_apply_nodes}
 
-When the collected \applyNode s from
-Section~\ref{sub:scheme:collecting_apply_nodes} are ordered in the order we want
-to visit them in, we run the heuristic described in
-Section~\ref{sub:method:apply_node_inlining_heur}, or the heuristic described in
-Section~\ref{sub:method:recur_apply_node_inlining_heur} dependent upon whether
-the function the \applyNode represents is recursive or not.
+\todo[inline]{Describe the algorithm and inliner conditions we land on after testing.}
 
-If the \applyNode passes the check, the inlining is performed by making a copy
-of the subgraph contained in the $\lambda$-node the \applyNode is linked to. The
-copied subgraph is then put in the RVSDG where the \applyNode was before, with
-all edges previously connected to the \applyNode now connected to the copied
-subgraph instead.
+When a call site is inlined, the inliner scans through the inlined RVSDG
+subgraph copied from the function. Then it evaluates all \applyNode s found in
+the subgraph according to the same ordering as used on the one inlined. Finally,
+it returns to the next one in the ordered list of \applyNode s from which it got
+the original one which was inlined.
 
-However, before moving onto the next \applyNode in the list of previously
-collected \applyNode s, the inliner goes through the copied subgraph and
-attempts to inline all \applyNode s contained within first. Hence, the ordering
-described in Section~\ref{sub:scheme:ordering_apply_nodes} is not \todo{find a
-good word for this, want to say broken.}X.
+The ordering is ensured not to be broken if the original ordering is a top-down
+or bottom-up DFS of the RVSDG's call graph.
 
-After the copied subgraph's potential \applyNode s are dealt with, the inliner
-moves on to the next one in the list collected in
-Section~\ref{sub:scheme:collecting_apply_nodes}. When all \applyNode s in this
-list have passed through the heuristic, and at least one \applyNode has been
-inlined, the RVSDG representing the program is optimized (pruned), and the
-inliner jumps back to the traversal and starts anew.
+\subsection{Inlining a call site for a recursive function}
+\label{sub:scheme:inlining_recur_apply_nodes}
+
+\todo[inline]{Describe GHC paper's way to inline.}
+
+After all non-recursive \applyNode s are inlined, the inliner has a list of all
+the recursive ones sorted in the same order as the non-recursive ones were
+evaluated.
+
+The inliner then looks at each recursive \applyNode , and scans the recursive
+binding group for \textit{Strongly Connected Components} (SCCs). If an SCC is
+found, one \todo{Write how when implemented.}\applyNode~is chosen as breakpoint,
+and all the rest of the recursive bindings in the SCC are inlined instead.
+
+If no SCC is found, the recursive \applyNode is
+\todo[inline]{Decide on this. Is it unrolled? Or ignored? If unrolled, how many
+times?}

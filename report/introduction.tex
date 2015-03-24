@@ -38,8 +38,8 @@ optimizations as shown in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code-duplication, and an increased compile time.
 In specific situations, work-duplication can also occur\footnote{As detailed by
-P. Jones and Marlow in Section 2.2.2~\cite{GHCPaper}.}. Listing~\ref{lst:code-
-dup} exemplifies how inlining can lead to code-duplication, when
+P. Jones and Marlow in Section 2.2.2~\cite{GHCPaper}.}. Listing~\ref{lst:code-dup}
+exemplifies how inlining can lead to code-duplication, when
 \lstinline!foo()! is inlined into \lstinline!bar()!. This happens because the
 big expression \lstinline!e! in \lstinline!foo()! is twice copied into
 \lstinline!bar()!.
@@ -88,7 +88,7 @@ This report describes the construction of an inliner for the Jive compiler
 backend, detailing its design and. Jive uses an \textit{intermediate
 representation} (IR) called \textit{Regionalized Value-State Dependence
 Graph}\footnote{Detailed in Section \ref{background:RVSDG}.} (RVSDG). The
-RVSDG~\cite{RVSDG:HiPEACpaper} is a \textit{demand based-} and a \textit{Directed
+RVSDG~\cite{RVSDG:HiPEACpaper} is a \textit{demand-based-} and a \textit{Directed
 Acyclic \mbox{-Graph}} (DAG) representing the operations performed by any program
 through nodes, and any dependences between the operations through edges.
 
