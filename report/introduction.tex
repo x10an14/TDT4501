@@ -3,19 +3,19 @@
 \section{Introduction}
 \label{introduction}
 
-Since the 1950s, compilers have translated most, if not all, higher-level
-programming languages into machine languages. A compilers purpose is two-fold:
-translate human-readable code into machine language (1), and optimize the
-translated code (2). There exist many code optimization techniques, such as
+Since the 1950s, compilers have been translating most, if not all, higher-level
+programming languages into machine languages. The purpose of a compiler is
+two-fold: translate human-readable code into machine language (1), and optimize
+the translated code (2). There exist many code optimization techniques, such as
 \textit{Common Subexpression Elimination} (CSE) and \textit{Dead Code
 Elimination} (DCE).
 
-Another one is \textit{inlining}, which replaces the call site of a function
-with its body. Listing~\ref{lst:inlining} shows how when function
+Another code optimization is \textit{inlining}, which replaces the call site of
+a function with its body. Listing~\ref{lst:inlining} shows how when function
 \lstinline!foo()! is inlined into \lstinline!bar()!, the body of
 \lstinline!bar()! will become \lstinline!return y + 3 + 2;!. After the inlining
-is performed, the potential for optimization using \textit{Constant Folding}
-is unveiled, and can be applied to the body of \lstinline!bar()!.
+is performed, the potential for optimization using \textit{Constant Folding} is
+unveiled, and can be applied to the body of \lstinline!bar()!.
 
 \begin{lstlisting}[label={lst:inlining}, style=global_customcpp,
 caption={Function \lstinline!foo()! inlined into function \lstinline!bar()!.}]
@@ -27,9 +27,9 @@ int bar(int y){
 	return foo(y) + 2;
 }
 \end{lstlisting}
-\vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
+\vspace{-3\parskip} %http://tex.stackexchange.com/q/40863
 
-The benefits of inlining are mainly twofold: The first one is the removal of
+The benefits of inlining are mainly two-fold: The first one is the removal of
 function call overhead. Function call overhead is the overhead cost in memory
 space needed on the stack. Before CPU cache memory and registers became as
 spacious as they are now, this could be a very worthwhile optimization in
@@ -38,10 +38,11 @@ optimizations as shown in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code-duplication, and an increased compile time.
 In specific situations, work-duplication can also occur\footnote{As detailed by
-P. Jones and Marlow~\cite{GHCPaper}.}. Listing~\ref{lst:code-dup} exemplifies
-how inlining can lead to code-duplication, when \lstinline!foo()! is inlined
-into \lstinline!bar()!. This happens because the big expression \lstinline!e! in
-\lstinline!foo()! is twice copied into \lstinline!bar()!.
+P. Jones and Marlow in Section 2.2.2~\cite{GHCPaper}.}. Listing~\ref{lst:code-
+dup} exemplifies how inlining can lead to code-duplication, when
+\lstinline!foo()! is inlined into \lstinline!bar()!. This happens because the
+big expression \lstinline!e! in \lstinline!foo()! is twice copied into
+\lstinline!bar()!.
 
 However, code-duplication might be negatable if the potential optimization of
 CSE is unveiled.
@@ -57,42 +58,44 @@ int bar(int x, int y){
 	return f(x) + f(y);
 }
 \end{lstlisting}
-\vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
+\vspace{-3\parskip} %http://tex.stackexchange.com/q/40863
 
-If inlining is performed blindly, another drawback occurs if the compiler
-attempts to inline recursive functions. Doing so will lead to non-termination of
-the compiler, unless recursive functions are recognized and handled specially by
-the inliner of the compiler.
+If inlining is performed without caution, another drawback occurs when the
+compiler attempts to inline recursive functions. Unless recursive functions are
+handled specially, non-termination of the compilation will occur. The literature
+proposes two main approaches for handling recursive functions:
+
+\begin{enumerate}
+
+	\item Avoid non-termination of the compilation by only inlining recursive
+functions to a certain depth~\cite{GHCPaper}\cite{InlineWhenHowSerrano}.
+
+	\item If the recursive environment has more than one recursive
+binding\footnote{Recursive bindings defined as Section 3.2 of P. Jones and
+Marlow~\cite{GHCPaper} defines them.}, scan the \textit{dependency graph} of the
+recursive binding group for \textit{Strongly Connected Components} (SCCs). If an
+SCC is found, choose one of its recursive bindings which will not be inlined.
+The rest of the recursive bindings in the SCC can then safely be
+inlined~\cite{BasMscThesis}\cite{GHCPaper}.
+
+\end{enumerate}
 
 Another factor to consider are recursive functions. Inlining recursive functions
 uncontrolled leads to non-termination of the compilation. This report will
 discuss the following techniques used to avoid this in the project:
 
-(1) Only inline the function \lstinline!X! times, where \lstinline!X! is a
-maximum recursion depth\cite{GHCPaper}\cite{InlineWhenHowSerrano}. (2) If there
-are recursive bindings, make a dependency graph of the recursive calls, and scan
-the graph for \textit {strongly-connected components} which can then be broken.
-The key insight being that \textit{the inliner cannot loop if every cycle in the
-recursive dependency call graph is broken by a call that is never
-inlined}\cite{BasMscThesis}\cite{GHCPaper}.
-
 This report describes the construction of an inliner for the Jive compiler
-backend. It details the decisions made for the architecture of the inliner. Jive
-works on an \textit{intermediate representation} (IR) called
-\textit{Regionalized Value-State Dependence Graph}\footnote{Detailed in Section
-\ref{background:RVSDG}.} (RVSDG). The RVSDG is a \textit{demand based} DAG
-(\textit{directed acyclic graph}) representing the operations performed by any
-program through nodes, and any dependences between the nodes with
-edges. Bahmann et. al~\cite{RVSDG:HiPEACpaper} show how there is no intrinsic
-structural limitation in the control flow directly extractable from RVSDGs. They
-also prove in their report termination and correctnes of programs converted from
-a CFG (\textit{Control Flow Graph}) IR into an RVSDG and back again, without
-imposing additional overhead on the control flow of the produced object code.
+backend, detailing its design and. Jive uses an \textit{intermediate
+representation} (IR) called \textit{Regionalized Value-State Dependence
+Graph}\footnote{Detailed in Section \ref{background:RVSDG}.} (RVSDG). The
+RVSDG~\cite{RVSDG:HiPEACpaper} is a \textit{demand based-} and a \textit{Directed
+Acyclic \mbox{-Graph}} (DAG) representing the operations performed by any program
+through nodes, and any dependences between the operations through edges.
 
 \todo[inline]{In the below paragraph; describe layout/outline of paper. What
 does each section in turn discuss?}
 
-This report details how the inliner is able to handle recursive functions, and
+This report explains how the inliner is able to handle recursive functions, and
 how the inliner permits the configuration of different heuristics to allow rapid
 exploration of the parameter space. How the RVSDG affects the design of an
 inliner, and the algorithms used by the heuristics deciding what to inline, are
