@@ -3,20 +3,22 @@
 \section{Introduction}
 \label{introduction}
 
-Since the 1950s, compilers played an important role in the way higher-level
-programming languages are translated into machine languages. The purpose of
-compilers is two-fold: the translation of human-readable code into machine
-language, and optimizing the translated code. There exist many optimization
-techniques compilers use, such as \textit{Common Subexpression Elimination}
-(CSE) and \textit{Dead Code Elimination} (DCE). Another one is inlining, which
-replaces the call site of a function with its body, shown in
-Listing~\ref{lst:inlining}.
+Since the 1950s, compilers have translated most, if not all, higher-level
+programming languages into machine languages. A compilers purpose is two-fold:
+translate human-readable code into machine language (1), and optimize the
+translated code (2). There exist many code optimization techniques, such as
+\textit{Common Subexpression Elimination} (CSE) and \textit{Dead Code
+Elimination} (DCE).
 
-\begin{lstlisting}[label={lst:inlining}, style=customcpp,
-caption={Function \lstinline!foo()! inlined into function \lstinline!bar()!
-results in the body of \lstinline!bar()! being \lstinline!return x + 3 + 2!, in
-which case constant folding can be applied, replacing the \textit{return}
-expression of \lstinline!bar()! with: \lstinline!x + 5!.}]
+Another one is \textit{inlining}, which replaces the call site of a function
+with its body. Listing~\ref{lst:inlining} shows how when function
+\lstinline!foo()! is inlined into \lstinline!bar()!, the body of
+\lstinline!bar()! will become \lstinline!return y + 3 + 2;!. After the inlining
+is performed, the potential for optimization using \textit{Constant Folding}
+is unveiled, and can be applied to the body of \lstinline!bar()!.
+
+\begin{lstlisting}[label={lst:inlining}, style=global_customcpp,
+caption={Function \lstinline!foo()! inlined into function \lstinline!bar()!.}]
 int foo(int x){
 	return x + 3;
 }
@@ -27,19 +29,26 @@ int bar(int y){
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
 
-The benefit of inlining are mainly twofold: The first one is the removal of
-function call overhead. The second is the potential for unveiling the
-application of additional optimizations as shown in Listing~\ref{list:inlining}.
-The drawbacks of inlining are potential code-duplication as exemplified in
-Listing~\ref{lst:code-dup}, and in specific situations
-work-duplication\footnote{As detailed by P. Jones and Marlow~\cite{GHCPaper}.},
-increase of compile time.
+The benefits of inlining are mainly twofold: The first one is the removal of
+function call overhead. Function call overhead is the overhead cost in memory
+space needed on the stack. Before CPU cache memory and registers became as
+spacious as they are now, this could be a very worthwhile optimization in
+itself. The second is the potential for unveiling the application of additional
+optimizations as shown in Listing~\ref{lst:inlining}.
 
-\begin{lstlisting}[label={lst:code-dup}, style=customcpp,
+The drawbacks of inlining are code-duplication, and an increased compile time.
+In specific situations, work-duplication can also occur\footnote{As detailed by
+P. Jones and Marlow~\cite{GHCPaper}.}. Listing~\ref{lst:code-dup} exemplifies
+how inlining can lead to code-duplication, when \lstinline!foo()! is inlined
+into \lstinline!bar()!. This happens because the big expression \lstinline!e! in
+\lstinline!foo()! is twice copied into \lstinline!bar()!.
+
+However, code-duplication might be negatable if the potential optimization of
+CSE is unveiled.
+
+\begin{lstlisting}[label={lst:code-dup}, style=global_customcpp,
 caption={Code duplication in \lstinline!bar()!, when inlining \lstinline!foo()!
-into \lstinline!bar()!. The big expression \lstinline!e! in \lstinline!foo()!,
-would be duplicated when inlined into \lstinline!bar()!, potentially leading to
-code-duplication. However, CSE might be able to mitigate code-duplication.}]
+into \lstinline!bar()!.}]
 int foo(int a){
 	return e; //Big expression, depending on a
 }
@@ -49,6 +58,11 @@ int bar(int x, int y){
 }
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
+
+If inlining is performed blindly, another drawback occurs if the compiler
+attempts to inline recursive functions. Doing so will lead to non-termination of
+the compiler, unless recursive functions are recognized and handled specially by
+the inliner of the compiler.
 
 Another factor to consider are recursive functions. Inlining recursive functions
 uncontrolled leads to non-termination of the compilation. This report will
