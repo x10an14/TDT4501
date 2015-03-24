@@ -22,8 +22,6 @@ programming language. The paper details an heuristic for which functions to
 inline, as well as an algorithm for how to inline recursive functions. The paper
 reports an average run time decrease of 15\%.
 
-\todo[inline]{Insert HiPEAC paper between these two?}
-
 Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
 adaptive compilation techniques in combination with an inlining heuristic. His
 thesis shows how CNF can be used for deciding which functions to inline. It also
@@ -47,7 +45,7 @@ inlining is sufficiently able to unveil further compiler optimizations. Thus
 leading to an average of 50\% of program execution time spent in functions with
 more than 1000 operations. This is an improvement, compared to their test
 results where more than 80\% of the execution time was spent inside functions
-with less than 250 operations, when run without inlining.
+with less than 250 operations, when no inlining was employed.
 
 P. Jones and Marlow \cite{GHCPaper} describe the inliner for the Glasgow Haskell
 Compiler (GHC). Their paper introduces a novel approach for deciding which
@@ -65,7 +63,7 @@ justify an inter-procedural loop fusion implementation.
 
 Deshpande and A. Edwards \cite{deshpande2012statically} detail an inlining
 algorithm meant to improve inlining in the GHC. The algorithm improved the
-parallelism of recursive functions by ``widening'' them, into the equivalent of
+parallelism of recursive functions by ``widening'' them into the equivalent of
 multiple recursive calls through unrolling recursion. No results were reported.
 
 W. Hwu and P. Chang \cite{InlineFuncExpCProgs} explore how program profile

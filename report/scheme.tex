@@ -1,59 +1,58 @@
 % !TEX root = ./report.tex
 
 \clearpage
-\section{Inlining Heuristics using an RVSDG}
+\section{The Inliner}
 
-\todo[inline]{\textbf{\textit{Scheme section}}}
+\unsure[inline]{A graphical flow chart of the architecture?}
 
-The project described in this report implements the heuristic(s) deciding which
-functions to inline, in the Jive compiler using an RVSDG IR. This section
-discusses first the utilization of the Heuristics used, then continues with how
-their implementation in this project.
+In broad strokes, the inliner does two things. It traverses the RVSDG,
+collecting all the \applyNode s (1), before it attempts to inline each one in a
+certain order (2). This Section will describe how these two actions are
+performed when working with the RVSDG IR, while the actual heuristics are
+detailed in Section~\ref{sub:method:apply_node_ordering_heur} and Section
+\ref{sub:method:apply_node_inlining_heur}.
 
-\subsection{Application of the Heuristics}
+\subsection{Collecting all function call sites}
+\label{sub:scheme:collecting_apply_nodes}
 
-The heuristics used in the project described by this report can be divided into
-to main subcategories: the heuristics used to decide the order of which
-\textit{apply}-nodes to look at first, and the heuristics used to decide whether
-or not to inline a single \textit{apply}-node.
+The traversal of the RVSDG to collect all the apply nodes is simple. The inliner
+receives the RVSDG graph, iterates through every node of the RVSDG, and makes
+reference copies of each \applyNode . Seeing as the RVSDG is a DAG, no care
+needs to be taken when it comes to recursive functions in the inital collection,
+as nodes representing recursive environments do not have duplicate \applyNode
+present in the graph\footnote{As described in Section~\ref{background:RVSDG}.}.
 
-When traversing the RVSDG representing the program being compiled, the order of
-which \textit{apply}-nodes we find first makes no difference to the approach
-used in this project. However, the ordering used to sort the
-\textit{apply}-nodes \textit{found} makes a difference, due to the ordering
-deciding which \textit{apply}-node might be inlined first.
+\subsection{The order of inlining call sites}
+\label{sub:scheme:ordering_apply_nodes}
 
-The
-heuristic used
-to order the \textit{apply}-node
-in this project uses the relative
-position of each \textit{apply}-node.
-The further away from the root-node (which
-represents the final operation of the program),
-the higher the value representing this relative position.
+\todo[inline]{Need a figure showing why the order of inlining matters. \\ +
+reference to further ideas when that's done/started on.}
 
-\todo[inline]{Draw figure showing why this makes a difference.}
+\subsection{Inlining a call site}
+\label{sub:scheme:inlining_apply_nodes}
 
-Figure~\ref{X} illustrates why the order of functions inlined make a difference.
-Had we not traversed the RVSDG collecting all the \applyNode s before inlining
-them, the the impact of the inlining order would not be as simple to measure.
+When the collected \applyNode s from
+Section~\ref{sub:scheme:collecting_apply_nodes} are ordered in the order we want
+to visit them in, we run the heuristic described in
+Section~\ref{sub:method:apply_node_inlining_heur}, or the heuristic described in
+Section~\ref{sub:method:recur_apply_node_inlining_heur} dependent upon whether
+the function the \applyNode represents is recursive or not.
 
-\todo{What else can I say about this?}Using this approach, we can test the
-consequences of different heuristical orderings of \applyNode s in the RVSDG
-worked on by the compiler.
+If the \applyNode passes the check, the inlining is performed by making a copy
+of the subgraph contained in the $\lambda$-node the \applyNode is linked to. The
+copied subgraph is then put in the RVSDG where the \applyNode was before, with
+all edges previously connected to the \applyNode now connected to the copied
+subgraph instead.
 
-\subsection{Implementation of the Heuristics}
+However, before moving onto the next \applyNode in the list of previously
+collected \applyNode s, the inliner goes through the copied subgraph and
+attempts to inline all \applyNode s contained within first. Hence, the ordering
+described in Section~\ref{sub:scheme:ordering_apply_nodes} is not \todo{find a
+good word for this, want to say broken.}X.
 
-The codebase of the project this report describes, is implemented in C/C++. As
-such, \textit{Standard Template Library} (STL) additions such as vectors,
-templates, and containers, in addition to the \textit{Object Oriented} (OO)
-features in C++, are used in the implementation of the inliner.
-
-\subsubsection{Traversing the graph for \textit{apply}-nodes}
-
-First, we traverse the graph given as a parameter to the function we have
-analogous to \lstinline!main()!, namely \lstinline!apply_inliner_heuristic()!.
-
-\subsubsection{Ordering the \textit{apply}-nodes of the graph}
-
-\subsubsection{Whether to inline each \textit{apply}-nodes}
+After the copied subgraph's potential \applyNode s are dealt with, the inliner
+moves on to the next one in the list collected in
+Section~\ref{sub:scheme:collecting_apply_nodes}. When all \applyNode s in this
+list have passed through the heuristic, and at least one \applyNode has been
+inlined, the RVSDG representing the program is optimized (pruned), and the
+inliner jumps back to the traversal and starts anew.

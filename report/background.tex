@@ -26,25 +26,25 @@ edges, representing data and state dependencies respectively. Data dependence
 edges represent a data dependency one node has to another. State dependence
 edges are used to preserve the program semantics when it has side-effecting
 operations. We use dashed lines in this report to denote state dependence edges
-in figures, as shown in Figure~\ref{fig:for_loop_rec_fib_print_ex}.
+in figures, as shown in Figure~\ref{fig:factorial_for_loop_ex}.
 
 \subsubsection{Nodes}
 
 The RVSDG has two kinds of nodes: simple nodes are used in an RVSDG to represent
 simple operations, such as addition and subtraction.
 
-The report puts emphasis on the simple node \applyNode .
+The report puts emphasis on the \textit{apply}- simple node. The \applyNode s'
+first argument is a link to the node which represents the function the
+\applyNode represents a call site for. The rest of the input arguments of an
+\applyNode are the input arguments of the function it's linked to, with the same
+arity and order as the node representing the linked function. The results are
+also of the same order and arity as the outputs of the node representing the
+linked function the \applyNode represent a call site for.
 
-A special case of the simple nodes listed in this report is the
-\textit{apply}-node, which always has an edge linking a $\phi$-region or
-$\lambda$-node as first input. The arity and order of the rest of the
-\textit{apply}-node's inputs must match the order and arity of the inputs for
-the $\lambda$-node linked directly or through a $\phi$-region. While a
-$\phi$-region or $\lambda$-node may each link to several \textit{apply}-nodes
-representing the same function call, an \textit{apply}-node can (and must)
-always have a link to one $\phi$-region or $\lambda$-node as its first input.
-
-The complex nodes of an RVSDG relevant for this are as follows:
+What is common for all complex nodes, is (1) that they have an extra set of
+\textit{internal} ``outputs'' and ``inputs'', which are gated from the node's
+inputs, and gates to it's outputs respectively, and (2) they contain an RVSDG
+subgraph. The complex nodes of an RVSDG relevant for this are as follows:
 
 \begin{itemize}
 
@@ -52,31 +52,25 @@ The complex nodes of an RVSDG relevant for this are as follows:
 
 \textit{$\gamma$-nodes} represent conditional statements. Each $\gamma$-node has
 a predicate as input. All other edges passing into the $\gamma$-node are edges
-its subsection's subgraph(s) depend upon. All subsections must have the same
-order and arity of inputs and outputs, even if the subgraph in each case does
-not depend on all of the inputs, or modify all of the outputs.
+its subregion's subgraph(s) depend upon. All subregions must have the same
+order and arity of inputs and outputs, even if the subgraph in each region does
+not depend on all of the inputs.
 
-A $\gamma$-node most closely represents a \textit{switch-case} without fall-
-through in each case. Each case of the switch statement corresponds then with a
-subsection of the $\gamma$-node.
+A $\gamma$-node equivalent to a \textit{switch-case} without fall-through in
+C/C++. Each case of the switch statement corresponds to a subregion of the
+$\gamma$-node. Hence, a simple \textit{if-statement} with no else-clause can be
+represented by a $\gamma$-node with two subregions. The true subregion contains
+the RVSDG subgraph that represents the body of the if-statement, wheras the
+false subregion of the $\gamma$-node simply routes all inputs through. As shown
+in Figure~\ref{fig:simple_if}.
 
-Hence, a simple \textit{if-statement} with no else-clause can be represented by
-a $\gamma$-node with two subsections. The true subsection containing the RVSDG
-subgraph representing the body of the if-statement. The false subsection of the
-$\gamma$-node simply routing through all inputs straight out again unmodified.
-
-How nested $\gamma$-nodes can represent the semantics of \textit{if, else if,
-else} is shown in Figure~\ref{fig:nested_ifs}.
+\todo[inline]{Fix Figure~\ref {fig:simple_if}.}
 
 \begin{centering}
 	\noindent\begin{minipage}{0.36\textwidth}
-		\begin{lstlisting}[label={lst:nested_ifs}, style=minipage_customcpp]
-if(smth){
-	//do something 1
-} else if(smth2){
-	//do something 2
-} else{
-	//do something else
+		\begin{lstlisting}[label={lst:simple_if}, style=minipage_customcpp]
+if((z-2) != 0){
+	x = (y*2) / (z+2);
 }
 		\end{lstlisting}
 	\end{minipage}
@@ -86,43 +80,46 @@ if(smth){
 	\end{minipage}
 	\captionof{figure}{Minimal example of two nested $\gamma$-nodes representing
 the the same semantics as the C/C++ pseudo code on the left.}
-	\label{fig:nested_ifs}
+	\label{fig:simple_if}
 \end{centering}
 
 \item \textbf{$\theta$-nodes: Tail-controlled loops}
 
-\textit{$\theta$-nodes} represent tail controlled loops. Like with the
-$\gamma$-node, its input is the predicate. All other edges are the dependencies
-needed by its subgraph(s) representing the statements in the body of the loop.
+\textit{$\theta$-nodes} represent tail controlled loops. As with the
+$\gamma$-node, its inputs are all the dependencies of its subregion (subgraph).
+Inside the $\theta$-node there is an extra ``internal input'', which is the
+predicate of the tail controlled loop, depending on the loop variant variables.
+If this predicate evaluates to true, the operations of the subgraph contained in
+the $\theta$-node are performed again.
 
-In C/C++ $\theta$-nodes are equivalent to \textit{do-while loops} containing the
-subgraph representing of the body of the loop inside the node. Other loops, such
-as \textit{for-loops}, can be represented by putting a $\theta$-node inside of
-the \textit{true} clause of a $\gamma$-node with no subgraph in the subsection
-of the \textit{false} clause. The $\gamma$- and $\theta$-nodes both need to have
-the exact same predicate, and same dependencies on the predicate, if the
-combined subgraph is to represent a for-loop.
+Other loops, such as \textit{for-loops}, can be represented by putting a
+$\theta$-node inside of the \textit{true} clause of a $\gamma$-node with no
+subgraph in the subregion of the \textit{false} clause. A $\theta$-node is
+equivalent to a \textit{do-while} loop in C/C++.
 
-See Figure~\ref{fig:for_loop_rec_fib_print_ex} for an example of a $\theta$-node
-with corresponding C/C++ code in Listing~\ref{lst:for_loop_rec_fib_print_ex}.
-The stippled directed edges in Figure~\ref{fig:for_loop_rec_fib_print_ex} denote
+See Figure~\ref{fig:factorial_for_loop_ex} for an example of a $\theta$-node
+with corresponding C/C++ code in Listing~\ref{lst:factorial_for_loop_ex}.
+The stippled directed edges in Figure~\ref{fig:factorial_for_loop_ex} denote
 state dependencies between nodes.
 
 \begin{lstlisting}[label={lst:for_loop_rec_fib_print_ex}, style=global_customcpp,
 caption={C/C++ code corresponding to the RVSDG subgraph in
-Figure~\ref{fig:for_loop_rec_fib_print_ex}.}]
-int recursive_fibonacci(int n){
-	if (n == 1 || n == 0){
-		return n;
+Figure~\ref{fig:factorial_for_loop_ex}.}]
+int fac(unsigned int n){
+	unsigned int i = 0;
+	unsigned long long result = 1;
+	do{
+		i += 1;
+		result *= i;
+		std::cout << "Factorial #" << i << "\tis: " << result << std::endl;
+		} while(i < n);
 	}
-	return recursive_fibonacci(n-1) + recursive_fibonacci(n-2);
-}
-
-for(int i = 0; i < 7; i++){
-	std::cout << "Fib #" << i << ": " << recursive_fibonacci(i) << std::endl;
+	return result;
 }
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
+\todo[inline]{Replace Figure~\ref{fig:factorial_for_loop_ex} with factorial
+example!}.
 \newpage
 
 \begin{figure}[ht!]
@@ -132,75 +129,61 @@ for(int i = 0; i < 7; i++){
 calculating and printing the 7 first Fibonacci numbers. The \applyNode ~contained
 in the $\theta$-node links to the same recursive Fibonacci function as in
 Figure~\ref{fig:rec_fib_phi}.}
-	\label{fig:for_loop_rec_fib_print_ex}
+	\label{fig:factorial_for_loop_ex}
 \end{figure}
 
 \clearpage
 \item \textbf{$\lambda$-nodes: Functions}
 
-\textit{$\lambda$-nodes} represent functions, and these are paired with at least
-one \textit{apply}-node. There is only one $\lambda$-node per function in the
-program the RVSDG represents. As with the other complex nodes, the order and
-arity of inputs needed for the subgraph of the $\lambda$-node need to match the
-order and arity of the inputs and edges in its corresponding
-\textit{apply}-nodes. However, there are never any RVSDG nodes connected to the
-inputs of a $\lambda$-node. They serve rather as placeholders, telling the
-\textit{apply}-nodes the arity and order of the inputs of the $\lambda$-node
-linked to each \textit{apply}-node.
+\textit{$\lambda$-nodes} represent functions. Their input are all dependencies
+its subgraph depend upon\footnote{Of which any parameters the function the
+$\lambda$-node represents needs is a subset.}. A $\lambda$-nodes' outputs need
+to match the arity of the outputs the function it represents have, unless it is
+a stateful function, in which case the $\lambda$-node has external outputs for
+each side-effecting dependency.
 
-As previously mentioned, \textit{apply}-nodes represent the call sites of the
-function represented by the $\lambda$-node. All \textit{apply}-nodes have an
-edge linking it to its corresponding $\lambda$-node as its first input. Hence,
-the only dependence edges going \textit{from} a $\lambda$-node are the edges
-linking it to its \textit{apply}-nodes.
+However, $\lambda$-nodes themselves are never linked with anything but the
+\applyNode s representing the call sites of the function the $\lambda$-node
+represent. It is the \applyNode s which receive the input dependence edges and
+give out the output dependence edges in an RVSDG. As previously mentioned, the
+arity and order of inputs and outputs for the subgraph(s) inside the linked
+$\lambda$-node must match the order and arity of the inputs and outputs of the
+linked \applyNode .
 
-However, if the $\lambda$-node represents a recursive function, it will reside
-inside of a $\phi$-region. It's still linked with all \textit{apply}-nodes
-representing calls to the function, but instead of being directly linked, like
-$\lambda$-nodes representing non-recursive functions, the \textit{apply}-nodes
-are linked to an output of the $\phi$-region corresponding to the correct
-$\lambda$-node contained in the $\phi$-region. Figure~\ref{fig:rec_fib_phi}
-illustrates how a recursive $\lambda$-node is contained by a $\phi$-region in a
-RVSDG.
+\item \textbf{$\phi$-nodes: Recursive environments}
 
-\item \textbf{$\phi$-regions: Recursive environments}
+\textit{$\phi$-nodes}' subgraphs must contain at least one recursive
+$\lambda$-node. As such, $\phi$-nodes have no external inputs, but they have
+external outputs which represent links to each $\lambda$-node contained within.
+The internal ``outputs'' of a $\phi$-region are links representing the
+$\lambda$-nodes contained within, thus upholding the DAG properties of an RVSDG containing $\lambda$-nodes representing recursive functions.
 
-\textit{$\phi$-regions} contain $\lambda$-nodes representing recursive
-functions. $\phi$-regions, like $\lambda$-nodes, have no inputs for themselves.
-They may have inputs representing dependencies of their internal RVSDG
-subgraphs. The functions represented by $\lambda$-nodes contained in a
-$\phi$-node behave recursively either through calling themselves, or two or more
-calling each other (mutually recursive).
+All \applyNode s causing recursion inside a $\phi$-node get their first input
+link from the ``internal input'' of the $\phi$-node which corresponds to the
+$\lambda$-node the \applyNode represents a call site for. Hence, the
+$\lambda$-nodes within do not extend any edges for their ``outer outputs'' from
+their RVSDG subgraphs, such as non-recursive $\lambda$-nodes do. Instead, they
+have one single output, which is linked to the internal ``inputs'' of the
+$\phi$-node, which in turn are gated through to each its own external ``output''
+in the $\phi$-node.
 
-Internally, and externally, they have two sets of ``outputs''. The external ones
-can be considered ``actual'' outputs, enable links to any external
-\textit{apply}-nodes representing calls to $\lambda$-nodes residing inside of
-the $\phi$-region. The internal ``outputs'' are used to link the internal
-\textit{apply}-nodes, which give the $\lambda$-nodes contained by the
-$\phi$-region their recursive behaviour without breaking the DAG properties of
-the RVSDG.
-
-Hence, the $\lambda$-nodes inside of a $\phi$-region are not directly linked to
-any \textit{apply}-nodes, like $\lambda$-nodes representing non-recursive
-functions. Instead, the link used by non-recursive $\lambda$-nodes goes to the
-$\phi$-region itself, enabling the aforementioned linking between a
-$\phi$-region and internal/external \textit{apply}-nodes.
-Figure~\ref{fig:rec_fib_phi} illustrates how a $\phi$-node containing the
-representation of a recursive fibonacci function would look like in an RVSDG,
-and Figure~\ref{fig:for_loop_rec_fib_print_ex} illustrates how
-\textit{apply}-nodes can be linked with a $\phi$-region.
+In this way, \applyNode s representing calls to the recursive functions
+contained in the $\phi$-node, which are located elsewhere in the RVSDG, can get
+their link to the $\lambda$-node representing function the \applyNode s
+represent a call site of. A recursive fibonacci function represented as an RVSDG
+illustrates the usage of a $\phi$-node in Figure~\ref{fig:rec_fib_phi}).
 
 \end{itemize}
 
 \begin{lstlisting}[label={lst:rec_fib_phi}, style=global_customcpp,
 caption={C/C++ code corresponding to the RVSDG subgraph in
-Figure~\ref{fig:for_loop_rec_fib_print_ex}, which represents a simple recursive
-fibonacci function.}]
-int recursive_fibonacci(int n){
-	if (n == 1 || n == 0){
+Figure~\ref{fig:rec_fib_phi}, which represents a simple recursive fibonacci
+function.}]
+int rec_fib(unsigned int n){
+	if (n < 2){
 		return n;
 	}
-	return recursive_fibonacci(n-1) + recursive_fibonacci(n-2);
+	return rec_fib(n-1) + rec_fib(n-2);
 }
 \end{lstlisting}
 \vspace{-4\parskip} %http://tex.stackexchange.com/q/40863
@@ -209,6 +192,7 @@ int recursive_fibonacci(int n){
 	\centering
 	\includegraphics[width=\textwidth]{figures/recursive_fibonacci}
 	\caption{A $\phi$-node containing a $\lambda$-node representing a recursive
-version of a function producing the $n$ first numbers in the Fibonacci series.}
+version of a function producing the \lstinline!n! first numbers in the Fibonacci
+series.}
 	\label{fig:rec_fib_phi}
 \end{figure}
