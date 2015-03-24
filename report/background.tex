@@ -70,7 +70,7 @@ else} is shown in Figure~\ref{fig:nested_ifs}.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.36\textwidth}
-		\begin{lstlisting}[label={lst:nested_ifs}, style=customcpp]
+		\begin{lstlisting}[label={lst:nested_ifs}, style=minipage_customcpp]
 if(smth){
 	//do something 1
 } else if(smth2){
@@ -108,7 +108,7 @@ with corresponding C/C++ code in Listing~\ref{lst:for_loop_rec_fib_print_ex}.
 The stippled directed edges in Figure~\ref{fig:for_loop_rec_fib_print_ex} denote
 state dependencies between nodes.
 
-\begin{lstlisting}[label={lst:for_loop_rec_fib_print_ex}, style=customcpp,
+\begin{lstlisting}[label={lst:for_loop_rec_fib_print_ex}, style=global_customcpp,
 caption={C/C++ code corresponding to the RVSDG subgraph in
 Figure~\ref{fig:for_loop_rec_fib_print_ex}.}]
 int recursive_fibonacci(int n){
@@ -192,7 +192,7 @@ and Figure~\ref{fig:for_loop_rec_fib_print_ex} illustrates how
 
 \end{itemize}
 
-\begin{lstlisting}[label={lst:rec_fib_phi}, style=customcpp,
+\begin{lstlisting}[label={lst:rec_fib_phi}, style=global_customcpp,
 caption={C/C++ code corresponding to the RVSDG subgraph in
 Figure~\ref{fig:for_loop_rec_fib_print_ex}, which represents a simple recursive
 fibonacci function.}]
