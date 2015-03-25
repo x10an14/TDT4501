@@ -2,6 +2,67 @@ Weekly meetings with Nico:
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+25th Mar, 2015:
+	code:
+		Scan first through for phi nodes
+			Check them for SCCs
+				If found, decide on a loop breaker
+				Add loop breaker to a list.
+		Scan RVSDG for all apply nodes.
+		Order list according to heuristic.
+		Check each node
+			If it links to a loop breaker, skip.
+			If it doesn't link to a loop breaker:
+				Use heuristic to decide whether or not to inline it.
+			If inlined:
+				Check copied subregion for new apply nodes.
+				Check those in the same manner.
+		Finish going through all original apply nodes, and all found (copied) apply nodes.
+
+		!!!IMPORTANT!!!
+			Check graph.h for on_node_create() and on_node_destroy() and make
+			own functions to maintain list of apply nodes.
+
+	report:
+		general comments:
+			FIX EXAMPLES
+			Make more examples. Split up the examples which show more than one thing at a time, into several.
+			Have more flow between sentences, especially in the introduction.
+			Center listings and their captions!
+		introduction:
+			Remove the (1) and (2).
+				Make more flow between sentences.
+			Fix listing description.
+			listings:
+				center them!!
+			mitigate instead of negatable.
+		background:
+			make figure explaining internal and external outputs and inputs specifically.
+			specify that simple nodes only have external inputs/outputs.
+			Internal phi outputs represent forward declarations of functions.
+		scheme:
+			Check picture on phone.
+			Explain (abstractedly) how the heuristics in methodology are used by the inliner.
+			Add more examples.
+			Also explain how the RVSDG helps for inlining. Look at introduction for project description.
+		Methodology:
+			Explain the heuristics used to order nodes, and the heuristics used for deciding whether or not to inline nodes.
+
+12th Mar, 2015:
+	report:
+		introduction:
+			Put listings captions into the text.
+		background:
+			Restructure start, and arrows mean put a figure example where they start, and move the text.
+			data dependence edges represent forwarding of data between edges.
+			theta-node: outputs mapped to inputs.
+				Rewrite both theta and lambda nodes because of this.
+			rewrite: theta-node
+			all apply calling the recursive function in the recursive environment.
+
+	code:
+		Next, recursive implementation.
+
 5th Mar, 2015:
 	To test my code:
 		look in tests/types/function.c
