@@ -1,12 +1,15 @@
 % !TEX root = ./report.tex
 
 \usepackage{float}			%For forcing position of figures
+\usepackage{fancybox}		%For Sbox used for CenteredBox environment
 \usepackage[usenames,%
 dvipsnames]{xcolor}			%For the SkyBlue background color for lstlistings
 \usepackage{tabularx}		%for tablecontents wrapping inside cell, instead of cell breaking page width.
 \usepackage{enumerate}		%For getting different types of lists like a) II) and so forth.
-\usepackage[utf8,%
-utf8x]{inputenc}			%For norwegian letters and UTF8 encoding support
+
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}	%For norwegian letters and UTF8 encoding support
 \usepackage{lastpage}		%For the command \pageref{lastpage}
 %\usepackage{pdfpages}		%For including pdfs
 \usepackage{appendix}		%For appendix in article
@@ -14,7 +17,7 @@ utf8x]{inputenc}			%For norwegian letters and UTF8 encoding support
 numbib]{tocbibind}			%For references in Table of Contents
 \usepackage[english]{babel}	%For filltext in conjunction with blindtext
 \usepackage{blindtext}		%For filltext (see comment for babel)
-\usepackage{caption}		%For use of the \caption command inside minipage environment
+\usepackage[justification=centering]{caption}		%For use of the \caption command inside minipage environment
 \usepackage{standalone}		%For being able to inlclude project_description which has begin{document}
 \usepackage{geometry}		%For scaling/setting margin size and so on
 %\usepackage{svg}			%For includesvg command
@@ -43,6 +46,12 @@ numbib]{tocbibind}			%For references in Table of Contents
 \newdateformat{CurMonth}{\monthname[\THEMONTH],~\THEYEAR}
 
 \usepackage{listings}		%For code in document
+
+\makeatletter
+\newenvironment{CenteredBox}{%
+\begin{Sbox}}{% Save the content in a box
+\end{Sbox}\centerline{\parbox{\wd\@Sbox}{\TheSbox}}}% And output it centered
+\makeatother
 
 \lstset{
 	tabsize=4,					% sets default tabsize to 4 spaces
@@ -101,10 +110,7 @@ numbib]{tocbibind}			%For references in Table of Contents
 	showspaces=false,					% show spaces adding particular underscores
 	numberstyle=\tiny,					% the size of the fonts that are used for the line-numbers
 	escapeinside={@}{@},				% if you want to add a comment within your code
-	linewidth=\textwidth,
 	showstringspaces=false,				% underline spaces within strings
-	xleftmargin=0.2\textwidth,			%
-	xrightmargin=0.2\textwidth,
 	breakatwhitespace=true,				% sets if automatic breaks should only happen at whitespace
 	basicstyle=\footnotesize,			%
 	stringstyle=\color{Orange},			%

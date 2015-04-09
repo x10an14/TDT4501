@@ -3,22 +3,24 @@
 \section{Introduction}
 \label{introduction}
 
-Since the 1950s, compilers have been translating most, if not all, higher-level
-programming languages into machine languages. The purpose of a compiler is
-two-fold: translate human-readable code into machine language (1), and optimize
-the translated code (2). There exist many code optimization techniques, such as
+Since the 1950s, compilers have been translating higher-level programming
+languages into machine languages. The purpose of a compiler is two-fold:
+translate human-readable code into machine language, and optimize the translated
+code. There exist many code optimization techniques compilers use, such as
 \textit{Common Subexpression Elimination} (CSE) and \textit{Dead Code
 Elimination} (DCE).
 
 Another code optimization is \textit{inlining}, which replaces the call site of
-a function with its body. Listing~\ref{lst:inlining} shows how when function
-\lstinline!foo()! is inlined into \lstinline!bar()!, the body of
-\lstinline!bar()! will become \lstinline!return y + 3 + 2;!. After the inlining
-is performed, the potential for optimization using \textit{Constant Folding} is
-unveiled, and can be applied to the body of \lstinline!bar()!.
+a function with its body. Listing~\ref{lst:inlining} shows a situation where
+if function \lstinline!foo()! is inlined into \lstinline!bar()!, the body of
+\lstinline!bar()! becomes \lstinline!return y + 3 + 2;!. After the inlining is
+performed, \textit{Constant Folding} is unveiled, which can replace
+\lstinline!3+2! with \lstinline!5!.
 
-\begin{lstlisting}[label={lst:inlining}, style=global_customcpp,
-caption={Function \lstinline!foo()! inlined into function \lstinline!bar()!.}]
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\begin{CenteredBox}
+		\begin{lstlisting}[style=global_customcpp]
 int foo(int x){
 	return x + 3;
 }
@@ -26,44 +28,53 @@ int foo(int x){
 int bar(int y){
 	return foo(y) + 2;
 }
-\end{lstlisting}
-\vspace{-3\parskip} %http://tex.stackexchange.com/q/40863
+		\end{lstlisting}
+		\end{CenteredBox}
+	\end{minipage}
+	\captionof{lstlisting}{\textit{Constant Folding} unveiled when inlining
+\lstinline!foo()! into \lstinline!bar()!.}
+	\label{lst:inlining}
+\end{centering}
 
 The benefits of inlining are mainly two-fold: The first one is the removal of
 function call overhead. Function call overhead is the overhead cost in memory
-space needed on the stack. Before CPU cache memory and registers became as
-spacious as they are now, this could be a very worthwhile optimization in
-itself. The second is the potential for unveiling the application of additional
-optimizations as shown in Listing~\ref{lst:inlining}.
+needed on the stack. The second is the potential for unveiling the application
+of additional optimizations as shown in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code-duplication, and an increased compile time.
 In specific situations, work-duplication can also occur\footnote{As detailed by
-P. Jones and Marlow in Section 2.2.2~\cite{GHCPaper}.}. Listing~\ref{lst:code-dup}
-exemplifies how inlining can lead to code-duplication, when
+P. Jones and Marlow in Section 2.2.2\cite{GHCPaper}.}. Listing~\ref{lst:code-dup}
+exemplifies how inlining can lead to code-duplication, if0
 \lstinline!foo()! is inlined into \lstinline!bar()!. This happens because the
-big expression \lstinline!e! in \lstinline!foo()! is twice copied into
+big expression \lstinline!e! in \lstinline!foo()! is copied twice into
 \lstinline!bar()!.
 
-However, code-duplication might be negatable if the potential optimization of
-CSE is unveiled.
+However, code-duplication might be mitigated if CSE is applicable.
 
-\begin{lstlisting}[label={lst:code-dup}, style=global_customcpp,
-caption={Code duplication in \lstinline!bar()!, when inlining \lstinline!foo()!
-into \lstinline!bar()!.}]
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\begin{CenteredBox}
+		\begin{lstlisting}[style=global_customcpp]
 int foo(int a){
 	return e; //Big expression, depending on a
 }
 
 int bar(int x, int y){
-	return f(x) + f(y);
+	return foo(x) + foo(y);
 }
-\end{lstlisting}
-\vspace{-3\parskip} %http://tex.stackexchange.com/q/40863
+		\end{lstlisting}
+		\end{CenteredBox}
+	\end{minipage}
+	\captionof{lstlisting}{Code duplication in \lstinline!bar()!, when inlining
+\lstinline!foo()! into \lstinline!bar()!.}
+	\label{lst:code-dup}
+\end{centering}
 
-If inlining is performed without caution, another drawback occurs when the
-compiler attempts to inline recursive functions. Unless recursive functions are
-handled specially, non-termination of the compilation will occur. The literature
-proposes two main approaches for handling recursive functions:
+If inlining is performed blindly on all function call sites, non-termination of
+the compilation can occur. This can happen when the compiler attempts to inline
+recursive functions. Unless recursive functions are handled specially,
+non-termination of the compilation may occur. The literature proposes two main
+approaches for handling recursive functions:
 
 \begin{enumerate}
 
@@ -71,26 +82,22 @@ proposes two main approaches for handling recursive functions:
 functions to a certain depth~\cite{GHCPaper}\cite{InlineWhenHowSerrano}.
 
 	\item If the recursive environment has more than one recursive
-binding\footnote{Recursive bindings defined as Section 3.2 of P. Jones and
-Marlow~\cite{GHCPaper} defines them.}, scan the \textit{dependency graph} of the
-recursive binding group for \textit{Strongly Connected Components} (SCCs). If an
-SCC is found, choose one of its recursive bindings which will not be inlined.
-The rest of the recursive bindings in the SCC can then safely be
-inlined~\cite{BasMscThesis}\cite{GHCPaper}.
+binding\footnote{Recursive bindings defined as in Section 3.2 of P. Jones and
+Marlow\cite{GHCPaper}.}, decide on bindings (functions) in the
+\textit{recursive binding environment} to be loop breakers, and do not inline
+these. The remaining recursive functions in the recursive binding environment
+can then safely be inlined wrt. termination of the
+compilation\cite{BasMscThesis}\cite{GHCPaper}.
 
 \end{enumerate}
 
-Another factor to consider are recursive functions. Inlining recursive functions
-uncontrolled leads to non-termination of the compilation. This report will
-discuss the following techniques used to avoid this in the project:
-
 This report describes the construction of an inliner for the Jive compiler
-backend, detailing its design and. Jive uses an \textit{intermediate
-representation} (IR) called \textit{Regionalized Value-State Dependence
-Graph}\footnote{Detailed in Section \ref{background:RVSDG}.} (RVSDG). The
-RVSDG~\cite{RVSDG:HiPEACpaper} is a \textit{demand-based-} and a \textit{Directed
-Acyclic \mbox{-Graph}} (DAG) representing the operations performed by any program
-through nodes, and any dependences between the operations through edges.
+backend, detailing the design and architecture. Jive uses an
+\textit{intermediate representation} (IR) called \textit{Regionalized Value
+State Dependence Graph}\footnote{Detailed in Section \ref{background:RVSDG}.}
+(RVSDG). The RVSDG\cite{RVSDG:HiPEACpaper} is a \textit{demand-based} and
+\textit{directed acyclic graph} (DAG) where nodes represent computations, and
+edges represent the dependencies between these computations.
 
 \todo[inline]{In the below paragraph; describe layout/outline of paper. What
 does each section in turn discuss?}
@@ -104,6 +111,6 @@ complicates the implementation of the inliner, as well as the impact of the
 RVSDG on an inliner, and the process of inlining, compared to commonly used IRs.
 
 Finally, the implemented inliner is evaluated before we conclude. In the
-evaluation, focus is put on how different heuristics have different
-consequences, in terms of code-duplication. A detailed description of the
-project assignment can be found in Appendix~\ref{app:projdesc}.
+evaluation, we focus on how different heuristics have different consequences,
+such as code-duplication, and others. A detailed description of the project
+assignment can be found in Appendix~\ref{app:projdesc}.
