@@ -7,15 +7,15 @@ Since the 1950s, compilers have been translating higher-level programming
 languages into machine languages. The purpose of a compiler is two-fold:
 translate human-readable code into machine language, and optimize the translated
 code. There exist many code optimization techniques compilers use, such as
-\textit{Common Subexpression Elimination} (CSE) and \textit{Dead Code
-Elimination} (DCE).
+\todo{Find reference, if time allows.}\textit{Common Subexpression Elimination}
+(CSE) and \textit{Dead Code Elimination} (DCE).
 
 Another code optimization is \textit{inlining}, which replaces the call site of
-a function with its body. Listing~\ref{lst:inlining} shows a situation where
-if function \lstinline!foo()! is inlined into \lstinline!bar()!, the body of
-\lstinline!bar()! becomes \lstinline!return y + 3 + 2;!. After the inlining is
-performed, \textit{Constant Folding} is unveiled, which can replace
-\lstinline!3+2! with \lstinline!5!.
+a function with its body. Listing~\ref{lst:inlining} shows the definitions of
+functions \lstinline!foo()! and \lstinline!bar()!. If \lstinline!foo()! is
+inlined into \lstinline!bar!, the body of \lstinline!bar()! becomes
+\lstinline!return y + 3 + 2;!. After the inlining is performed, \textit{Constant
+Folding} (CF) allows replacing \lstinline!3+2! with \lstinline!5!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -31,31 +31,37 @@ int bar(int y){
 		\end{lstlisting}
 		\end{CenteredBox}
 	\end{minipage}
-	\captionof{lstlisting}{\textit{Constant Folding} unveiled when inlining
-\lstinline!foo()! into \lstinline!bar()!.}
+	\captionof{lstlisting}{C/C++ code showing the definitions of
+\lstinline!foo()! and \lstinline!bar()! when exemplifying CF.}
 	\label{lst:inlining}
 \end{centering}
 
 The benefits of inlining are mainly two-fold: The first one is the removal of
 function call overhead. Function call overhead is the overhead cost in memory
-needed on the stack. The second is the potential for unveiling the application
-of additional optimizations as shown in Listing~\ref{lst:inlining}.
+needed on the stack, as well as the CPU cycles needed for setting up the call
+and performing the call. The second is the potential for unveiling the
+application of additional optimizations as shown in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code-duplication, and an increased compile time.
-In specific situations, work-duplication can also occur\footnote{As detailed by
-P. Jones and Marlow in Section 2.2.2\cite{GHCPaper}.}. Listing~\ref{lst:code-dup}
-exemplifies how inlining can lead to code-duplication, if0
-\lstinline!foo()! is inlined into \lstinline!bar()!. This happens because the
-big expression \lstinline!e! in \lstinline!foo()! is copied twice into
-\lstinline!bar()!.
 
-However, code-duplication might be mitigated if CSE is applicable.
+In specific situations, work-duplication can also occur\cite{GHCPaper}.
+Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
+code-duplication, if \lstinline!foo()! is inlined into \lstinline!bar()!. If
+\lstinline!foo()! is called more than once, code-duplication will occur. This
+due to the big expression \lstinline!e! in \lstinline!foo()! being copied
+into \lstinline!bar()! as soon as one of the two invocations of
+\lstinline!foo()! is inlined. Thus, if both are inlined, code-duplication will
+still occur.
+
+However, code-duplication might be mitigated if CSE is applicable, and if
+\lstinline!foo()! is \lstinline!static! with all its invocations inlined, then
+the definition of \lstinline!foo()! may be removed through the use of DCE.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
 		\begin{CenteredBox}
 		\begin{lstlisting}[style=global_customcpp]
-int foo(int a){
+static int foo(int a){
 	return e; //Big expression, depending on a
 }
 
@@ -65,34 +71,32 @@ int bar(int x, int y){
 		\end{lstlisting}
 		\end{CenteredBox}
 	\end{minipage}
-	\captionof{lstlisting}{Code duplication in \lstinline!bar()!, when inlining
-\lstinline!foo()! into \lstinline!bar()!.}
+	\captionof{lstlisting}{C/C++ code showing the definitions of
+\lstinline!foo()! and \lstinline!bar()!, when exemplifying code-duplication.}
 	\label{lst:code-dup}
 \end{centering}
 
 If inlining is performed blindly on all function call sites, non-termination of
 the compilation can occur. This can happen when the compiler attempts to inline
-recursive functions. Unless recursive functions are handled specially,
-non-termination of the compilation may occur. The literature proposes two main
-approaches for handling recursive functions:
+recursive functions. Hence, recursive functions need to be handled specially.
+The literature proposes two main approaches for handling recursive functions:
 
 \begin{enumerate}
 
 	\item Avoid non-termination of the compilation by only inlining recursive
-functions to a certain depth~\cite{GHCPaper}\cite{InlineWhenHowSerrano}.
+functions to a certain depth~\cite{GHCPaper}\cite{InlineWhenHowSerrano}, and
+therefore breaking the recursive cycle.
 
-	\item If the recursive environment has more than one recursive
-binding\footnote{Recursive bindings defined as in Section 3.2 of P. Jones and
-Marlow\cite{GHCPaper}.}, decide on bindings (functions) in the
-\textit{recursive binding environment} to be loop breakers, and do not inline
-these. The remaining recursive functions in the recursive binding environment
-can then safely be inlined wrt. termination of the
+	\item If the mutual recursive function(s) has one or more recursive
+bindings, decide on a function to be loop a breaker, and don't inline this one.
+Any remaining recursive functions in the mutual recursive environment can then
+safely be inlined wrt. termination of the
 compilation\cite{BasMscThesis}\cite{GHCPaper}.
 
 \end{enumerate}
 
 This report describes the construction of an inliner for the Jive compiler
-backend, detailing the design and architecture. Jive uses an
+backend, detailing its design and architecture. Jive uses an
 \textit{intermediate representation} (IR) called \textit{Regionalized Value
 State Dependence Graph}\footnote{Detailed in Section \ref{background:RVSDG}.}
 (RVSDG). The RVSDG\cite{RVSDG:HiPEACpaper} is a \textit{demand-based} and
