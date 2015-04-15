@@ -7,34 +7,39 @@
 \subsection{The Regionalized Value-State Dependence Graph}
 \label{background:RVSDG}
 
-The \textit{Regionalized Value State Dependence Graph}\cite{RVSDG:HiPEACpaper}
+The \textit{Regionalized Value State Dependence Graph}~\cite{RVSDG:HiPEACpaper}
 (RVSDG) is a \textit{directed acyclic demand-based dependence graph},
 consisting of nodes representing computations and edges representing the
 dependencies between nodes. Each node has inputs and outputs connected through
 edges. The arity and order of inputs and outputs depend on the operation the
 node represents.
 
-Figure~\ref{fig:simple_if} exemplifies how the C/C++ code on the left side can
-be represented as a \textit{directed acyclic demand-based dependence graph},
-depicted in the figure on the right side.
+Figure~\ref{fig:simple_node_RVSDG_ex} exemplifies how the C/C++ code on the left
+can be represented as a directed acyclic demand-based dependence graph, depicted
+in the figure on the right. The nodes in the figure represent operations in a
+program, while the edges between the nodes show the dependencies nodes have to
+each other, and this gives the order of execution.
+
+In all RVSDG examples depicted in this report, the order of inputs in a node
+starts with the first input being the edge closest to the bottom left corner of
+the node, clockwise.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.36\textwidth}
 		\begin{CenteredBox}
-		\begin{lstlisting}[label={lst:simple_if}, style=minipage_customcpp]
-if( (z-2) != 0 ){
-	x = (y*2) / (z+2);
-}
+		\begin{lstlisting}[label={lst:simple_node_RVSDG_ex},
+style=minipage_customcpp, basicstyle=\fontsize{14}{1}]
+x = (y*2) / (z+2);
 		\end{lstlisting}
 		\end{CenteredBox}
 	\end{minipage}
 	\noindent\begin{minipage}{0.55\textwidth}
 		\captionsetup{type=figure}
-		\includegraphics[width=\textwidth]{figures/simple_if_example}
+		\includegraphics[width=\textwidth]{figures/simple_node_RVSDG_ex}
 	\end{minipage}
 	\captionof{figure}{Example of an RVSDG subgraph equivalent to the C/C++
-if-statement on the left.}
-	\label{fig:simple_if}
+on the left.}
+	\label{fig:simple_node_RVSDG_ex}
 \end{centering}
 
 \subsubsection{Edges}
@@ -42,19 +47,20 @@ if-statement on the left.}
 The RVSDG has two types of edges: data dependence edges and state dependence
 edges. They represent data and state dependencies operations have to another,
 respectively. An example of data dependence edges are the operands used in an
-addition.
+addition, such as in Figure~\ref{fig:simple_node_RVSDG_ex}.
 
 State dependence edges are used to preserve the semantics of the program when
-the program has side-effecting operations. Consequently, there are no data
-dependencies between operations, giving an order to the execution of the
-connected operations.
+the program has side-effecting operations. If there are no data dependencies
+between operations, giving an order to the execution of the connected
+operations.
 
 \subsubsection{Nodes}
 
 The RVSDG has two kinds of nodes: simple nodes and complex nodes. Simple nodes
 are used to represent primitive operations, such as addition and substraction.
 The arity and order of inputs and outputs of any RVSDG node need to match the
-operation.
+operation. Figure~\ref{fig:simple_node_RVSDG_ex} is an example of an RVSDG
+containing only simple nodes.
 
 This report puts special focus on the \applyNode . An \applyNode~represents the
 call site of a function. The first input argument of an \applyNode~is a link to
@@ -68,14 +74,19 @@ as \textit{regions}. Differing from the simple nodes with their contained
 subgraph, complex nodes normally ``gate'' the external inputs they get from the
 rest of the RVSDG through to internal outputs. Consequently, they also have
 internal inputs which can gate through to their external outputs, connecting the
-dependencies to the rest of the RVSDG.
+dependencies to the rest of the RVSDG. An example of this is depicted in
+Figure~\ref{fig:complex_node_mapping_ex}.
 
-Figure~\ref{fig:factorial_loop_ex} illustrates how complex nodes can contain
-both simple- and complex- nodes, and how complex nodes have internal and
-external outputs. In Figure~\ref{fig:factorial_loop_ex}, the node representing
-the if-statement of the code in Listing~\ref{lst:factorial_loop_ex} shows how
-the external inputs are often mapped directly to internal outputs, and vica
-versa with the internal inputs and external outputs.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/complex_node_mapping_ex}
+	\caption{A minimal example of a complex node, showing which inputs/outputs
+are external/internal, and how they can have multiple subregions.}
+	\label{fig:complex_node_mapping_ex}
+\end{figure}
+
+Figure~\ref{fig:fib_phi} illustrates how complex nodes can contain both simple-
+and complex- nodes, and how complex nodes have internal and external outputs.
 
 The complex nodes of an RVSDG relevant for this report are as follows:
 
@@ -96,6 +107,26 @@ represented by a $\gamma$-node with two subregions. The true subregion contains
 the RVSDG subgraph that represents the body of the if-statement, whereas the
 false subregion of the $\gamma$-node simply routes all inputs through. See
 Figure~\ref{fig:simple_if} for an example of a $\gamma$-node.
+
+\begin{centering}
+	\noindent\begin{minipage}{0.36\textwidth}
+		\begin{CenteredBox}
+		\begin{lstlisting}[label={lst:simple_if}, style=minipage_customcpp,
+basicstyle=\fontsize{14}{1}]
+if((z-2) != 0 ){
+	x = (y*2) / (z+2);
+}
+		\end{lstlisting}
+		\end{CenteredBox}
+	\end{minipage}
+	\noindent\begin{minipage}{0.55\textwidth}
+		\captionsetup{type=figure}
+		\includegraphics[width=\textwidth]{figures/simple_if_example}
+	\end{minipage}
+	\captionof{figure}{Example of an RVSDG subgraph on the right, depicting a
+$\gamma$-node equivalent to the C/C++ if-statement on the left.}
+	\label{fig:simple_if}
+\end{centering}
 
 \item \textbf{$\theta$-nodes: Tail-controlled loops}
 
@@ -118,25 +149,26 @@ the C/C++ code corresponding to the RVSDG depicted in
 Figure~\ref{fig:factorial_loop_ex}.
 
 \begin{centering}
-	\noindent\begin{minipage}{\textwidth}
+	\noindent\begin{minipage}{0.36\textwidth}
 		\begin{CenteredBox}
-		\begin{lstlisting}[style=global_customcpp]
-unsigned long long fac(unsigned int n){
-	unsigned int i = 0;
-	unsigned long long result = 1;
-	do{
-		i += 1;
-		result *= i;
-		} while(i < n);
-	}
-	return result;
-}
+		\begin{lstlisting}[style=global_customcpp,
+label={lst:fig:factorial_loop_ex}, basicstyle=\fontsize{14}{1}]
+unsigned int i = 0;
+unsigned long long r = 1;
+do{
+	i += 1;
+	r *= i;
+} while(i < n);
 		\end{lstlisting}
 		\end{CenteredBox}
 	\end{minipage}
-	\captionof{lstlisting}{C/C++ code corresponding to the RVSDG in
-Figure~\ref{fig:factorial_loop_ex}.}
-	\label{lst:factorial_loop_ex}
+	\noindent\begin{minipage}{0.55\textwidth}
+		\captionsetup{type=figure}
+		\includegraphics[width=\textwidth]{figures/iterative_factorial_ex}
+	\end{minipage}
+	\captionof{figure}{An RVSDG subgraph on the right, depicting a
+$\theta$-node equivalent to the C/C++ do-while loop on the left.}
+	\label{fig:factorial_loop_ex}
 \end{centering}
 
 Other loops than tail-controlled loops can be represented by combining complex
@@ -145,14 +177,6 @@ of the \textit{true} clause of a $\gamma$-node conaining no subgraph in the
 subregion representing the \textit{false} clause. This will equate to a
 \textit{for-loop} if the $\gamma$-node and $\theta$-node have the same predicate
 expression.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\textwidth]{figures/iterative_factorial_ex}
-	\caption{An RVSDG representing the C/C++ program code in
-Listing~\ref{lst:factorial_loop_ex}.}
-	\label{fig:factorial_loop_ex}
-\end{figure}
 
 \item \textbf{$\lambda$-nodes: Functions}
 
@@ -182,6 +206,33 @@ Listings~\ref{lst:fib_phi} also illustrate the workings of $\lambda$-nodes
 through the representation of an RVSDG and the equivalent C/C++ code for a
 recursive fibonacci function.
 
+\begin{centering}
+	\noindent\begin{minipage}{0.37\textwidth}
+		\begin{CenteredBox}
+		\begin{lstlisting}[label={lst:iterative_factorial_func_ex},
+style=minipage_customcpp]
+unsigned long long
+fac(unsigned int n){
+	unsigned int i = 0;
+	unsigned long long r = 1;
+	do{
+		i += 1;
+		r *= i;
+	} while(i < n);
+	return r;
+}
+		\end{lstlisting}
+		\end{CenteredBox}
+	\end{minipage}
+	\noindent\begin{minipage}{0.55\textwidth}
+		\captionsetup{type=figure}
+		\includegraphics[width=\textwidth]{figures/iterative_factorial_func_ex}
+	\end{minipage}
+	\captionof{figure}{Example of an RVSDG subgraph on the right, depicting a
+$\lambda$-node equivalent to the C/C++ function on the left.}
+	\label{fig:iterative_factorial_func_ex}
+\end{centering}
+
 \item \textbf{$\phi$-regions: Recursive environments}
 
 \textit{$\phi$-regions} represent recursive environments. They contain at least
@@ -191,41 +242,41 @@ have no external inputs. However, the internal outputs of the
 contained within to connect with the respective $\lambda$-nodes also
 contained within the same \textit{$\phi$-region}.
 
-The internal inputs of a \textit{$\phi$-region} receive the function invocation
-links from the $\lambda$-nodes contained within. The internal inputs
-map to the external outputs, thus enabling \applyNode s outside of the recursive
-environment to link with the $\lambda$-nodes contained within.
+The internal inputs of a \textit{$\phi$-region} \info{Nico crossed out ``receive
+the function invocation links'', but what he wrote above is illegible. Ask Nico
+for clarification.}receive the function invocation links from the
+$\lambda$-nodes contained within. The internal inputs map to the external
+outputs, thus enabling \applyNode s outside of the recursive environment to link
+with the $\lambda$-nodes contained within.
+
 
 An RVSDG representing the recursive fibonacci function written in C/C++ in
 Listing~\ref{lst:fib_phi}, illustrates the usage of a \textit{$\phi$-region} in
 Figure~\ref{fig:fib_phi}.
 
-\end{itemize}
 
 \begin{centering}
-	\noindent\begin{minipage}{\textwidth}
+	\noindent\begin{minipage}{0.37\textwidth}
 		\begin{CenteredBox}
-		\begin{lstlisting}[style=global_customcpp]
-unsigned int fib(unsigned int n){
-	if (n < 2){
-		return n;
+		\begin{lstlisting}[label={lst:recursive_factorial_func_ex},
+style=minipage_customcpp]
+unsigned long long
+fac(unsigned int n){
+	if(n > 1){
+		return n*fac(n-1)
 	}
-	return fib(n-1) + fib(n-2);
+	return n;
 }
 		\end{lstlisting}
 		\end{CenteredBox}
 	\end{minipage}
-	\captionof{lstlisting}{C/C++ code corresponding to the RVSDG in
-Figure~\ref{fig:fib_phi}.}
-	\label{lst:fib_phi}
+	\noindent\begin{minipage}{0.55\textwidth}
+		\captionsetup{type=figure}
+		\includegraphics[width=\textwidth]{figures/iterative_factorial_func_ex}
+	\end{minipage}
+	\captionof{figure}{Example of an RVSDG subgraph on the right, depicting a
+$\phi$-region equivalent to the recursive C/C++function on the left.}
+	\label{fig:recursive_factorial_func_ex}
 \end{centering}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\textwidth]{figures/recursive_fibonacci}
-	\caption{An RVSDG representing the equivalent of the C/C++ code in
-Listing~\ref{lst:fib_phi}. The RVSDG depicts a $\phi$-node containing a
-$\lambda$-node representing a recursive version of a function producing the
-\lstinline!n!th number in the Fibonacci series.}
-	\label{fig:fib_phi}
-\end{figure}
+\end{itemize}
