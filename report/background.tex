@@ -15,10 +15,10 @@ edges. The arity and order of inputs and outputs depend on the operation the
 node represents.
 
 Figure~\ref{fig:simple_node_RVSDG_ex} exemplifies how the C/C++ code on the left
-can be represented as a directed acyclic demand-based dependence graph, depicted
-in the figure on the right. The nodes in the figure represent operations in a
-program, while the edges between the nodes show the dependencies nodes have to
-each other, and this gives the order of execution.
+can be represented as a directed acyclic demand-based dependence graph depicted
+in the figure on the right. The nodes in Figure~\ref{fig:simple_node_RVSDG_ex}
+represent operations in a program, while the edges between the nodes show the
+dependencies nodes have to each other, thus giving the order of execution.
 
 In all RVSDG examples depicted in this report, the order of inputs in a node
 starts with the first input being the edge closest to the bottom left corner of
@@ -28,7 +28,7 @@ the node, clockwise.
 	\noindent\begin{minipage}{0.36\textwidth}
 		\begin{CenteredBox}
 		\begin{lstlisting}[label={lst:simple_node_RVSDG_ex},
-style=minipage_customcpp, basicstyle=\fontsize{14}{1}]
+style=minipage_customcpp, basicstyle=\fontsize{10}{1}]
 x = (y*2) / (z+2);
 		\end{lstlisting}
 		\end{CenteredBox}
@@ -45,14 +45,14 @@ on the left.}
 \subsubsection{Edges}
 
 The RVSDG has two types of edges: data dependence edges and state dependence
-edges. They represent data and state dependencies operations have to another,
+edges. They represent data and state dependencies operations have to each other,
 respectively. An example of data dependence edges are the operands used in an
 addition, such as in Figure~\ref{fig:simple_node_RVSDG_ex}.
 
 State dependence edges are used to preserve the semantics of the program when
-the program has side-effecting operations. If there are no data dependencies
-between operations, giving an order to the execution of the connected
-operations.
+the program has non-data dependencies, such as side-effecting operations. Thus,
+state dependence edges help give an order to the execution to the connected
+nodes.
 
 \subsubsection{Nodes}
 
@@ -70,12 +70,17 @@ function-node it's linked to. Likewise, the results also need to match the same
 order and arity as the outputs of the function-node.
 
 Complex nodes contain an RVSDG subgraph, which is why they are also referred to
-as \textit{regions}. Differing from the simple nodes with their contained
-subgraph, complex nodes normally ``gate'' the external inputs they get from the
-rest of the RVSDG through to internal outputs. Consequently, they also have
-internal inputs which can gate through to their external outputs, connecting the
-dependencies to the rest of the RVSDG. An example of this is depicted in
-Figure~\ref{fig:complex_node_mapping_ex}.
+as \textit{regions}. Figure~\ref{fig:recursive_factorial_func_ex} illustrates
+how complex nodes can contain both simple- and complex- nodes, and how complex
+nodes have internal and external outputs.
+
+Differing from the simple nodes with their contained subgraph, complex nodes
+normally ``gate'' \textit{external inputs} they get from the rest of the RVSDG
+through to \textit{internal outputs}. Consequently, they also have
+\textit{internal inputs} which can gate through to their \textit{external
+outputs}, connecting the dependencies to the rest of the RVSDG. See
+Figure~\ref{fig:complex_node_mapping_ex} for an illustration exemplifying where
+the external/internal inputs/outputs are located in a complex node.
 
 \begin{figure}[H]
 	\centering
@@ -85,8 +90,14 @@ are external/internal, and how they can have multiple subregions.}
 	\label{fig:complex_node_mapping_ex}
 \end{figure}
 
-Figure~\ref{fig:fib_phi} illustrates how complex nodes can contain both simple-
-and complex- nodes, and how complex nodes have internal and external outputs.
+\unsure{Confirm that the following is true for any complex node with multiple
+subregions}
+
+As Figure~\ref{fig:complex_node_mapping_ex} also shows, some complex nodes may
+also have multiple \textit{subregions}. If a complex node has more than one
+subregion, the arity and order of all the internal inputs/outputs must match
+between all subregions, as well as match the arity and order of the external
+inputs/outputs of the complex node.
 
 The complex nodes of an RVSDG relevant for this report are as follows:
 
@@ -112,7 +123,7 @@ Figure~\ref{fig:simple_if} for an example of a $\gamma$-node.
 	\noindent\begin{minipage}{0.36\textwidth}
 		\begin{CenteredBox}
 		\begin{lstlisting}[label={lst:simple_if}, style=minipage_customcpp,
-basicstyle=\fontsize{14}{1}]
+basicstyle=\fontsize{10}{1}]
 if((z-2) != 0 ){
 	x = (y*2) / (z+2);
 }
@@ -144,15 +155,13 @@ represented by its contained RVSDG subgraph can be executed as a tail-controlled
 loop.
 
 A $\theta$-node is equivalent to a \textit{do-while} loop in C/C++, as shown in
-Figure~\ref{fig:factorial_loop_ex}. See Listing~\ref{lst:factorial_loop_ex} for
-the C/C++ code corresponding to the RVSDG depicted in
 Figure~\ref{fig:factorial_loop_ex}.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.36\textwidth}
 		\begin{CenteredBox}
 		\begin{lstlisting}[style=global_customcpp,
-label={lst:fig:factorial_loop_ex}, basicstyle=\fontsize{14}{1}]
+label={lst:fig:factorial_loop_ex}, basicstyle=\fontsize{10}{1}]
 unsigned int i = 0;
 unsigned long long r = 1;
 do{
@@ -188,7 +197,7 @@ RVSDG. However, its external output is what give the \applyNode s their first
 link, enabling them to invoke the function represented by the
 \textit{$\lambda$-node}.
 
-When the invokation of a \textit{$\lambda$-node} is linked with an \applyNode ,
+When the invocation of a \textit{$\lambda$-node} is linked with an \applyNode ,
 the external inputs of the \applyNode~are mapped to the internal outputs of the
 \textit{$\lambda$-node}, and likewise with the external outputs and internal
 inputs, respectively. This enables the evaluation of the body of the
@@ -260,17 +269,20 @@ Figure~\ref{fig:fib_phi}.
 style=minipage_customcpp]
 unsigned long long
 fac(unsigned int n){
+	unsigned long long r;
 	if(n > 1){
-		return n*fac(n-1)
+		r = n*fac(n-1);
+	} else{
+		r = 1;
 	}
-	return n;
+	return r;
 }
 		\end{lstlisting}
 		\end{CenteredBox}
 	\end{minipage}
 	\noindent\begin{minipage}{0.55\textwidth}
 		\captionsetup{type=figure}
-		\includegraphics[width=\textwidth]{figures/iterative_factorial_func_ex}
+		\includegraphics[width=\textwidth]{figures/recursive_factorial_func_ex}
 	\end{minipage}
 	\captionof{figure}{Example of an RVSDG subgraph on the right, depicting a
 $\phi$-region equivalent to the recursive C/C++function on the left.}
