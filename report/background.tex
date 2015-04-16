@@ -15,17 +15,15 @@ edges. The arity and order of inputs and outputs depend on the operation the
 node represents.
 
 Figure~\ref{fig:simple_node_RVSDG_ex} exemplifies how the C/C++ code on the left
-can be represented as a directed acyclic demand-based dependence graph depicted
-in the figure on the right. The nodes in Figure~\ref{fig:simple_node_RVSDG_ex}
-represent operations in a program, while the edges between the nodes show the
-dependencies nodes have to each other, thus giving the order of execution.
+can be represented as a directed acyclic demand-based dependence graph (a RVSDG)
+depicted in the figure on the right. The nodes in
+Figure~\ref{fig:simple_node_RVSDG_ex} represent operations in a program, while
+the edges between the nodes show the dependencies nodes have to each other, thus
+giving the order of execution.
 
 In all RVSDG examples depicted in this report, the order of inputs in a node
 starts with the first input being the edge closest to the bottom left corner of
 the node, clockwise.
-
-\todo[inline]{Replace example with one without the if-statement, so as to only
-have simple nodes. Also elaborate on the example in above text.}
 
 \begin{centering}
 	\noindent\begin{minipage}{0.36\textwidth}
@@ -87,8 +85,8 @@ are external/internal, and how they can have multiple subregions.}
 	\label{fig:complex_node_mapping_ex}
 \end{figure}
 
-\unsure{Confirm that the following is true for any complex node with multiple
-subregions}
+\unsure[inline]{Confirm that the following is true for any complex node with
+multiple subregions}
 
 As Figure~\ref{fig:complex_node_mapping_ex} also shows, some complex nodes may
 also have multiple \textit{subregions}. If a complex node has more than one
@@ -205,11 +203,8 @@ the arity and order of the external inputs and outputs of all connected
 Hence, when an \applyNode~connected with a $\lambda$-node is executed, the
 external inputs of the \applyNode~are mapped to the internal outputs of the
 $\lambda$-node, and likewise the external outputs are mapped internal inputs of
-the two, respectively.
-
-Figure~\ref{fig:iter_fib_phi} and Listings~\ref{lst:iter_fib_phi} illustrate the
-workings of $\lambda$-nodes by depicting an RVSDG and the equivalent C/C++ code
-for an iterative fibonacci function.
+the two, respectively. See Figure~\ref{fig:iterative_factorial_func_ex} for an
+example of a $\lambda$-node.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.37\textwidth}
@@ -246,14 +241,12 @@ inputs. However, the internal outputs of the $\phi$-region represent the links
 utilized by the \applyNode s contained within to connect with the respective
 $\lambda$-nodes also contained within the same $\phi$-region.
 
-The internal inputs of a $\phi$-region receive the function invocation links
-from the $\lambda$-nodes contained within. The internal inputs map to the
-external outputs, thus enabling \applyNode s outside of the recursive
-environment to connect with the $\lambda$-nodes.
-
-An RVSDG representing the recursive fibonacci function written in C/C++ in
-Listing~\ref{lst:fib_phi}, illustrates the usage of a $\phi$-region in
-Figure~\ref{fig:fib_phi}.
+The internal inputs of a $\phi$-region \unsure{Nico crossed out ``receive the
+function invocation links'', but what he wrote above is illegible. Ask Nico for
+clarification.} receive the function invocation links from the $\lambda$-nodes
+contained within. The internal inputs map to the external outputs, thus enabling
+\applyNode s outside of the recursive environment to connect with the
+$\lambda$-nodes, as depicted in Figure~\ref{fig:recursive_factorial_func_ex}.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.37\textwidth}

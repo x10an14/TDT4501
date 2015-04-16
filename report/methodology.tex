@@ -33,7 +33,7 @@ risk of code-duplication.
 has, the greater the invocation cost of said function. This is especially true
 when type conversion is required. In some cases, the computational cost of an
 inlined with low statement count may be smaller than the cost of invoking it if
-it has many parameters\cite{AdaptvCompilAndInlingWaterman}.
+it has many parameters~\cite{AdaptvCompilAndInlingWaterman}.
 
 	\item Constant parameter count (CPC): This property tells us how many of the
 call site's parameters are constant at the call site. Function invocations with
@@ -42,7 +42,7 @@ inlining.
 
 	\item Calls in procedure (CP): This function property tells us how many call
 sites are located inside the function the call site invocates. Hence, it enables
-finding leaf functions. Waterman\cite{AdaptvCompilAndInlingWaterman} introduced
+finding leaf functions. Waterman~\cite{AdaptvCompilAndInlingWaterman} introduced
 this parameter for two distinct reasons: leaf functions are often small and
 easily inlined, and a high percentage of total execution time is spent in leaf
 functions.
