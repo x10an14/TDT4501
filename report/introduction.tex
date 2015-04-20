@@ -6,9 +6,9 @@
 Since the 1950s, compilers have been translating higher-level programming
 languages into machine languages. The purpose of a compiler is two-fold:
 translate human-readable code into machine language, and optimize the translated
-code. There exist many code optimization techniques compilers use, such as
-\todo{Find reference, if time allows.}\textit{Common Subexpression Elimination}
-(CSE) and \textit{Dead Code Elimination} (DCE).
+code. Compilers use many code optimization techniques, such as \todo{Find
+reference, if time allows.}\textit{Common Subexpression Elimination} (CSE) and
+\textit{Dead Code Elimination} (DCE).
 
 Another code optimization is \textit{inlining}, which replaces the call site of
 a function with its body. Listing~\ref{lst:inlining} shows the definitions of
@@ -37,21 +37,19 @@ int bar(int y){
 \end{centering}
 
 The benefits of inlining are mainly two-fold: The first one is the removal of
-function call overhead. Function call overhead is the overhead cost in memory
-needed on the stack, as well as the CPU cycles needed for setting up the call
-and performing the call. The second is the potential for unveiling the
-application of additional optimizations as shown in Listing~\ref{lst:inlining}.
+function call overhead. Function call overhead is the cost in memory needed on
+the stack, as well as the CPU cycles needed for setting up the call and
+performing the call. The second is the potential for unveiling the application
+of additional optimizations as shown in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code-duplication, and an increased compile time.
-
 In specific situations, work-duplication can also occur~\cite{GHCPaper}.
 Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
-code-duplication, if \lstinline!foo()! is inlined into \lstinline!bar()!. If
+code-duplication, if \lstinline!foo()! is inlined into \lstinline!bar()!. info
 \lstinline!foo()! is called more than once, code-duplication will occur. This
-due to the big expression \lstinline!e! in \lstinline!foo()! being copied
-into \lstinline!bar()! as soon as one of the two invocations of
-\lstinline!foo()! is inlined. Thus, if both are inlined, code-duplication will
-still occur.
+due to the big expression \lstinline!e! in \lstinline!foo()! being copied into
+\lstinline!bar()! as soon as one of the two invocations of \lstinline!foo()! is
+inlined. Thus, if both are inlined, code-duplication will still occur.
 
 However, code-duplication might be mitigated if CSE is applicable, and if
 \lstinline!foo()! is \lstinline!static! with all its invocations inlined, then
@@ -88,7 +86,7 @@ functions to a certain depth~\cite{GHCPaper}\cite{InlineWhenHowSerrano}, and
 therefore breaking the recursive cycle.
 
 	\item If the mutual recursive function(s) has one or more recursive
-bindings, decide on a function to be loop a breaker, and don't inline this one.
+bindings, decide on a function to be a loop breaker, and don't inline this one.
 Any remaining recursive functions in the mutual recursive environment can then
 safely be inlined wrt. termination of the
 compilation~\cite{BasMscThesis}\cite{GHCPaper}.

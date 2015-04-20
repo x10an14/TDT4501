@@ -25,9 +25,9 @@ in Section~\ref{sub:scheme:inlining_recur_apply_nodes} to fill a list of
 	\end{enumerate}
 
 	\item Scan through the RVSDG, finding all \applyNode s. Exclude all function
-calls calling loop breakers found in Step~\ref{MakeLoopBreakerListItem},
-function calls calling functions that are not-statically known, or external
-functions. Put a reference to each remaining function call/\applyNode~into a
+calls invoking loop breakers found in Step~\ref{MakeLoopBreakerListItem},
+function calls invoking functions that are not-statically known, or external
+functions. Put a reference to each remaining function call /\applyNode~into a
 list.
 	\label{ScanForApplyNodesItem}
 
@@ -60,18 +60,20 @@ Step~\ref{LookAtNextCallSiteItem}, evaluating the next \applyNode .
 
 To effectively test for an apt heuristic when deciding whether or not to inline
 a call site, our approach is based on previous
-work~\cite{deshpande2012statically}\cite{AdaptvCompilAndInlingWaterman}. The
-approach evaluates theThis
+work~\cite{deshpande2012statically}\cite{AdaptvCompilAndInlingWaterman}. This
 approach utilizes something we call \textit{Inliner Conditions} (ICs) which
-evaluate the function invoked by the call site.
+evaluate the function invoked by the call site. An IC evaluates a specific
+property of the function invoked by \applyNode .
 
-Using ICs in this way allows us to write and re-write inlining heuristics
-effectively, since we can write them using CNF in the following fashion:
+The inliner used several different ICs, \textit{Statement Count} (SC) and
+\textit{Static Call Count} (SCC) being among these. Using ICs in this way allows
+us to write and re-write inlining heuristics effectively, since we can write
+them using CNF in the following fashion:
 \lstinline"SC < X || SCC < Y || (SCC < Z && LND > W)"
 
-Utilizing the \textit{inlining conditions} described in
+Utilizing the inlining conditions described in
 Section~\ref{sub:meth:inlining_conditions}, heuristics evaluating the function
-invoked by each \applyNode can be written in \textit{Conjunctive Normal Form}
+invoked by each \applyNode~can be written in \textit{Conjunctive Normal Form}
 (CNF). This enables an efficient way to search the parameter space for optimal
 parameters for the inlining heuristics.
 
@@ -79,8 +81,8 @@ The inliner evaluates each \applyNode~with the given heuristic, and decides
 whether or not to inline the call site this \applyNode~represents, depending on
 the properties of the function it invokes.
 
-\todo[inline]{Describe the algorithm and inliner conditions we land on after
-testing.}
+\todo[inline]{Describe the algorithm and inliner conditions we land for
+evaluating a call site on after testing.}
 
 \subsection{The order of call sites inlined}
 \label{sub:scheme:ordering_apply_nodes}
@@ -89,18 +91,18 @@ testing.}
 
 The inlining conditions we use as criteria for whether or not to inline, only
 look at the properties of the function a call site invokes. Hence, when a
-successive series of functions call one another, we only consider at one at a
-time. Thus, the ordering of the \applyNode s we look at when deciding whether or
-not to inline them, matters because inlining opportunities might be missed with
-one ordering, and unveiled with another.
+successive series of functions call one another, we only consider one at a time.
+Thus, the ordering of the \applyNode s we look at when deciding whether or not
+to inline them, matters because inlining opportunities might be missed with one
+ordering, and unveiled with another.
 
 Figure~\ref{fig:inline_ordering_ex} illustrates the different outcomes dependent
 upon the order we visit each call-site (\applyNode ). If our criteria for
-inlining is that the inlined function does not exceed the inlining condition:
-\textit{Statement Count} $> 4$, we can inline $\lambda_1 \Rightarrow \lambda_2
-\Rightarrow \lambda_3$. However, if we inline $\lambda_3 \Rightarrow \lambda_2$,
-then the combined function $\lambda_{2+3}$ will have a SC exceeding the given
-limit.
+inlining is that the inlined function does not exceed the inlining condition: SC
+$> 4$, we can inline $\lambda_1 \Rightarrow \lambda_2 \Rightarrow \lambda_3$.
+However, if we inline the functions in the opposite order, $\lambda_3
+\Rightarrow \lambda_2$, then the combined function $\lambda_{2+3}$ will have a
+SC exceeding the given limit.
 
 \begin{figure}[H]
 	\centering
