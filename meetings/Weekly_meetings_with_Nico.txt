@@ -1,6 +1,22 @@
-Weekly meetings with Nico:
+Weekly meetings with Nico
 
 Until further notice: Weekly meetings at Wednesday 1100.
+
+21 Apr, 2015:
+	Code:
+		Only test with integers, floating points ftm. Local variables and functions work
+		Nothing global yet.
+
+		Get numbers out of Spec2006
+
+		QUESTION:
+
+	Report:
+		Use Dragon book for optimization techniques
+		Use something else on big paper on Constant folding
+		REcursive functions handled carefully
+
+		For recursive environment decide on a loop breaker.
 
 25th Mar, 2015:
 	code:
