@@ -44,7 +44,7 @@ application of additional optimizations as shown in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code-duplication, and an increased compile time.
 
-In specific situations, work-duplication can also occur\cite{GHCPaper}.
+In specific situations, work-duplication can also occur~\cite{GHCPaper}.
 Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
 code-duplication, if \lstinline!foo()! is inlined into \lstinline!bar()!. If
 \lstinline!foo()! is called more than once, code-duplication will occur. This
@@ -91,15 +91,16 @@ therefore breaking the recursive cycle.
 bindings, decide on a function to be loop a breaker, and don't inline this one.
 Any remaining recursive functions in the mutual recursive environment can then
 safely be inlined wrt. termination of the
-compilation\cite{BasMscThesis}\cite{GHCPaper}.
+compilation~\cite{BasMscThesis}\cite{GHCPaper}.
 
 \end{enumerate}
 
 This report describes the construction of an inliner for the Jive compiler
-backend, detailing its design and architecture. Jive uses an
+backend, detailing the design and architecture. Jive uses \info{Nico crossed out
+``an'', but what he wrote above is illegible. Ask for clarification.}an
 \textit{intermediate representation} (IR) called \textit{Regionalized Value
 State Dependence Graph}\footnote{Detailed in Section \ref{background:RVSDG}.}
-(RVSDG). The RVSDG\cite{RVSDG:HiPEACpaper} is a \textit{demand-based} and
+(RVSDG). The RVSDG~\cite{RVSDG:HiPEACpaper} is a \textit{demand-based} and
 \textit{directed acyclic graph} (DAG) where nodes represent computations, and
 edges represent the dependencies between these computations.
 
