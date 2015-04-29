@@ -1,10 +1,8 @@
 % !TEX root = ./report.tex
 
 \clearpage
-\section{Background}
+\section{Background - The Regionalized Value State Dependence Graph}
 \label{background}
-
-\subsection{The Regionalized Value-State Dependence Graph}
 \label{background:RVSDG}
 
 The \textit{Regionalized Value State Dependence Graph}~\cite{RVSDG:HiPEACpaper}
@@ -15,15 +13,14 @@ edges. The arity and order of inputs and outputs depend on the operation the
 node represents.
 
 Figure~\ref{fig:simple_node_RVSDG_ex} exemplifies how the C/C++ code on the left
-can be represented as a directed acyclic demand-based dependence graph (a RVSDG)
-depicted in the figure on the right. The nodes in
+can be represented as an RVSDG in the figure on the right. The nodes in
 Figure~\ref{fig:simple_node_RVSDG_ex} represent operations in a program, while
 the edges between the nodes show the dependencies nodes have to each other, thus
 giving the order of execution.
 
 In all RVSDG examples depicted in this report, the order of inputs in a node
-starts with the first input being the edge closest to the bottom left corner of
-the node, clockwise.
+goes clockwise. The first input of a node is the one closest to the bottom left
+corner of the node.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.36\textwidth}
@@ -43,7 +40,7 @@ on the left.}
 	\label{fig:simple_node_RVSDG_ex}
 \end{centering}
 
-\subsubsection{Edges}
+\subsection{Edges}
 
 The RVSDG has two types of edges: data dependence edges and state dependence
 edges. They represent data and state dependencies operations have to each other,
@@ -55,13 +52,15 @@ the program has side-effecting operations. If there are no data dependencies
 between operations, state dependence edges can give the needed order of
 execution for the connected operations.
 
-\subsubsection{Nodes}
+\subsection{Nodes}
 
 The RVSDG has two kinds of nodes: simple nodes and complex nodes. Simple nodes
 are used to represent primitive operations, such as addition and substraction.
 The arity and order of inputs and outputs of any RVSDG node need to match the
 operation. Figure~\ref{fig:simple_node_RVSDG_ex} is an example of an RVSDG
 containing only simple nodes.
+
+\subsubsection{Simple Nodes}
 
 One simple node of special interest for this report is the \applyNode . An
 \applyNode~represents the call site of a function. The first input argument of
@@ -70,12 +69,17 @@ the arguments to this function. Likewise, its results are the results of the
 invocation of its function. Order and arity of inputs and outputs need to match
 the arguments and results of the funtion, respectively.
 
+\subsubsection{Complex Nodes}
+
 Complex nodes contain one or more RVSDG subgraphs, which is why they are also
 referred to as \textit{regions}. Differing from the simple nodes with their
 contained subgraph, complex nodes may besides the normal inputs and outputs also
-have internal inputs and outputs. See Figure~\ref{fig:complex_node_mapping_ex}
-for how complex nodes route external and internal inputs/outputs, whether they
-have one or more subregions.
+have internal inputs and outputs. Figure~\ref{fig:complex_node_mapping_ex} shows
+which inputs/outputs are the external ones, and which are the internal ones.
+Figure~\ref{fig:complex_node_mapping_ex} also illustrates how the values of the
+external inputs are mapped to the internal outputs of each subregion, and vica
+versa with each subregion's internal inputs being mapped to the external
+outputs.
 
 \begin{figure}[H]
 	\centering
@@ -84,9 +88,6 @@ have one or more subregions.
 are external/internal, and how they can have multiple subregions.}
 	\label{fig:complex_node_mapping_ex}
 \end{figure}
-
-\unsure[inline]{Confirm that the following is true for any complex node with
-multiple subregions}
 
 As Figure~\ref{fig:complex_node_mapping_ex} also shows, some complex nodes may
 also have multiple \textit{subregions}. If a complex node has more than one
@@ -103,9 +104,9 @@ The complex nodes of an RVSDG relevant for this report are as follows:
 \textit{$\gamma$-nodes} represent conditional statements. Each $\gamma$-node has
 a predicate as first input. All other edges passing as inputs to the
 $\gamma$-node are edges its subregions depend upon. Each subregion represents
-one case from the predicate. All subregions must have the same order and arity
-of internal inputs and outputs, even if the subgraph in each region does not
-depend on all of the internal outputs.
+one case. All subregions must have the same order and arity of internal inputs
+and outputs, even if the subgraph in each region does not depend on all of the
+internal outputs.
 
 A $\gamma$-node is equivalent to a \textit{switch-case} without fall-through in
 C/C++. Each case of the switch statement corresponds to a subregion of the
@@ -142,16 +143,19 @@ $\gamma$-nodes, its inputs (and outputs) are all the dependencies needed for the
 RVSDG subgraph in its subregion.
 
 The first time the operations of the node are executed, the external inputs are
-mapped to the internal outputs. And likewise, the last iteration the operations
-of the node are executed, the internal inputs are mapped to the external outputs
-of the $\theta$-node.
+mapped to the internal outputs, as Figure~\ref{fig:complex_node_mapping_ex}
+exemplifies. This enables the complex node's contained RVSDG subgraph to
+execute with the values given as external inputs to the $\theta$-node.
 
 However, inside the $\theta$-node there is an extra first internal input, which
 is the predicate of the tail controlled loop. If this predicate evaluates to
-true, the rest of the internal inputs of the $\theta$-node are mapped to their
-corresponding internal outputs. This enables the iterative behaviour of an RVSDG
-$\theta$-node. Thus, the operations represented by its contained RVSDG subgraph
-can be executed as a tail-controlled loop.
+\lstinline!true!, the rest of the internal inputs of the $\theta$-node are
+mapped to their corresponding internal outputs. This enables the iterative
+behaviour of an RVSDG $\theta$-node. Thus, the operations represented by its
+contained RVSDG subgraph can be executed as a tail-controlled loop.
+
+Finally, when the predicate evaluates to false, the internal inputs are mapped
+to the external outputs of the $\theta$-node instead of the internal outputs.
 
 A $\theta$-node is equivalent to a \textit{do-while} loop in C/C++, as shown in
 Figure~\ref{fig:factorial_loop_ex}.
@@ -179,22 +183,20 @@ $\theta$-node equivalent to the C/C++ do-while loop on the left.}
 	\label{fig:factorial_loop_ex}
 \end{centering}
 
-Other loops than tail-controlled loops can be represented by combining complex
-nodes. A \textit{for-loop} can be represented by putting a $\theta$-node inside
-of the \textit{true} clause of a $\gamma$-node conaining no nodes in the
-subregion representing the \textit{false} clause. This is equivalent to a
-\textit{for-loop} if the $\gamma$-node and $\theta$-node have the same predicate
-expression.
+A \textit{for-loop} can be represented by putting a $\theta$-node inside of the
+\textit{true} clause of a $\gamma$-node conaining no nodes in the subregion
+representing the \textit{false} clause, as long as the $\gamma$- and
+$\theta$-nodes share the same predicate.
 
 \item \textbf{$\lambda$-nodes: Functions}
 
-\textit{$\lambda$-nodes} represent functions. They contain an RVSDG subgraph
-representing the body of a function. The internal inputs of a $\lambda$-nodes
-represent the results of the function the $\lambda$-node represents in the
-RVSDG. Respectively, its internal outputs represent the arguments of the
-function. While $\lambda$-nodes don't have any external inputs, their external
-output are what give the \applyNode s their first input, enabling them to invoke
-the function represented by the $\lambda$-node.
+\textit{$\lambda$-nodes} represent functions. A $\lambda$-node contains an RVSDG
+subgraph representing the body of a function. The internal inputs of a
+$\lambda$-node represents the results of the function. Respectively, its
+internal outputs represent the arguments of the function. While $\lambda$-nodes
+don't have any external inputs, their external output are what give the
+\applyNode s their first input, enabling them to invoke the function represented
+by the $\lambda$-node.
 
 The arity and order of a $\lambda$-node's internal inputs and outputs must match
 the arity and order of the external inputs and outputs of all connected
@@ -202,9 +204,10 @@ the arity and order of the external inputs and outputs of all connected
 
 Hence, when an \applyNode~connected with a $\lambda$-node is executed, the
 external inputs of the \applyNode~are mapped to the internal outputs of the
-$\lambda$-node, and likewise the external outputs are mapped internal inputs of
-the two, respectively. See Figure~\ref{fig:iterative_factorial_func_ex} for an
-example of a $\lambda$-node.
+$\lambda$-node, before the $\lambda$-node is invoked. Likewise the external
+outputs of the \applyNode~are mapped internal inputs of the $\lambda$-node when
+the operations of the $\lambda$-node have been executed. See
+Figure~\ref{fig:iterative_factorial_func_ex} for an example of a $\lambda$-node.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.37\textwidth}
@@ -241,12 +244,11 @@ inputs. However, the internal outputs of the $\phi$-region represent the links
 utilized by the \applyNode s contained within to connect with the respective
 $\lambda$-nodes also contained within the same $\phi$-region.
 
-The internal inputs of a $\phi$-region \unsure{Nico crossed out ``receive the
-function invocation links'', but what he wrote above is illegible. Ask Nico for
-clarification.} receive the function invocation links from the $\lambda$-nodes
-contained within. The internal inputs map to the external outputs, thus enabling
-\applyNode s outside of the recursive environment to connect with the
-$\lambda$-nodes, as depicted in Figure~\ref{fig:recursive_factorial_func_ex}.
+The internal inputs of a $\phi$-region receive the function invocation links
+from the $\lambda$-nodes contained within. The internal inputs map to the
+external outputs, thus enabling \applyNode s outside of the recursive
+environment to connect with the $\lambda$-nodes, as depicted in
+Figure~\ref{fig:recursive_factorial_func_ex}.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.37\textwidth}

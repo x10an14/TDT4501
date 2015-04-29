@@ -14,8 +14,8 @@ Another code optimization is \textit{inlining}, which replaces the call site of
 a function with its body. Listing~\ref{lst:inlining} shows the definitions of
 functions \lstinline!foo()! and \lstinline!bar()!. If \lstinline!foo()! is
 inlined into \lstinline!bar!, the body of \lstinline!bar()! becomes
-\lstinline!return y + 3 + 2;!. After the inlining is performed, \textit{Constant
-Folding} (CF) allows replacing \lstinline!3+2! with \lstinline!5!.
+\lstinline!return y + 3 + 2;!, allowing \textit{Constant Folding} (CF) to
+replace \lstinline!3+2! with \lstinline!5!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -40,20 +40,20 @@ The benefits of inlining are mainly two-fold: The first one is the removal of
 function call overhead. Function call overhead is the cost in memory needed on
 the stack, as well as the CPU cycles needed for setting up the call and
 performing the call. The second is the potential for unveiling the application
-of additional optimizations as shown in Listing~\ref{lst:inlining}.
+of additional optimizations as demonstrated in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code-duplication, and an increased compile time.
 In specific situations, work-duplication can also occur~\cite{GHCPaper}.
 Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
-code-duplication, if \lstinline!foo()! is inlined into \lstinline!bar()!. info
-\lstinline!foo()! is called more than once, code-duplication will occur. This
-due to the big expression \lstinline!e! in \lstinline!foo()! being copied into
-\lstinline!bar()! as soon as one of the two invocations of \lstinline!foo()! is
-inlined. Thus, if both are inlined, code-duplication will still occur.
-
-However, code-duplication might be mitigated if CSE is applicable, and if
-\lstinline!foo()! is \lstinline!static! with all its invocations inlined, then
-the definition of \lstinline!foo()! may be removed through the use of DCE.
+code-duplication, if \lstinline!foo()! is inlined into \lstinline!bar()!. If
+\lstinline!foo()! is called more than once in the program like \lstinline!bar()!
+does, code-duplication will occur. This is due to the big expression
+\lstinline!e! in \lstinline!foo()! being copied into \lstinline!bar()! as soon
+as one of the two invocations of \lstinline!foo()! is inlined. Hence, if both
+are inlined, code-duplication still occurs. However, code-duplication might be
+mitigated if CSE is applicable, and if \lstinline!foo()! is \lstinline!static!
+with all its invocations inlined, then the definition of \lstinline!foo()! may
+be removed through the use of DCE.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -76,8 +76,8 @@ int bar(int x, int y){
 
 If inlining is performed blindly on all function call sites, non-termination of
 the compilation can occur. This can happen when the compiler attempts to inline
-recursive functions. Hence, recursive functions need to be handled specially.
-The literature proposes two main approaches for handling recursive functions:
+recursive functions. Hence, recursive functions need to be handled carefully.
+The literature proposes two main approaches for inlining recursive functions:
 
 \begin{enumerate}
 
@@ -85,17 +85,15 @@ The literature proposes two main approaches for handling recursive functions:
 functions to a certain depth~\cite{GHCPaper}\cite{InlineWhenHowSerrano}, and
 therefore breaking the recursive cycle.
 
-	\item If the mutual recursive function(s) has one or more recursive
-bindings, decide on a function to be a loop breaker, and don't inline this one.
-Any remaining recursive functions in the mutual recursive environment can then
-safely be inlined wrt. termination of the
-compilation~\cite{BasMscThesis}\cite{GHCPaper}.
+    \item In a mutually recursive environment, decide on a function to be a
+\textit{loop breaker}, and never inline it. Any other remaining recursive
+functions in the mutual recursive environment can then safely be inlined wrt.
+termination of the compilation~\cite{BasMscThesis}\cite{GHCPaper}.
 
 \end{enumerate}
 
 This report describes the construction of an inliner for the Jive compiler
-backend, detailing the design and architecture. Jive uses \info{Nico crossed out
-``an'', but what he wrote above is illegible. Ask for clarification.}an
+backend, detailing the design and architecture. Jive uses an
 \textit{intermediate representation} (IR) called \textit{Regionalized Value
 State Dependence Graph}\footnote{Detailed in Section \ref{background:RVSDG}.}
 (RVSDG). The RVSDG~\cite{RVSDG:HiPEACpaper} is a \textit{demand-based} and
