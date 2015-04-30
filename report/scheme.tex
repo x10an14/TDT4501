@@ -4,10 +4,11 @@
 \section{The Inliner}
 \label{scheme:start}
 
-\todo[inline]{Introduce section with how the RVSDG helps with the different
+\thiswillnotshow[inline]{Introduce section with how the RVSDG helps with the different
 steps in the below enumerated list.}
 
-The inliner of this project performs the following when given an RVSDG as input:
+The following heuristic is executed by the inliner of this project when given an
+RVSDG as input:
 
 \begin{enumerate}
 	\item For all recursive environments ($\phi$-regions):
@@ -59,35 +60,50 @@ described in Section~\ref{sub:scheme:inlining_apply_nodes}. However, the inliner
 of this project only evaluates \textit{some} of the \applyNode s invoking
 recursive functions, to ensure termination of the compiler.
 
-A $\phi$-region will always contain a Strongly Connected Component call
-dependency graph or the recursive functions inside represented by
-$\lambda$-nodes. Hence, if there's only one function present inside of a
-$\phi$-region, it's always marked as a \textit{loop breaker}.
+The \applyNode s not evaluated for inlining are the \textit{loop breakers},
+found in Step~\ref{ScanForApplyNodesItem}. Loop breakers are function-nodes
+found in $\phi$-regions which are self-recursive, and function-nodes which break
+Strongly Connected Component cycles within the $\phi$-region's call dependency
+graph.
+
+\todo[inline]{Make a figure or three of $phi$-regions, one with a self-recursive
+lambda, one with some mutually recursive ones (the example from PVV w/Torje),
+and perhaps also one based on GHC papers FGHPQ example.}
 
 Hence, the inliner has a list of recursive functions which it knows \textit{not}
-to inline, to ensure termination of the compilation. All other remaining
+to inline, thus ensuring termination of the compilation. All other remaining
 recursive functions may then be safely inlined with the same criteria as any
 non-recursive functions.
 
 \subsection{The order of call sites inlined}
 \label{sub:scheme:ordering_apply_nodes}
 
-\todo[inline]{Need reference to further ideas related to ordering of inlining.}
+\todo[inline]{Need reference to further ideas section related to ordering of
+inlining, when finished.}
 
-The inlining conditions we use as criteria for whether or not to inline, only
-look at the properties of the function a call site invokes. Hence, when a
-successive series of functions call one another, we only consider one at a time.
-Thus, the ordering of the \applyNode s we look at when deciding whether or not
-to inline them, matters because inlining opportunities might be missed with one
-ordering, and unveiled with another.
+The heuristic deciding on whether or not to inline a specific \applyNode~is
+based on previous work; Keith D. Cooper et. al~\cite{AdaptvStratInlSubst} and
+Waterman~\cite{AdaptvCompilAndInlingWaterman}. Their work utilizes
+\textit{Inlining Conditions}\footnote{Introduced in
+Section~\ref{sub:meth:inlining_conditions}.} (ICs), which evaluate properties of
+the function invoked or the call-site(s) invoking said function. As such, when a
+successive series of functions call one another, our approach only considers one
+function's properties or \applyNode (s)'s properties, at a time.
 
-Figure~\ref{fig:inline_ordering_ex} illustrates the different outcomes dependent
-upon the order we visit each call-site (\applyNode ). If our criteria for
-inlining is that the inlined function does not exceed the inlining condition: SC
-$> 4$, we can inline $\lambda_1 \Rightarrow \lambda_2 \Rightarrow \lambda_3$.
-However, if we inline the functions in the opposite order, $\lambda_3
-\Rightarrow \lambda_2$, then the combined function $\lambda_{2+3}$ will have a
-SC exceeding the given limit.
+\info[inline]{Because of above paragraph, which I think belongs to
+Section~\ref{sub:scheme:inlining_apply_nodes}, ask Nico if he insists that
+Section~\ref{sub:scheme:ordering_apply_nodes} should come before
+Section~\ref{sub:scheme:inlining_apply_nodes}. I feel that this makes little
+sense since the one that is first now relies on the second...}
+
+Hence, for some ICs such as \textit{Statement Count} it makes a difference which
+order the \applyNode s are evaluated in, as shown in
+Figure~\ref{fig:inline_ordering_ex}. If our criteria for inlining is that the
+function being inlined does not exceed the IC ``SC $> 4$'', and the \applyNode s
+in dependency call graph depicted in Figure~\ref{fig:inline_ordering_ex} are
+evaluated top-down, $\lambda_1$ can be inlined into $\lambda_2$. The new
+$\lambda_{1-2}$ can be inlined into $\lambda_3$, resulting in all of them being
+inlined into a single function $\lambda_{1-2-3}$.
 
 \begin{figure}[H]
 	\centering
@@ -97,31 +113,27 @@ order in a program.}
 	\label{fig:inline_ordering_ex}
 \end{figure}
 
+However, if the \applyNode s are evaluated in the opposite order, bottom-up with
+the same inlining requirement, $\lambda_3$ can be inlined into $\lambda_2$, but
+$\lambda_{2-3}$ cannot be inlined into $\lambda_1$. Thus, the amount of
+\applyNode s inlined differ for the same dependency call graph, when the only
+variable is the order the \applyNode s are evaluated in.
+
 \subsection{Inlining a call site}
 \label{sub:scheme:inlining_apply_nodes}
 
-To effectively test for an apt heuristic when deciding whether or not to inline
-a call site, our approach is based on previous
-work~\cite{deshpande2012statically}\cite{AdaptvCompilAndInlingWaterman}. This
-approach utilizes something we call \textit{Inliner Conditions} (ICs) which
-evaluate the function invoked by the call site. An IC evaluates a specific
-property of the function invoked by \applyNode .
+Our approach was chosen because it permits effective testing for an apt
+heuristic when deciding on whether or not to inline a call site.
 
-The inliner used several different ICs, \textit{Statement Count} (SC) and
-\textit{Static Call Count} (SCC) being among these. Using ICs in this way allows
-us to write and re-write inlining heuristics effectively, since we can write
-them using CNF in the following fashion:
-\lstinline"SC < X || SCC < Y || (SCC < Z && LND > W)"
+As mentioned, the inliner uses several different ICs: SC, \textit{Static Call
+Count} (SCC), and \textit{Loop Nesting Depth} (LND) being among these. These ICs
+and others described in Section~\ref{sub:meth:inlining_conditions}, allow us to
+write and re-write the inlining heuristic effectively, since we can write them
+using \textit{Conjunctive Normal Form} (CNF) in the following fashion:
+\lstinline"SC < X || SCC < Y || (SCC < Z && LND > W)".
 
-Utilizing the inlining conditions described in
-Section~\ref{sub:meth:inlining_conditions}, heuristics evaluating the function
-invoked by each \applyNode~can be written in \textit{Conjunctive Normal Form}
-(CNF). This enables an efficient way to search the parameter space for optimal
-parameters for the inlining heuristics.
-
-The inliner evaluates each \applyNode~with the given heuristic, and decides
-whether or not to inline the call site this \applyNode~represents, depending on
-the properties of the function it invokes.
+This allows us to efficiently search the parameter space for optimal parameters
+for the inlining heuristics.
 
 \todo[inline]{Describe the algorithm and inliner conditions we land for
 evaluating a call site on after testing.}
