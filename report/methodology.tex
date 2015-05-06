@@ -13,10 +13,10 @@ The ICs utilized in this project are the following:
 
 \begin{itemize}
 
-	\item \textbf{Statement count (SC)}
+	\item \textbf{Node count (SN)}
 
 This function property equates to the number of C/C++ statements contained
-within a function. A function's statement count is an inliner condition we want
+within a function. A function's node count is an inliner condition we want
 to utilize because it gives us an idea of the size of the code-duplication if we
 inline the function.
 
@@ -29,7 +29,7 @@ inlining call sites inside nested loops.
 
 	\item \textbf{Static call count (SCC)}
 
-This property tells us how many call sites there are for this function in the
+This property tells us how many \applyNode s invoke this function in the
 program. If this count is low, it may be worth inlining all the call sites and
 eliminating the original function. If the count is $1$, then the call site can
 always be inlined, seeing as there is no risk of code-duplication.
@@ -38,7 +38,7 @@ always be inlined, seeing as there is no risk of code-duplication.
 
 The greater the amount of parameters a function has, the greater the invocation
 cost of said function. This is especially true when type conversion is required.
-In some cases, the computational cost of an inlined with low statement count may
+In some cases, the computational cost of an inlined with low node count may
 be smaller than the cost of invoking it if it has many
 parameters~\cite{AdaptvCompilAndInlingWaterman}.
 
@@ -46,7 +46,7 @@ parameters~\cite{AdaptvCompilAndInlingWaterman}.
 
 This property tells us how many of the call site's parameters are constant at
 the call site. Function invocations with constant parameters can often benefit
-more from unveiled optimizations after inlining.s
+more from unveiled optimizations after inlining.
 
 	\item \textbf{Calls in procedure (CP)}
 
