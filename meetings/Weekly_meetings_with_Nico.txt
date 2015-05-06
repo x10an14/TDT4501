@@ -2,6 +2,30 @@ Weekly meetings with Nico
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+Thur, 30th Apr, 2015:
+	Code:
+		With this:
+			TEST THE NON-RECURSIVE INLINER!
+			Write your own C programs, pipe them through clang -S --emit-llvm
+			Then use JLM repos' jlm program to view the graphs.
+			There exists something in Jive called "Region tree view"
+				in include/jive/view.h
+			Normally use jive_graph_view, but when they get too big use region_tree_view instead.
+
+		If module or convert_module in the jlm.cpp, let Nico know and give
+			him the test that makes them crash/segfault.
+
+		pipe region view output to jive/scripts/RegonTreeTEX.hs (use runhaskell)
+
+		FINISH RECURSIVE INLINER!
+
+	Report:
+		Introduction:
+			Make better distinction between different foo()s and bar()s
+		Statement Count => Node Count in our report.
+		You don't evaluate the nodes, you visit them
+
+
 21 Apr, 2015:
 	Code:
 		Only test with integers, floating points ftm. Local variables and functions work
