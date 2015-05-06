@@ -41,10 +41,10 @@ on the left.}
 
 \subsection{Edges}
 
-The RVSDG has two types of edges: data dependence edges and state dependence
-edges. They represent data and state dependencies operations have to each other,
-respectively. An example of data dependence edges are the operands used in an
-addition, such as in Figure~\ref{fig:simple_node_RVSDG_ex}.
+The RVSDG has data dependence edges and state dependence edges, representing
+data and state dependencies operations have to each other, respectively. An
+example of data dependence edges are the operands used in an addition, such as
+in Figure~\ref{fig:simple_node_RVSDG_ex}.
 
 State dependence edges are used to preserve the semantics of the program when
 the program has side-effecting operations. If there are no data dependencies
@@ -97,12 +97,12 @@ the arguments and results of the funtion, respectively.
 
 Complex nodes contain one or more RVSDG subgraphs, which is why they are also
 referred to as \textit{regions}. Differing from the simple nodes with their
-contained subgraph, complex nodes may besides the normal inputs and outputs also
-have internal inputs and outputs. Figure~\ref{fig:complex_node_mapping_ex} shows
-which inputs/outputs are the external ones, and which are the internal ones.
-Figure~\ref{fig:complex_node_mapping_ex} also illustrates how the values of the
-external inputs are mapped to the internal outputs of each subregion, and vica
-versa with each subregion's internal inputs being mapped to the external
+contained subgraph, complex nodes may besides the normal inputs and outputs,
+also have internal inputs and outputs. Figure~\ref{fig:complex_node_mapping_ex}
+shows which inputs/outputs are the external ones, and which are the internal
+ones. Figure~\ref{fig:complex_node_mapping_ex} also illustrates how the values
+of the external inputs are mapped to the internal outputs of each subregion, and
+vica versa with each subregion's internal inputs being mapped to the external
 outputs.
 
 \begin{figure}[H]
@@ -186,11 +186,11 @@ Figure~\ref{fig:factorial_loop_ex}.
 \begin{centering}
 	\noindent\begin{minipage}{0.36\textwidth}
 		\begin{CenteredBox}
-		\begin{lstlisting}[style=global_customcpp,
+		\begin{lstlisting}[style=minipage_customcpp,
 label={lst:fig:factorial_loop_ex}, basicstyle=\fontsize{10}{1}]
 unsigned int i = 0;
-unsigned long long r = 1;
-do{
+unsigned long r = 1;
+do {
 	i += 1;
 	r *= i;
 } while(i < n);
@@ -238,11 +238,11 @@ example of a $\lambda$-node.
 	\noindent\begin{minipage}{0.37\textwidth}
 		\begin{CenteredBox}
 		\begin{lstlisting}[label={lst:iterative_factorial_func_ex},
-style=minipage_customcpp]
+style=minipage_customcpp, basicstyle=\fontsize{10}{1}]
 unsigned long long
 fac(unsigned int n){
 	unsigned int i = 0;
-	unsigned long long r = 1;
+	unsigned long r = 1;
 	do{
 		i += 1;
 		r *= i;
@@ -279,10 +279,10 @@ Figure~\ref{fig:recursive_factorial_func_ex}.
 	\noindent\begin{minipage}{0.37\textwidth}
 		\begin{CenteredBox}
 		\begin{lstlisting}[label={lst:recursive_factorial_func_ex},
-style=minipage_customcpp]
+style=minipage_customcpp, basicstyle=\fontsize{10}{1}]
 unsigned long long
 fac(unsigned int n){
-	unsigned long long r;
+	unsigned long r;
 	if(n > 1){
 		r = n*fac(n-1);
 	} else{

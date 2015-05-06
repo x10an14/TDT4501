@@ -106,10 +106,7 @@ Given the criteria for whether an \applyNode~is inlined is that the function it
 invokes needs to contain less than four nodes, all of the \applyNode s in
 Figure~\ref{fig:inline_ordering_ex} can be inlined, or just two of them. The
 order the \applyNode s are visited in is what makes the difference in the amount
-inlined given the inlining condition ``NC $<
-4$''\footnote{Section~\ref{further_work:call_site_visit_order} discusses ideas
-for potential work for future research on the impact of inlining call sites
-order.}.
+inlined given the inlining condition \lstinline!NC < 4!.
 
 When the inliner visits the \applyNode s in Figure~\ref{fig:inline_ordering_ex}
 top down, $\lambda_1$ can be inlined into $\lambda_2$. The new $\lambda_{1-2}$
@@ -134,6 +131,8 @@ less nodes than the sum of its original NC plus the NC of the function inlined.
 
 Because of this, our inliner is able to traverse the \applyNode s of an RVSDG in
 a top down order, or a bottom up order.
+Section~\ref{further_work:call_site_visit_order} discusses ideas for potential
+work for future research on the impact of inlining call sites order.
 
 \subsection{Inlining a call site}
 \label{sub:scheme:inlining_apply_nodes}
