@@ -2,6 +2,18 @@ Weekly meetings with Nico
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+thur, 7th May, 2015:
+	report
+		introduction
+			Turn the sentence around "If C is inlined into D"
+				It is part of three sentences saying the same thing too much.
+				Make it clearer, and split up what it says.
+
+				Section 3 details the architecture (and so on)
+
+		scheme
+			intro: the proposed inliner
+
 Thur, 30th Apr, 2015:
 	Code:
 		With this:
