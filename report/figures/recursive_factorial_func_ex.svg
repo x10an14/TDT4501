@@ -22,13 +22,43 @@
   <defs
      id="defs4594">
     <marker
+       inkscape:stockid="Arrow1Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker15823"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path15825"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(0.4,0,0,0.4,4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker15383"
+       style="overflow:visible;"
+       inkscape:isstock="true">
+      <path
+         id="path15385"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
        inkscape:isstock="true"
        style="overflow:visible"
        id="marker16145"
        refX="0"
        refY="0"
        orient="auto"
-       inkscape:stockid="Arrow1Mstart">
+       inkscape:stockid="Arrow1Mstart"
+       inkscape:collect="always">
       <path
          transform="matrix(0.4,0,0,0.4,4,0)"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
@@ -43,7 +73,8 @@
        refX="0.0"
        refY="0.0"
        orient="auto"
-       inkscape:stockid="Arrow1Mend">
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
       <path
          transform="scale(0.4) rotate(180) translate(10,0)"
          style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
@@ -65,22 +96,6 @@
          d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
          transform="matrix(0.4,0,0,0.4,4,0)" />
-    </marker>
-    <marker
-       inkscape:isstock="true"
-       style="overflow:visible"
-       id="marker13304"
-       refX="0"
-       refY="0"
-       orient="auto"
-       inkscape:stockid="Arrow1Mstart"
-       inkscape:collect="always">
-      <path
-         transform="matrix(0.4,0,0,0.4,4,0)"
-         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
-         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
-         id="path13306"
-         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow1Mend"
@@ -474,6 +489,86 @@
          transform="scale(0.2,0.2)"
          inkscape:connector-curvature="0" />
     </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker15755-9"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         id="path15757-5" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker15755-0"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         id="path15757-1" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker13304-5"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mstart"
+       inkscape:collect="always">
+      <path
+         transform="matrix(0.4,0,0,0.4,4,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         id="path13306-5"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker13016-3"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         id="path13018-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker13016-3-7"
+       style="overflow:visible"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         inkscape:connector-curvature="0"
+         id="path13018-7-0"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -482,17 +577,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="107.94664"
-     inkscape:cy="512.34197"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="456.35316"
+     inkscape:cy="891.85004"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="2558"
-     inkscape:window-height="1388"
+     inkscape:window-width="1918"
+     inkscape:window-height="1030"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     showguides="false"
+     inkscape:connector-spacing="2" />
   <metadata
      id="metadata4597">
     <rdf:RDF>
@@ -543,56 +640,32 @@
          d="m 482.91194,12.683689 c 0,0 -38.35528,82.635806 -89.71789,-0.347177 31.03417,0.115106 61.0267,0.230757 89.71789,0.347177 z"
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:6.28114986;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <flowRoot
-         transform="matrix(2.0025586,0,0,2.1268464,302.6979,-1111.9525)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         transform="matrix(2.0025586,0,0,2.1268464,309.9479,-1111.2025)"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="flowRoot4800-1-7-5-1-3-2"
          xml:space="preserve"><flowRegion
            id="flowRegion4802-6-3-5-0-0-3"><rect
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
              y="530.86218"
              x="60.5"
              height="59"
              width="189"
              id="rect4804-9-5-4-5-58-9" /></flowRegion><flowPara
-           id="flowPara11798-5">λ1</flowPara></flowRoot>      <path
+           id="flowPara14605">λ</flowPara></flowRoot>      <path
          inkscape:connector-avoid="true"
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"
          id="path6493-1-8-3-1-8-4-9-1"
          d="m 455.16738,731.9559 c 0,0 -38.35529,82.63581 -89.71789,-0.34717 31.03417,0.1151 61.0267,0.23075 89.71789,0.34717 z"
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:6.28114986;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <flowRoot
-         transform="matrix(2.0025586,0,0,2.1268464,274.95333,-392.68029)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         id="flowRoot4800-1-7-5-1-3-1"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4802-6-3-5-0-0-9"><rect
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
-             y="530.86218"
-             x="60.5"
-             height="59"
-             width="189"
-             id="rect4804-9-5-4-5-58-5" /></flowRegion><flowPara
-           id="flowPara11798-4">λ1</flowPara></flowRoot>      <path
+      <path
          inkscape:connector-avoid="true"
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"
          id="path6493-1-8-3-1-8-4-9-81"
          d="m 366.05109,731.29976 c 0,0 38.35528,-82.63581 89.71789,0.34718 -31.03417,-0.11511 -61.0267,-0.23076 -89.71789,-0.34718 z"
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:6.28114986;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <flowRoot
-         transform="matrix(2.0025586,0,0,2.1268464,273.61221,-426.20815)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         id="flowRoot4800-1-7-5-1-3-0"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4802-6-3-5-0-0-2"><rect
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
-             y="530.86218"
-             x="60.5"
-             height="59"
-             width="189"
-             id="rect4804-9-5-4-5-58-6" /></flowRegion><flowPara
-           id="flowPara11798-49">λ1</flowPara></flowRoot>    </g>
+    </g>
     <rect
        y="68.055016"
        x="175.56372"
@@ -606,16 +679,14 @@
     </rect>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:67.65869904px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:67.65874828px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;"
        x="182.13261"
        y="145.741"
        id="text6458-8"
        sodipodi:linespacing="100%"
        transform="scale(1.0572514,0.94584884)"><tspan
          sodipodi:role="line"
-         id="tspan10310"
-         x="182.13261"
-         y="145.741">λ1</tspan></text>
+         id="tspan14655">λ</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:none;stroke-width:4.19999981;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect11734"
@@ -699,19 +770,7 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
        inkscape:connector-avoid="true" />
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot4800-1-7-5-1-3"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="matrix(2.2414564,0,0,2.3805712,255.48655,-651.51985)"><flowRegion
-         id="flowRegion4802-6-3-5-0-0"><rect
-           id="rect4804-9-5-4-5-58"
-           width="189"
-           height="59"
-           x="60.5"
-           y="530.86218"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49969482px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start" /></flowRegion><flowPara
-         id="flowPara11798">λ1</flowPara></flowRoot>    <g
+    <g
        id="g10715"
        transform="matrix(1.77439,0,0,1.77439,-1337.552,-38.360183)">
       <rect
@@ -777,7 +836,7 @@
            id="flowPara4407-0">F</flowPara></flowRoot>    </g>
     <g
        id="g12616"
-       transform="translate(-92.40054,-69.246213)">
+       transform="translate(-92.40054,-99.68734)">
       <rect
          inkscape:connector-avoid="true"
          y="350.18115"
@@ -792,12 +851,12 @@
          transform="scale(1.0151486,0.98507746)"
          sodipodi:linespacing="125%"
          id="text5309-4-94-4-2-4"
-         y="417.57144"
-         x="403.24579"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:130.13049316px;line-height:125%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+         y="414.70016"
+         x="406.03201"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:118.75px;line-height:125%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
          xml:space="preserve"><tspan
-           y="417.57144"
-           x="403.24579"
+           y="414.70016"
+           x="406.03201"
            id="tspan12567"
            sodipodi:role="line">-</tspan></text>
     </g>
@@ -809,7 +868,7 @@
        sodipodi:nodetypes="ccc" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:3.70631123;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 402.80117,491.59127 c 0,0 16.12513,-34.74125 37.71866,0.14598 -13.04723,-0.0484 -25.65647,-0.097 -37.71866,-0.14598 z"
+       d="m 401.05117,491.34127 c 0,0 16.12513,-34.74125 37.71866,0.14598 -13.04723,-0.0484 -25.65647,-0.097 -37.71866,-0.14598 z"
        id="path6493-1-8-1-3-1-7-1-8-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc" />
@@ -877,7 +936,7 @@
        xml:space="preserve"
        id="flowRoot4800-1-7-5-1-8-6-2-0"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.4999342px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="matrix(1.1592978,0,0,1.2312493,346.35463,-177.64374)"><flowRegion
+       transform="matrix(1.1592978,0,0,1.2312493,344.60463,-177.89374)"><flowRegion
          id="flowRegion4802-6-3-5-0-1-3-1-1"><rect
            id="rect4804-9-5-4-5-5-9-5-2"
            width="189"
@@ -1043,16 +1102,16 @@
        inkscape:connector-curvature="0" />
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 545.86434,161.04858 112.01434,0 0,229.30753"
+       d="m 547.5,169.1122 45,0 0,24.75"
        id="path12520"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <g
        id="g12609"
-       transform="translate(37.707107,42.476659)">
+       transform="translate(9.5441565,8.476659)">
       <rect
          inkscape:connector-avoid="true"
-         y="344.64624"
+         y="345.64624"
          x="243.96429"
          height="53.431953"
          width="127.0714"
@@ -1072,25 +1131,19 @@
            id="flowPara12607">apply</flowPara></flowRoot>    </g>
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker12654)"
-       d="m 372.87868,306.73111 46.66609,0 0,-67.84501"
+       d="m 373.25,271.1122 46.29477,0 0,-32.2261"
        id="path12631"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 529.62298,161.40766 0,157.69845 -157.3693,0"
+       d="m 548.62907,159.82556 0,124.28664 -175.62907,0"
        id="path12994"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <path
-       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker13016)"
-       d="m 339.64823,387.26296 0,-45.71984"
-       id="path13008"
-       inkscape:connector-type="orthogonal"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker13304)"
-       d="m 413.69113,415.67718 77,0 0,60.25"
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 419.5,314.8622 72.8231,0 0,38.1714"
        id="path13296"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
@@ -1127,26 +1180,26 @@
            sodipodi:role="line">&gt;</tspan></text>
     </g>
     <path
-       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 656.8801,388.2674 21.49858,0 0,86.08871"
-       id="path14867"
-       inkscape:connector-type="orthogonal"
-       inkscape:connector-curvature="0" />
-    <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker15371)"
-       d="m 409.625,46.049707 -292.625,0 0,385.312503"
+       d="m 409.625,46.049707 -294.5625,0 0,343.374993"
        id="path15361"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <path
+       style="display:none;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker13016)"
+       d="m 337.64823,354.26296 0,-9.46918 0.0836,0 0,-37.01502"
+       id="path13008"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 283.125,433.48721 -166.125,0 0,-9"
+       d="m 251.73001,387.1515 0,-0.31773 -137.73521,0"
        id="path15363"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker15755)"
-       d="m 635.87868,475.85611 0,-238"
+       d="m 636.58579,476.03289 0,-238"
        id="path15747"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
@@ -1154,6 +1207,104 @@
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker16145)"
        d="m 408.8845,655.85207 0,41.18898"
        id="path16461"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       transform="matrix(2.0025586,0,0,2.1268464,279.06045,-513.89771)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="flowRoot4800-1-7-5-1-3-2-9"
+       xml:space="preserve"><flowRegion
+         id="flowRegion4802-6-3-5-0-0-3-7"><rect
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="530.86218"
+           x="60.5"
+           height="59"
+           width="189"
+           id="rect4804-9-5-4-5-58-9-3" /></flowRegion><flowPara
+         id="flowPara14605-7">λ</flowPara></flowRoot>    <flowRoot
+       transform="matrix(2.0025586,0,0,2.1268464,280.43852,-426.54786)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="flowRoot4800-1-7-5-1-3-2-1"
+       xml:space="preserve"><flowRegion
+         id="flowRegion4802-6-3-5-0-0-3-8"><rect
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="530.86218"
+           x="60.5"
+           height="59"
+           width="189"
+           id="rect4804-9-5-4-5-58-9-5" /></flowRegion><flowPara
+         id="flowPara14605-2">λ</flowPara></flowRoot>    <flowRoot
+       transform="matrix(2.0025586,0,0,2.1268464,281.18852,-389.29786)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="flowRoot4800-1-7-5-1-3-2-5"
+       xml:space="preserve"><flowRegion
+         id="flowRegion4802-6-3-5-0-0-3-2"><rect
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+           y="530.86218"
+           x="60.5"
+           height="59"
+           width="189"
+           id="rect4804-9-5-4-5-58-9-0" /></flowRegion><flowPara
+         id="flowPara14605-4">λ</flowPara></flowRoot>    <path
+       style="display:none;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker15755-9)"
+       d="m 679.17607,475.69108 0,-234.8223 -0.0884,0"
+       id="path15747-3"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker15755-0)"
+       d="m 679.26409,473.94925 0.125,0 0,-235.23897"
+       id="path15747-5"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 419.4375,274.2997 0.10456,0 0,201.44592"
+       id="path12994-2"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <g
+       id="g12616-3"
+       transform="translate(59.075602,3.1647519)">
+      <rect
+         inkscape:connector-avoid="true"
+         y="350.18115"
+         x="402.19324"
+         height="54.529716"
+         width="63.169174"
+         id="rect5307-5-5-82-7-6"
+         style="fill:#ffccaa;fill-rule:evenodd;stroke:#000000;stroke-width:2.71750069;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         inkscape:transform-center-y="-58.859047"
+         inkscape:transform-center-x="2.8029008"
+         transform="scale(1.0151486,0.98507746)"
+         sodipodi:linespacing="100%"
+         id="text5309-4-94-4-2-4-4"
+         y="429.05655"
+         x="403.94235"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:90px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+         xml:space="preserve"><tspan
+           sodipodi:role="line"
+           id="tspan18695"
+           x="403.94235"
+           y="429.05655">*</tspan></text>
+    </g>
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker13304-5)"
+       d="m 385.59417,380.96431 75.13009,0 0,0.0442"
+       id="path13296-9"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker13016-3)"
+       d="m 492.875,474.1122 0.125,0 0,-59.59889"
+       id="path13008-7"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker13016-3-7)"
+       d="m 340.51472,350.64988 0.13397,0 0,-38.4517"
+       id="path13008-7-1"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
   </g>

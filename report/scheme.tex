@@ -4,6 +4,11 @@
 \section{The Inliner}
 \label{sec:scheme}
 
+Our inliner, written in C++, is integrated into \unsure{Ask Nico for Jive
+reference.}Jive. This section details the actions of the inliner, and the
+reasoning behind these. First we discuss the action the inliner performs, before
+we go more into depth on the reasoning behind them.
+
 The following heuristic is executed by the inliner of this project when given an
 RVSDG as input:
 
@@ -23,11 +28,11 @@ or external functions.
 	\label{ScanForApplyNodesItem}
 
 	\item Make a list of the \applyNode s found in
-Step~\ref{ScanForApplyNodesItem}, and order the list of according to the
-heuristics discussed in Section~\ref{sub:scheme:ordering_apply_nodes}.
-The order of \applyNode s inlined can affect the amount of \applyNode s inlined,
-even when each \applyNode~is evaluated with the same heuristic.
-	\label{OrderApplyNodesFoundItem}
+Step~\ref{ScanForApplyNodesItem}, and order the list according to the heuristics
+discussed in Section~\ref{sub:scheme:ordering_apply_nodes}. The order of
+\applyNode s inlined can affect the total amount of \applyNode s inlined, even
+when all of the \applyNode s are evaluated with the same heuristic.
+\label{OrderApplyNodesFoundItem}
 
 	\item Look at each \applyNode~in turn from the list made in
 Step~\ref{OrderApplyNodesFoundItem} and decide whether or not to inline it
@@ -53,68 +58,60 @@ have been inlined, and the inliner is finished.
 \subsection{Deciding which recursive functions to inline}
 \label{sub:scheme:inlining_recur_apply_nodes}
 
-The inliner visits all \applyNode s and the functions they invoke functions,
-with the same heuristic, described in
-Section~\ref{sub:scheme:inlining_apply_nodes} regardless of whether the
-functions invoked are recursive or not. However, the inliner of this project
-only considers inlining \textit{some} of the \applyNode s invoking recursive
-functions, to ensure termination of the compiler.
+The inliner visits all\applyNode s invoking statically known functions in the
+RVSDG given as input, whether they invoke a recursive function or not. Before
+the inliner considers inlining any \applyNode s, it first finds all the
+$\phi$-regions in the RVSDG. In each $\phi$-region, the call graph made by the
+$\lambda$-node's \applyNode s inside make a Strongly Connected Component (SCC).
 
-The \applyNode s not considered for inlining are the ones invoking \textit{loop
-breakers}. Loop breakers are function-nodes found in $\phi$-regions which break
-the Strongly Connected Component cycles within the $\phi$-region's call
-dependency graph.
+Hence, for each $\phi$-region, the inliner chooses one $\lambda$-node, and
+performs the following steps:
 
-Loop breakers are found by visiting each function in the recursive environment
-of a $\phi$-region, and then checking what functions its \applyNode s call. If
-one of the \applyNode~calls a function already visited, the already visited
-function is marked as a loop breaker. Hence, all self-recursive functions are
-marked as loop breakers, but if two functions call each other in a cycle, only
-one of them may be added to the list of loop breakers.
+\begin{enumerate}
+	\item Mark the $\lambda$-node as ``visited''.
 
-\todo[inline]{Make a figure or three of $\phi$-regions, one with a self-recursive
-lambda, one with some mutually recursive ones (the example from PVV w/Torje),
-and perhaps also one based on GHC papers FGHPQ example.}
+	\item Collect all the \applyNode s contained within this $\lambda$-node.
 
-Hence, the inliner has a list of recursive functions which it knows \textit{not}
-to inline, thus ensuring termination of the compilation. All other remaining
-recursive functions may then be safely inlined with the same criteria as any
-non-recursive functions.
+	\item If one of the collected \applyNode~invokes another $\lambda$-node from
+within the same $\phi$-region, check if the $\lambda$-node is marked as
+``visited''.
+	\begin{enumerate}
+		\item If the invoked $\lambda$-node is marked as ``visited'', add it to
+the list of \textit{loop breakers}.
+
+		\item If the invoked $\lambda$-node is \textit{not} marked as
+``visited'', recursively perform the steps of this list on that $\lambda$-node.
+	\end{enumerate}
+\end{enumerate}
+
+In this manner it is guaranteed, by virtue of the SCC the call graph inside a
+$\phi$-region makes, that all $\lambda$-nodes are visited. It is also guaranteed
+that for every cycle in the SCC, there is at minimum \textit{one} $\lambda$-node
+marked as a loop breaker. As such, the inliner knows which recursive functions
+it must never attempt to inline, so as to ensure termination of the compilation.
+The remaining $\lambda$-nodes residing in $\phi$-regions not marked as loop
+breakers may then be inlined according to the same criteria as any non-recursive
+function.
+
+While there are better ways~\cite{BasMscThesis} to choose loop breakers more
+optimal loop breakers\footnote{So as to minimize the amount of loop breakers per
+$\phi$-region.}, we unfortunately did not have the time to implement one for
+this project.
 
 \subsection{The order of call sites inlined}
 \label{sub:scheme:ordering_apply_nodes}
 
-The heuristic deciding on whether or not to inline a specific \applyNode~is
-based on previous work of Keith D. Cooper et. al~\cite{AdaptvStratInlSubst} and
-Waterman~\cite{AdaptvCompilAndInlingWaterman}. Their work utilizes
-\textit{Inlining Conditions} (ICs), which evaluate properties of the function
-invoked or the call-site(s) invoking function.
+The order in which the \applyNode s inlined are inlined, can make a difference
+for not only \textit{how many} \applyNode s are inlined, but also which that get
+inlined. To illustrate this, let us give the reader an example.
 
-\info[inline]{Because of above paragraph, which I think belongs to
-Section~\ref{sub:scheme:inlining_apply_nodes}, ask Nico if he insists that
-Section~\ref{sub:scheme:ordering_apply_nodes} should come before
-Section~\ref{sub:scheme:inlining_apply_nodes}. I feel that this makes little
-sense since the one that is first now relies on the second...}
-
-As such, when a successive series of functions call one another, our approach
-only considers one function's properties or \applyNode (s)'s properties,
-depending upon the ICs used in the inlining heuristic, at a time. Some ICs such
-as \textit{Node Count} (NC) can affect the amount of inlined \applyNode s,
-depending on the order the \applyNode s are visited in.
-
-Given the criteria for whether an \applyNode~is inlined is that the function it
-invokes needs to contain less than four nodes, all of the \applyNode s in
-Figure~\ref{fig:inline_ordering_ex} can be inlined, or just two of them. The
-order the \applyNode s are visited in is what makes the difference in the amount
-inlined given the inlining condition \lstinline!NC < 4!.
-
-When the inliner visits the \applyNode s in Figure~\ref{fig:inline_ordering_ex}
-top down, $\lambda_1$ can be inlined into $\lambda_2$. The new $\lambda_{1-2}$
-can be inlined into $\lambda_3$, resulting in all of them being inlined into a
-single function $\lambda_{1-2-3}$. However, if the \applyNode s are visited by
-the inliner in a bottom up order instead, then $\lambda_3$ can be inlined into
-$\lambda_2$, but $\lambda_{2-3}$'s NC exceeds 3, and cannot be inlined into
-$\lambda_1$.
+As mentioned, the heuristic deciding whether or not to inline a specific
+\applyNode~is the same for all the \applyNode s collected from the RVSDG given
+as input to the inliner. Hence, if the heuristic deciding whether an
+\applyNode~is inlined or not depends upon whether the internal node count of the
+function it invokes is less than four, the example illustrated by
+Figure~\ref{fig:inline_ordering_ex} will either inline \textit{all} of the
+depicted \applyNode s, or just two of them.
 
 \begin{figure}[H]
 	\centering
@@ -124,35 +121,72 @@ order in a program.}
 	\label{fig:inline_ordering_ex}
 \end{figure}
 
-Both the top down and bottom up examples inlining $\lambda_1$, $\lambda_2$, and
-$\lambda_3$, suppose that no other optimizations are applied on the inlined
-code, meaning that no node which has gotten an \applyNode~inlined, will have
-less nodes than the sum of its original NC plus the NC of the function inlined.
+If the inliner evaluates the \applyNode s in Figure~\ref{fig:inline_ordering_ex}
+in a top-down order,$\lambda_1$ can be inlined into $\lambda_2$. The newly
+created $\lambda_{1-2}$ can be inlined into $\lambda_3$, resulting in all of
+them being inlined into a new single function; $\lambda_{1-2-3}$.
 
-Because of this, our inliner is able to traverse the \applyNode s of an RVSDG in
-a top down order, or a bottom up order.
-Section~\ref{further_work:call_site_visit_order} discusses ideas for potential
-work for future research on the impact of inlining call sites order.
+However, if the inliner evaluates the \applyNode s in
+Figure~\ref{fig:inline_ordering_ex} in a bottom-up order instead, $\lambda_3$
+can be inlined into $\lambda_2$. But the newly created function
+$\lambda_{2-3}$'s amount of nodes contained within exceeds 3, and can hence not
+be inlined into $\lambda_1$.
+
+\textit{This constructed example assumes the node count contained within each
+function created by inlining to be the sum of the node counts of the original
+function and the one inlined. In other words, no optimizations or other compiler
+techniques are assumed performed on the RVSDG during the traversal of the
+\applyNode s, or before/after each inlining.}
+
+As our constructed example shows, the order in which the \applyNode s being
+inlined are visited matter. Because of this, our inliner is able to traverse the
+\applyNode s of the RVSDG given as input in either a top-down order, or a
+bottom-up order. Section~\ref{further_work:call_site_visit_order} discusses
+ideas for potential work for future research on the impact of inlining call
+sites order.
 
 \subsection{Inlining a call site}
 \label{sub:scheme:inlining_apply_nodes}
 
-Our approach was chosen because it permits effective testing for an apt
-heuristic when deciding on whether or not to inline a call site.
+While there exist several\cite{GHCPaper}\cite{AdaptvStratInlSubst} ways in
+literature in which inlining is performed, we decided upon our chosen
+approach\cite{AdaptvCompilAndInlingWaterman} because it permits effective
+testing for an apt heuristic when deciding on whether or not to inline a call
+site.
 
-As mentioned, the inliner uses several different ICs: NC, \textit{Static Call
-Count} (SCC), and \textit{Loop Nesting Depth} (LND) being among these. SCC is
-the total amount of \applyNode s for the function invoked, and LND is how many
-nested loops the \applyNode~is located within.
+As mentioned, all \applyNode s eligible for inlining get inlined based on the
+same heuristic per run of our inliner. The heuristic is based on \textit{Inliner
+Conditions} (ICs), such as the following:
 
-These ICs and others described in Section~\ref{sub:meth:inlining_conditions},
+
+\begin{itemize}
+	\item \textit{Node Count} (NC)
+
+The amount of nodes (operations) contained within the function invoked by the
+\applyNode .
+
+	\item \textit{Loop Nesting Depth} (LND)
+
+The amount of nested loops the \applyNode~resides within.
+
+	\item \textit{Static Call Count} (SCC)
+
+The total amount of \applyNode s invoking the same function in the RVSDG given
+as input.
+\end{itemize}
+
+These ICs and others described in Section~\ref{sub:meth:inlining_conditions}
 allow us to write and re-write the inlining heuristic effectively, by letting us
 write them using \textit{Conjunctive Normal Form} (CNF). Thus, the CNFs written
 for our inliner heuristic are written in the following fashion:
-\lstinline"NC < X || SCC < Y || (SCC < Z && LND > W)".
+\lstinline"(NC <X || SCC < Y || (SCC < Z && LND > W))", where \lstinline!X!,
+\lstinline!Y!, \lstinline!Z!, and \lstinline!W! are placeholder variables.
 
-This permits us to efficiently search the parameter space for optimal parameters
-for the inlining heuristics.
+While the work of Waterman~\cite{AdaptvCompilAndInlingWaterman} our approach is
+based upon utilizes a hillclimber algorithm to find the most optimal values for
+the placeholder variables for each individual program, we did not have
+sufficient time to implement a hillclimber algorithm in this project.
 
-\todo[inline]{Describe the algorithm and inliner conditions we land for
-evaluating a call site on after testing.}
+Still, while the placeholder variables used in our CNFs need to be hardcoded for
+each run of our inliner, this approach still permits us to search the parameter
+space for decent parameters for the inlining heuristic.

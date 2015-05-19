@@ -7,22 +7,15 @@ Since the 1950s, compilers have been translating higher-level programming
 languages into machine languages. The purpose of a compiler is two-fold:
 translate human-readable code into machine language, and optimize the translated
 code. Compilers use many code optimization techniques, such as \textit{Common
-Subexpression Elimination} (CSE) and \textit{Dead Code Elimination} (DCE).
+Subexpression Elimination} (CSE)\cite[Ch. 8.5]{DragonBook} and
+\textit{Dead Code Elimination} (DCE)\cite[Ch. 8.5]{DragonBook}.
 
-\todo[inline]{Find reference, if time allows. Nico says to look in Dragon book,
-figure out where you can borrow that one.}
-
-\info[inline]{There seems to be a big paper named ``Variable Subsumption with
-Constant Folding'' by a ``Ken, Kennedy'', but I can't find the paper. It's from
-1973-1974. Checked acm.org, citeseerx, google scholar. Should I cite it without
-having read it? I would think not...}
-
-Another code optimization is \textit{inlining}, which replaces the call site of
-a function with its body. Listing~\ref{lst:inlining} shows the definition of
-functions \lstinline!A()! and \lstinline!B()!. If \lstinline!A()! is inlined
-into \lstinline!B!, the body of \lstinline!B()! becomes
-\lstinline!return y + 3 + 2;!, allowing \textit{Constant Folding} (CF) to
-replace \lstinline!3+2! with \lstinline!5!.
+Another code optimization is \textit{inlining}\cite[Ch. 12.1]{DragonBook}, which
+replaces the call site of a function with its body. Listing~\ref{lst:inlining}
+shows the definition of functions \lstinline!A()! and \lstinline!B()!. If
+\lstinline!A()! is inlined into \lstinline!B!, the body of \lstinline!B()!
+becomes \lstinline!return y + 3 + 2;!, allowing \textit{Constant Folding}
+(CF)\cite[Ch. 8.5]{DragonBook} to replace \lstinline!3+2! with \lstinline!5!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -49,17 +42,16 @@ the stack, as well as the CPU cycles needed for setting up and performing the
 call. The second is the potential for unveiling the application of additional
 optimizations as demonstrated in Listing~\ref{lst:inlining}.
 
-The drawbacks of inlining are code-duplication, and an increased compile time.
+The drawbacks of inlining are  duplication, and an increased compile time.
 In specific situations, work-duplication can also occur~\cite{GHCPaper}.
 Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
-code-duplication, if \lstinline!C()! is inlined into \lstinline!D()!.
-Code-duplication can occur since \lstinline!C()! is called more than once in
-\lstinline!D()!. This is due to the big expression \lstinline!e! in
-\lstinline!C()! is copied into \lstinline!D()! as soon as one or more of
-invocations of \lstinline!C()! are inlined. However, code-duplication might be
-mitigated if CSE is applicable. Also, if \lstinline!C()! is \lstinline!static!
-with all its invocations inlined, then the definition of \lstinline!C()! may be
-removed through the application of DCE.
+ duplication, if either of \lstinline!C()!s invocations in \lstinline!D()!
+are inlined. This is due to the big expression \lstinline!e! being copied into
+\lstinline!D()! as soon as one or more of invocations of \lstinline!C()! are
+inlined. However,  duplication might be mitigated if CSE is applicable.
+Also, if both of \lstinline!C()!s invocations are inlined,
+then the definition of \lstinline!C()! may be removed through the application of
+DCE since \lstinline!C()! is \lstinline!static!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -76,7 +68,7 @@ int D(int x, int y){
 		\end{CenteredBox}
 	\end{minipage}
 	\captionof{lstlisting}{C/C++ code showing the definitions of
-\lstinline!C()! and \lstinline!D()!, when exemplifying code-duplication.}
+\lstinline!C()! and \lstinline!D()!, when exemplifying  duplication.}
 	\label{lst:code-dup}
 \end{centering}
 
@@ -94,19 +86,19 @@ therefore breaking the recursive cycle.
 	\item In a mutually recursive environment, decide on one or more functions
 to be \textit{loop breakers}, and mark them to never be inlined. Loop breakers
 are chosen so that the recursive call cycle will be broken in the mutually
-recursive environment. Having chosen correct loop breakers permits inlining the
-remaining recursive functions in the mutually recursive environment,
+recursive environment. Having chosen correct loop breakers permits inlining of
+the remaining recursive functions in the mutually recursive environment,
 \textit{without} risking non-termination of the
 compiler~\cite{BasMscThesis}\cite{GHCPaper}.
 
 \end{enumerate}
 
 This report describes the construction of an inliner for the Jive compiler
-backend, detailing the design and architecture. Jive uses an
+backend, detailing its design and architecture. Jive uses an
 \textit{intermediate representation} (IR) called the \textit{Regionalized Value
-State Dependence Graph} (RVSDG).
+State Dependence Graph} (RVSDG)\cite{RVSDG:HiPEACpaper}.
 
-The RVSDG~\cite{RVSDG:HiPEACpaper} described in Section~\ref{background:RVSDG},
+The RVSDG described in Section~\ref{background:RVSDG},
 is a \textit{demand-based} and \textit{directed acyclic graph} (DAG) where nodes
 represent computations, and edges represent the dependencies between these
 computations.
@@ -128,7 +120,7 @@ commonly used IRs.
 In Section~\ref{sec:methodology}, the implemented inliner is evaluated
 before we conclude in Section~\ref{sec:conclusion}. In the evaluation, we focus
 on how different heuristics have different consequences, such as
-code-duplication, and others.
+ duplication, and others.
 
 Finally, in Section~\ref{sec:further_work} we discuss ideas for potential
 further research. A detailed description of the project assignment can be found
