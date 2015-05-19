@@ -17,7 +17,7 @@ The ICs utilized in this project are the following:
 
 This function property equates to the number of C/C++ statements contained
 within a function. A function's node count is an inliner condition we want
-to utilize because it gives us an idea of the size of the code-duplication if we
+to utilize because it gives us an idea of the size of the  duplication if we
 inline the function.
 
 	\item \textbf{Loop nesting depth (LND)}
@@ -32,7 +32,7 @@ inlining call sites inside nested loops.
 This property tells us how many \applyNode s invoke this function in the
 program. If this count is low, it may be worth inlining all the call sites and
 eliminating the original function. If the count is $1$, then the call site can
-always be inlined, seeing as there is no risk of code-duplication.
+always be inlined, seeing as there is no risk of  duplication.
 
 	\item \textbf{Parameter count (PC)}
 

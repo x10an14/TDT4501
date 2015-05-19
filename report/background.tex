@@ -57,8 +57,8 @@ dependence edges, depicted as dotted edges.
 		\begin{CenteredBox}
 		\begin{lstlisting}[label={lst:load_dependence_ex},
 style=minipage_customcpp, basicstyle=\fontsize{10}{1}]
-*x = *x + 7;
-*y = *y + 7;
+*x +=	 7;
+*y += 7;
 		\end{lstlisting}
 		\end{CenteredBox}
 	\end{minipage}
@@ -71,9 +71,8 @@ on the left.}
 	\label{fig:load_dependence_ex}
 \end{centering}
 
-The purpose of the \textit{S}-node in Figure~\ref{fig:load_dependence_ex} is
-being a placeholder for the state-dependence edge of the \lstinline!load!
-operation of \lstinline!x!.
+The \textit{S}-node in Figure~\ref{fig:load_dependence_ex} supplies the needed
+state edge for \lstinline!x!'s \textit{load}- and \textit{store}-nodes.
 
 \subsection{Nodes}
 
@@ -162,7 +161,7 @@ $\gamma$-node equivalent to the C/C++ if-statement on the left.}
 
 \item \textbf{$\theta$-nodes: Tail-controlled loops}
 
-\textit{$\theta$-nodes} represent tail controlled loops. As with
+\textit{$\theta$-nodes} represent tail-controlled loops. As with
 $\gamma$-nodes, its inputs (and outputs) are all the dependencies needed for the
 RVSDG subgraph in its subregion.
 
@@ -172,7 +171,7 @@ exemplifies. This enables the complex node's contained RVSDG subgraph to
 execute with the values given as external inputs to the $\theta$-node.
 
 However, inside the $\theta$-node there is an extra first internal input, which
-is the predicate of the tail controlled loop. If this predicate evaluates to
+is the predicate of the tail-controlled loop. If this predicate evaluates to
 \lstinline!true!, the rest of the internal inputs of the $\theta$-node are
 mapped to their corresponding internal outputs. This enables the iterative
 behaviour of an RVSDG $\theta$-node. Thus, the operations represented by its
@@ -206,10 +205,12 @@ $\theta$-node equivalent to the C/C++ do-while loop on the left.}
 	\label{fig:factorial_loop_ex}
 \end{centering}
 
-A \textit{head-controlled}-loop can be represented by putting a $\theta$-node
-inside of the \textit{true} clause of a $\gamma$-node conaining no nodes in the
-subregion representing the \textit{false} clause, as long as the $\gamma$- and
-$\theta$-nodes share the same predicate.
+A \textit{head-controlled} loop can be represented by putting a $\theta$-node
+inside the subregion representing the \textit{true } clause of a $\gamma$-node.
+Additionally, both the $\gamma$-node's first input and the first internal input
+of the $\theta$-node need to share the same predicate. Finally, the
+$\gamma$-node's subregion representing the \textit{false} clause cannot contain
+nodes.
 
 \item \textbf{$\lambda$-nodes: Functions}
 
@@ -229,10 +230,10 @@ Hence, when an \applyNode~connected with a $\lambda$-node is executed, the
 external inputs of the \applyNode~are mapped to the internal outputs of the
 $\lambda$-node, before the $\lambda$-node is invoked.
 
-Likewise the internal inputs of the $\lambda$-node are gated through to the
-external outputs of the \applyNode~when the operations of the $\lambda$-node
-have been executed. See Figure~\ref{fig:iterative_factorial_func_ex} for an
-example of a $\lambda$-node.
+Likewise the internal inputs of the $\lambda$-node are mapped to the external
+outputs of the \applyNode~when the operations of the $\lambda$-node have been
+executed. See Figure~\ref{fig:iterative_factorial_func_ex} for an example of a
+$\lambda$-node.
 
 \begin{centering}
 	\noindent\begin{minipage}{0.37\textwidth}
@@ -282,11 +283,9 @@ Figure~\ref{fig:recursive_factorial_func_ex}.
 style=minipage_customcpp, basicstyle=\fontsize{10}{1}]
 unsigned long long
 fac(unsigned int n){
-	unsigned long r;
+	unsigned long r  = 1;
 	if(n > 1){
 		r = n*fac(n-1);
-	} else{
-		r = 1;
 	}
 	return r;
 }
