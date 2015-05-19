@@ -7,15 +7,16 @@ Since the 1950s, compilers have been translating higher-level programming
 languages into machine languages. The purpose of a compiler is two-fold:
 translate human-readable code into machine language, and optimize the translated
 code. Compilers use many code optimization techniques, such as \textit{Common
-Subexpression Elimination} (CSE)\cite[Ch. 8.5]{DragonBook} and
-\textit{Dead Code Elimination} (DCE)\cite[Ch. 8.5]{DragonBook}.
+Subexpression Elimination} (CSE)~\cite[Ch. 8.5]{DragonBook} and
+\textit{Dead Code Elimination} (DCE)~\cite[Ch. 8.5]{DragonBook}.
 
-Another code optimization is \textit{inlining}\cite[Ch. 12.1]{DragonBook}, which
-replaces the call site of a function with its body. Listing~\ref{lst:inlining}
-shows the definition of functions \lstinline!A()! and \lstinline!B()!. If
-\lstinline!A()! is inlined into \lstinline!B!, the body of \lstinline!B()!
-becomes \lstinline!return y + 3 + 2;!, allowing \textit{Constant Folding}
-(CF)\cite[Ch. 8.5]{DragonBook} to replace \lstinline!3+2! with \lstinline!5!.
+Another code optimization is \textit{inlining}~\cite[Ch. 12.1]{DragonBook},
+which replaces the call site of a function with its body.
+Listing~\ref{lst:inlining} shows the definition of functions \lstinline!A()! and
+\lstinline!B()!. If \lstinline!A()! is inlined into \lstinline!B!, the body of
+\lstinline!B()! becomes \lstinline!return y + 3 + 2;!, allowing \textit{Constant
+Folding} (CF)~\cite[Ch. 8.5]{DragonBook} to replace \lstinline!3+2! with
+\lstinline!5!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -80,7 +81,7 @@ The literature proposes mainly two approaches for inlining recursive functions:
 \begin{enumerate}
 
 	\item Avoid non-termination of the compilation by only inlining recursive
-functions to a certain depth~\cite{GHCPaper}\cite{InlineWhenHowSerrano}, and
+functions to a certain depth~\cite{GHCPaper}~\cite{InlineWhenHowSerrano}, and
 therefore breaking the recursive cycle.
 
 	\item In a mutually recursive environment, decide on one or more functions
@@ -89,14 +90,14 @@ are chosen so that the recursive call cycle will be broken in the mutually
 recursive environment. Having chosen correct loop breakers permits inlining of
 the remaining recursive functions in the mutually recursive environment,
 \textit{without} risking non-termination of the
-compiler~\cite{BasMscThesis}\cite{GHCPaper}.
+compiler~\cite{BasMscThesis}~\cite{GHCPaper}.
 
 \end{enumerate}
 
 This report describes the construction of an inliner for the Jive compiler
 backend, detailing its design and architecture. Jive uses an
 \textit{intermediate representation} (IR) called the \textit{Regionalized Value
-State Dependence Graph} (RVSDG)\cite{RVSDG:HiPEACpaper}.
+State Dependence Graph} (RVSDG)~\cite{RVSDG:HiPEACpaper}.
 
 The RVSDG described in Section~\ref{background:RVSDG},
 is a \textit{demand-based} and \textit{directed acyclic graph} (DAG) where nodes

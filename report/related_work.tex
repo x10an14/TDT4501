@@ -6,23 +6,23 @@
 As mentioned in Section \ref{introduction}, compilers have existed, and
 optimized code, since the last half of the 20th century. Inlining has long been
 an important optimization for most compilers. W. Davidson and M. Holler
-\cite{SubprogInlining} examine the hypothesis that the increased code size of
+~\cite{SubprogInlining} examine the hypothesis that the increased code size of
 inlined code affects execution time on demand-paged virtual memory machines.
 Using equations developed to describe the execution time of an inlined program,
 they test this hypothesis through the use of a source-to-source subprogram
 inliner.
 
-Cavazos and F.P. O'Boyle \cite{AutoTuningJavaHeuristics} use a genetic algorithm
+Cavazos and F.P. O'Boyle~\cite{AutoTuningJavaHeuristics} use a genetic algorithm
 in their auto-tuning heuristics to show how conjunctive normal form (CNF) can
 easily be used to decide if and when to inline a specific call site. They report
 between 17\% and 37\% execution time improvements without code size explosion.
 
-Serrano \cite{InlineWhenHowSerrano} implements an inliner in the Scheme
+Serrano~\cite{InlineWhenHowSerrano} implements an inliner in the Scheme
 programming language. The paper details an heuristic for which functions to
 inline, as well as an algorithm for how to inline recursive functions. The paper
 reports an average run time decrease of 15\%.
 
-Waterman's Ph.D. thesis \cite{AdaptvCompilAndInlingWaterman} examines the use of
+Waterman's Ph.D. thesis~\cite{AdaptvCompilAndInlingWaterman} examines the use of
 adaptive compilation techniques in combination with an inlining heuristic. His
 thesis shows how CNF can be used for deciding which functions to inline. It also
 details how there can be no single given correct set of parameters for all
@@ -30,13 +30,13 @@ programs, given the search space of the heuristics hillclimbing algorithm. The
 thesis reports consistently better or equal run time compared to the GCC inliner
 and ATLAS.
 
-D. Cooper et. al \cite{AdaptvStratInlSubst} expand on Waterman's PhD Thesis
-\cite{AdaptvCompilAndInlingWaterman}. Their paper details how the proper use of
+D. Cooper et. al~\cite{AdaptvStratInlSubst} expand on Waterman's PhD Thesis
+~\cite{AdaptvCompilAndInlingWaterman}. Their paper details how the proper use of
 the parameterization search space using a hillclimber algorithm, in an adaptive
 inlining scheme, can achieve improved results compared to GCCs inliner. Their
 results range from 4\% to 31\% run time decrease compared to GCCs inliner.
 
-E. Hank et. al \cite{RegionBasedCompilationIntroduction} introduce a new
+E. Hank et. al~\cite{RegionBasedCompilationIntroduction} introduce a new
 technique called \textit{Region-Based Compilation}. They examine the benefits an
 aggressive compiler gains from inlining on Very Long Instruction Word (VLIW)
 architectures. The paper reports that aggresive inlining can become costly, with
@@ -47,13 +47,13 @@ more than 1000 operations. This is an improvement, compared to their test
 results where more than 80\% of the execution time was spent inside functions
 with less than 250 operations, when no inlining was employed.
 
-P. Jones and Marlow \cite{GHCPaper} describe the inliner for the Glasgow Haskell
+P. Jones and Marlow~\cite{GHCPaper} describe the inliner for the Glasgow Haskell
 Compiler (GHC). Their paper introduces a novel approach for deciding which
 mutually recursive functions can safely be inlined without code size explosion
 or the risk of non-termination. Jones and Marlow report on average of 30\% run
 time decrease.
 
-The report of Barton et. al \cite{ShouldLoopOptsInfluenceInlining} tests whether
+The report of Barton et. al~\cite{ShouldLoopOptsInfluenceInlining} tests whether
 the potential for loop fusion should be taken into consideration in the inliner.
 They disprove this using the IBM\textregistered XL Compile Suite, measuring how
 many additional loops they were able to fuse in the SPECint2000 and SPECfp2000
@@ -61,12 +61,12 @@ benchmark suites. The results reported indicate that the compiler already
 catches most of the potential loop fusion optimizations, and the results cannot
 justify an inter-procedural loop fusion implementation.
 
-Deshpande and A. Edwards \cite{deshpande2012statically} detail an inlining
+Deshpande and A. Edwards~\cite{deshpande2012statically} detail an inlining
 algorithm meant to improve inlining in the GHC. The algorithm improved the
 parallelism of recursive functions by ``widening'' them into the equivalent of
 multiple recursive calls through unrolling recursion. No results were reported.
 
-W. Hwu and P. Chang \cite{InlineFuncExpCProgs} explore how program profile
+W. Hwu and P. Chang~\cite{InlineFuncExpCProgs} explore how program profile
 information could be used to decide whether or not to statically inline C
 functions. Their motivation was to remove costly function calls in a C program,
 in addition to unveil potential optimizations. Through the use of the IMPACT-I C
