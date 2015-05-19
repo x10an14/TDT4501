@@ -4,12 +4,17 @@
 \section{Methodology}
 \label{sec:methodology}
 
-\todo[inline]{Need an introduction here, no?}
+Using the ICs described in subsection~\ref{sub:meth:inlining_conditions}, the
+inliner of this project has been tested using C-language programming files from
+the SPEC2006 Benchmark Suite. This section first details the ICs, before
+explaining how the files tested from the SPEC2006 Benchmark Suite were chosen.
+Finally, we list the CNFs for each group of files from the SPEC2006 Benchmark
+Suite the inliner ran said files with.
 
 \subsection{The Inlining Conditions (ICs)}
 \label{sub:meth:inlining_conditions}
 
-The ICs utilized in this project are the following:
+The ICs utilized in this project are as follow:
 
 \begin{itemize}
 
@@ -58,3 +63,55 @@ inlined, and a high percentage of total execution time is spent in leaf
 functions.
 
 \end{itemize}
+
+\subsection{The SPEC2006 Benchmark Suite files}
+\label{sub:scheme:SPEC2006_files}
+
+The SPEC2006 Benchmark Suite files were chosen with the following criteria:
+
+\begin{enumerate}
+	\item The Benchmark Suite program code files were written in 32-bit C.
+
+	\item Clang-3.4 (on Ubuntu 14.04) was able to convert the inputted C files
+to LLVM IR assembly with the \lstinline!-S! and \lstinline!-emit-llvm! flags.
+
+	\item Jive was able to interpret all of the assembly commands in the
+outputted .ll files and construct RVSDGs from them.
+
+	\item The files could to be tested within a time limit of 200 seconds, run
+single-process, single-thread, on a Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz,
+with 3072 KB cache size, Ubuntu 14.04 64-bit Linux distro.
+\end{enumerate}
+
+\unsure[inline]{Confirm with Nico that there were no more requirements.}
+
+With these requirements, files from the following benchmarks were used for
+testing:
+
+\begin{multicols}{4}
+	\begin{itemize}
+		\item 400.perlbench
+		\item 401.bzip2
+		\item 403.gcc
+		\item 429.mcf
+		\item 433.milc
+		\item 435.gromacs
+		\item 445.gobmk
+		\item 456.hmmer
+		\item 458.sjeng
+		\item 462.libquantum
+		\item 464.h264ref
+		\item 470.lbm
+		\item 482.sphinx3
+	\end{itemize}
+\end{multicols}
+
+See Appendix~\ref{app:SPEC2006_files_used} for the complete list of .c files
+used for testing from each of the above benchmarks from SPEC2006.
+
+\subsection{SPEC2006 Benchmark Heuristics}
+\label{sub:scheme:SPEC2006_heuristics}
+
+\todo[inline]{Say something about how we build the CNFs, the values used in
+common across all benchmarks, and then the different values used for each
+benchmark group of files.}
