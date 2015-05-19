@@ -7,22 +7,17 @@ Since the 1950s, compilers have been translating higher-level programming
 languages into machine languages. The purpose of a compiler is two-fold:
 translate human-readable code into machine language, and optimize the translated
 code. Compilers use many code optimization techniques, such as \textit{Common
-Subexpression Elimination} (CSE) and \textit{Dead Code Elimination} (DCE).
-
-\todo[inline]{Find reference, if time allows. Nico says to look in Dragon book,
-figure out where you can borrow that one.}
-
-\info[inline]{There seems to be a big paper named ``Variable Subsumption with
-Constant Folding'' by a ``Ken, Kennedy'', but I can't find the paper. It's from
-1973-1974. Checked acm.org, citeseerx, google scholar. Should I cite it without
-having read it? I would think not...}
+Subexpression Elimination}\footnote{\label{Ch_8.5_DragonBook} Chapter 8.5
+\textit{``Optimization of Basic Blocks''}\cite{DragonBook}.} (CSE) and
+\textit{Dead Code Elimination}\footnotemark[\ref{Ch_8.5_DragonBook}] (DCE).
 
 Another code optimization is \textit{inlining}, which replaces the call site of
 a function with its body. Listing~\ref{lst:inlining} shows the definition of
 functions \lstinline!A()! and \lstinline!B()!. If \lstinline!A()! is inlined
 into \lstinline!B!, the body of \lstinline!B()! becomes
-\lstinline!return y + 3 + 2;!, allowing \textit{Constant Folding} (CF) to
-replace \lstinline!3+2! with \lstinline!5!.
+\lstinline!return y + 3 + 2;!, allowing
+\textit{Constant Folding}\cite{DragonBook} (CF) to replace
+\lstinline!3+2! with \lstinline!5!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
