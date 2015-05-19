@@ -10,13 +10,12 @@ code. Compilers use many code optimization techniques, such as \textit{Common
 Subexpression Elimination} (CSE)\cite[Ch. 8.5]{DragonBook} and
 \textit{Dead Code Elimination} (DCE)\cite[Ch. 8.5]{DragonBook}.
 
-Another code optimization is \textit{inlining}, which replaces the call site of
-a function with its body. Listing~\ref{lst:inlining} shows the definition of
-functions \lstinline!A()! and \lstinline!B()!. If \lstinline!A()! is inlined
-into \lstinline!B!, the body of \lstinline!B()! becomes
-\lstinline!return y + 3 + 2;!, allowing
-\textit{Constant Folding} (CF)\cite[Ch. 8.5]{DragonBook} to replace
-\lstinline!3+2! with \lstinline!5!.
+Another code optimization is \textit{inlining}\cite[Ch. 12.1]{DragonBook}, which
+replaces the call site of a function with its body. Listing~\ref{lst:inlining}
+shows the definition of functions \lstinline!A()! and \lstinline!B()!. If
+\lstinline!A()! is inlined into \lstinline!B!, the body of \lstinline!B()!
+becomes \lstinline!return y + 3 + 2;!, allowing \textit{Constant Folding}
+(CF)\cite[Ch. 8.5]{DragonBook} to replace \lstinline!3+2! with \lstinline!5!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
