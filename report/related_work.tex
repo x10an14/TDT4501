@@ -2,6 +2,7 @@
 
 \clearpage
 \section{Related Work}
+\label{sec:related_work}
 
 As mentioned in Section \ref{introduction}, compilers have existed, and
 optimized code, since the last half of the 20th century. Inlining has long been
@@ -30,13 +31,13 @@ programs, given the search space of the heuristics hillclimbing algorithm. The
 thesis reports consistently better or equal run time compared to the GCC inliner
 and ATLAS.
 
-D. Cooper et. al~\cite{AdaptvStratInlSubst} expand on Waterman's PhD Thesis
+D. Cooper et al.~\cite{AdaptvStratInlSubst} expand on Waterman's PhD Thesis
 ~\cite{AdaptvCompilAndInlingWaterman}. Their paper details how the proper use of
 the parameterization search space using a hillclimber algorithm, in an adaptive
 inlining scheme, can achieve improved results compared to GCCs inliner. Their
 results range from 4\% to 31\% run time decrease compared to GCCs inliner.
 
-E. Hank et. al~\cite{RegionBasedCompilationIntroduction} introduce a new
+E. Hank et al.~\cite{RegionBasedCompilationIntroduction} introduce a new
 technique called \textit{Region-Based Compilation}. They examine the benefits an
 aggressive compiler gains from inlining on Very Long Instruction Word (VLIW)
 architectures. The paper reports that aggresive inlining can become costly, with
@@ -53,7 +54,7 @@ mutually recursive functions can safely be inlined without code size explosion
 or the risk of non-termination. Jones and Marlow report on average of 30\% run
 time decrease.
 
-The report of Barton et. al~\cite{ShouldLoopOptsInfluenceInlining} tests whether
+The report of Barton et al.~\cite{ShouldLoopOptsInfluenceInlining} tests whether
 the potential for loop fusion should be taken into consideration in the inliner.
 They disprove this using the IBM\textregistered XL Compile Suite, measuring how
 many additional loops they were able to fuse in the SPECint2000 and SPECfp2000

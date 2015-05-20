@@ -46,7 +46,7 @@ optimizations such as CF demonstrated in Listing~\ref{lst:inlining}.
 The drawbacks of inlining are code duplication, and an increased compile time.
 In specific situations, work duplication can also occur~\cite{GHCPaper}.
 Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
-code duplication, if either of \lstinline!C()!s invocations in \lstinline!D()!
+code duplication if either of \lstinline!C()!s invocations in \lstinline!D()!
 are inlined. This is due to the big expression \lstinline!e! being copied into
 \lstinline!D()! as soon as one or more of \lstinline!C()! invocations are
 inlined. However,  duplication might be mitigated if CSE is applicable. Also, if
@@ -105,25 +105,31 @@ is a \textit{demand-based} and \textit{directed acyclic graph} (DAG) where nodes
 represent computations, and edges represent the dependencies between these
 computations.
 
-Section~\ref{sec:scheme} explains how the inliner is able to handle recursive
-functions, and how the inliner permits the configuration of different heuristics
-to allow rapid exploration of the parameter space. How the RVSDG affects the
-design of an inliner, and the algorithms used by the heuristics deciding what to
-inline, are also detailed in Section~\ref{sec:scheme}.
+Section~\ref{sec:scheme} details the scheme of our project, and explains how the
+inliner is able to handle recursive functions, as well as how the inliner
+permits the configuration of different heuristics to allow rapid exploration of
+the parameter space. How the RVSDG affects the design of an inliner, and the
+algorithms used by the heuristics deciding what to inline, are also detailed in
+this section.
 
-\todo[inline]{Finish describing layout/outline of paper. What do the remaining
-sections discuss in turn?}
+In Section~\ref{sec:methodology}, we describe how the implemented inliner is
+evaluated, as well as the inlining heuristics we chose for the SPEC2006
+Benchmark Suites used for testing. Section~\ref{sec:res} then reports on the
+characteristics of the SPEC2006 Benchmark Suites used for the testing, as well
+as the results of the inliner. Also in Section~\ref{sec:res}, we focus on how
+different heuristics have different consequences, such as code duplication, and
+others.
+
+In Section~\ref{sec:related_work} we summarize the existing related literature
+found in our background study for this project. Following, in
+Section~\ref{sec:conclusion}, we conclude, before we finally discuss ideas for
+potential further research in Section~\ref{sec:further_work}. A detailed
+description of the project assignment can be found in
+Appendix~\ref{app:projdesc}.
+
+\todo[inline]{Figure out what to write about the below, and where in the report
+to put it...}
 
 Focus is put on whether the RVSDG simplifies or complicates the implementation
 of the inliner, as well as the impact of the RVSDG on an inliner, and the
-process of inlining, \todo{Where in the report does Nico want this?}compared to
-commonly used IRs.
-
-In Section~\ref{sec:methodology}, the implemented inliner is evaluated
-before we conclude in Section~\ref{sec:conclusion}. In the evaluation, we focus
-on how different heuristics have different consequences, such as
- duplication, and others.
-
-Finally, in Section~\ref{sec:further_work} we discuss ideas for potential
-further research. A detailed description of the project assignment can be found
-in Appendix~\ref{app:projdesc}.
+process of inlining, compared to commonly used IRs.

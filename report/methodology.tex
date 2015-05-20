@@ -89,7 +89,7 @@ executed single-process, on a Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz, with
 With these requirements, files from the following benchmarks were used for
 testing:
 
-\begin{multicols}{4}
+\begin{multicols}{3}
 	\begin{itemize}
 		\item 400.perlbench
 		\item 401.bzip2
@@ -114,7 +114,7 @@ used for testing from each of the above benchmarks from SPEC2006.
 \label{sub:meth:comon_CNFs}
 
 The heuristics used to decide whether or not to inline a call site are written
-with boolean login in Conjunctive Normal Form (CNF) using the ICs from
+with boolean logic in Conjunctive Normal Form (CNF) using the ICs from
 Section~\ref{sub:meth:inlining_conditions}.
 
 However, a CNF expression whose clauses are ideal for one program will not be
@@ -122,9 +122,9 @@ ideal for all programs. For some programs, it might even lead to a worse
 executable than if no inlining had been performed at all. Hence, for each
 SPEC2006 benchmark suite's .c files which passed the requirements listed in
 Section~\ref{sub:meth:SPEC2006_files}, we profiled the .c files and found the
-following CNFs for each set to be the best ones we could find manually. See
-Section~\ref{sub:res:profiling} for the data found when profiling the SPEC2006
-Benchmark Suite files.
+following CNFs for each set to be the most decent ones we could find manually.
+See Section~\ref{sub:res:profiling} for the data found when profiling the
+SPEC2006 Benchmark Suite files.
 
 While a certain CNF may be ideal for the optimization of one program, the same
 does not hold for all. Even so, there are some CNF clauses which are worth
@@ -137,7 +137,7 @@ This clause simply states that if there's only \textit{one} call site invoking
 this function, then it can be inlined without worry of code duplication or work
 duplication.
 
-	\item \unsure{Think of more...?}
+	\item \unsure[inline]{Think of more...?}
 \end{itemize}
 
 \subsection{SPEC2006 Benchmark Suite's individual CNFs}
