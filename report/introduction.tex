@@ -13,10 +13,10 @@ Subexpression Elimination} (CSE)~\cite[Ch. 8.5]{DragonBook} and
 Another code optimization is \textit{inlining}~\cite[Ch. 12.1]{DragonBook},
 which replaces the call site of a function with its body.
 Listing~\ref{lst:inlining} shows the definition of functions \lstinline!A()! and
-\lstinline!B()!. If \lstinline!A()! is inlined into \lstinline!B!, the body of
-\lstinline!B()! becomes \lstinline!return y + 3 + 2;!, allowing \textit{Constant
-Folding} (CF)~\cite[Ch. 8.5]{DragonBook} to replace \lstinline!3+2! with
-\lstinline!5!.
+\lstinline!B()!. If \lstinline!A()! is inlined into \lstinline!B()!, the body of
+\lstinline!B()! becomes \lstinline!return y + 3 + 2!, permitting
+\textit{Constant Folding} (CF)~\cite[Ch. 8.5]{DragonBook} to replace
+\lstinline!3+2! with \lstinline!5!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -33,7 +33,7 @@ int B(int y){
 		\end{CenteredBox}
 	\end{minipage}
 	\captionof{lstlisting}{C/C++ code showing the definitions of \lstinline!A()!
-and \lstinline!B()! when exemplifying CF.}
+and \lstinline!B()! when exemplifying inlining and CF.}
 	\label{lst:inlining}
 \end{centering}
 
@@ -41,18 +41,18 @@ The benefits of inlining are mainly two-fold: The first one is the removal of
 function call overhead. Function call overhead is the cost in memory needed on
 the stack, as well as the CPU cycles needed for setting up and performing the
 call. The second is the potential for unveiling the application of additional
-optimizations as demonstrated in Listing~\ref{lst:inlining}.
+optimizations such as CF demonstrated in Listing~\ref{lst:inlining}.
 
-The drawbacks of inlining are  duplication, and an increased compile time.
-In specific situations, work-duplication can also occur~\cite{GHCPaper}.
+The drawbacks of inlining are code duplication, and an increased compile time.
+In specific situations, work duplication can also occur~\cite{GHCPaper}.
 Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
- duplication, if either of \lstinline!C()!s invocations in \lstinline!D()!
+code duplication, if either of \lstinline!C()!s invocations in \lstinline!D()!
 are inlined. This is due to the big expression \lstinline!e! being copied into
-\lstinline!D()! as soon as one or more of invocations of \lstinline!C()! are
-inlined. However,  duplication might be mitigated if CSE is applicable.
-Also, if both of \lstinline!C()!s invocations are inlined,
-then the definition of \lstinline!C()! may be removed through the application of
-DCE since \lstinline!C()! is \lstinline!static!.
+\lstinline!D()! as soon as one or more of \lstinline!C()! invocations are
+inlined. However,  duplication might be mitigated if CSE is applicable. Also, if
+both of \lstinline!C()!s invocations are inlined, then the definition of
+\lstinline!C()! may be removed through the application of DCE since
+\lstinline!C()! is \lstinline!static!.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -69,7 +69,8 @@ int D(int x, int y){
 		\end{CenteredBox}
 	\end{minipage}
 	\captionof{lstlisting}{C/C++ code showing the definitions of
-\lstinline!C()! and \lstinline!D()!, when exemplifying  duplication.}
+\lstinline!C()! and \lstinline!D()!, when exemplifying inlining and code
+duplication.}
 	\label{lst:code-dup}
 \end{centering}
 
