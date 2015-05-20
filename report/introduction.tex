@@ -81,7 +81,7 @@ The literature proposes mainly two approaches for inlining recursive functions:
 \begin{enumerate}
 
 	\item Avoid non-termination of the compilation by only inlining recursive
-functions to a certain depth~\cite{GHCPaper}~\cite{InlineWhenHowSerrano}, and
+functions to a certain depth~\cite{GHCPaper,InlineWhenHowSerrano}, and
 therefore breaking the recursive cycle.
 
 	\item In a mutually recursive environment, decide on one or more functions
@@ -90,7 +90,7 @@ are chosen so that the recursive call cycle will be broken in the mutually
 recursive environment. Having chosen correct loop breakers permits inlining of
 the remaining recursive functions in the mutually recursive environment,
 \textit{without} risking non-termination of the
-compiler~\cite{BasMscThesis}~\cite{GHCPaper}.
+compiler~\cite{BasMscThesis,GHCPaper}.
 
 \end{enumerate}
 

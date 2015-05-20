@@ -101,15 +101,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="72.369617"
+     inkscape:cx="429.86962"
      inkscape:cy="722.47895"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="2560"
-     inkscape:window-height="1388"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="2495"
+     inkscape:window-height="1416"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata12507">
@@ -160,7 +160,7 @@
            id="tspan10310"
            sodipodi:role="line">λ1</tspan></text>
       <flowRoot
-         transform="translate(-224.01048,16.359096)"
+         transform="translate(-238.01048,21.359096)"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="flowRoot13080"
          xml:space="preserve"><flowRegion
@@ -171,7 +171,7 @@
              height="18.928577"
              width="212.5"
              id="rect13084" /></flowRegion><flowPara
-           id="flowPara17496">statement count = 1</flowPara></flowRoot>      <path
+           id="flowPara5155">internal node count = 1</flowPara></flowRoot>      <path
          inkscape:connector-avoid="true"
          style="fill:#ffffff;stroke:#000000;stroke-width:3.77542996;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 139.91822,205.35293 c 0,0 -19.5699,49.96486 -45.776345,-0.2099 15.834465,0.07 31.137415,0.13987 45.776345,0.2099 z"
@@ -232,7 +232,7 @@
            id="tspan13154"
            sodipodi:role="line">λ2</tspan></text>
       <flowRoot
-         transform="translate(12.008301,158.15918)"
+         transform="translate(-2.991699,165.15918)"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="flowRoot13080-3"
          xml:space="preserve"><flowRegion
@@ -243,7 +243,7 @@
              height="18.928577"
              width="212.5"
              id="rect13084-2" /></flowRegion><flowPara
-           id="flowPara13164">statement count = 2</flowPara></flowRoot>      <path
+           id="flowPara5157">internal node count = 2</flowPara></flowRoot>      <path
          inkscape:connector-curvature="0"
          inkscape:connector-type="orthogonal"
          id="path14307"
@@ -310,7 +310,7 @@
            id="tspan13156"
            sodipodi:role="line">λ3</tspan></text>
       <flowRoot
-         transform="translate(255.12734,296.49373)"
+         transform="translate(239.12734,300.49373)"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="flowRoot13080-2"
          xml:space="preserve"><flowRegion
@@ -321,7 +321,7 @@
              height="18.928577"
              width="212.5"
              id="rect13084-1" /></flowRegion><flowPara
-           id="flowPara17494">statement count = 3</flowPara></flowRoot>      <path
+           id="flowPara5159">internal node count = 3</flowPara></flowRoot>      <path
          inkscape:connector-avoid="true"
          style="fill:#ffffff;stroke:#000000;stroke-width:3.77542996;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 630.69169,491.01777 c 0,0 -19.5699,49.96486 -45.77635,-0.2099 15.83447,0.07 31.13742,0.13987 45.77635,0.2099 z"

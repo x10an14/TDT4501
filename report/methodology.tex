@@ -4,12 +4,13 @@
 \section{Methodology}
 \label{sec:methodology}
 
-Using the ICs described in subsection~\ref{sub:meth:inlining_conditions}, the
-inliner of this project has been tested using C-language programming files from
-the SPEC2006 Benchmark Suite. This section first details the ICs, before
-explaining how the files tested from the SPEC2006 Benchmark Suite were chosen.
-Finally, we list the CNFs for each group of files from the SPEC2006 Benchmark
-Suite the inliner ran said files with.
+Using the \textit{Inliner Conditions} (ICs) described in
+subsection~\ref{sub:meth:inlining_conditions}, the inliner of this project has
+been tested using C-language programming files from the SPEC2006 Benchmark
+Suite. This section first details the ICs, before explaining how the files
+tested from the SPEC2006 Benchmark Suite were chosen. Finally, we list the CNFs
+for each group of files from the SPEC2006 Benchmark Suite the inliner ran said
+files with.
 
 \subsection{The Inlining Conditions (ICs)}
 \label{sub:meth:inlining_conditions}
@@ -21,9 +22,8 @@ The ICs utilized in this project are as follow:
 	\item \textbf{Node Count (NC)}
 
 This function property equates to the number of C/C++ statements contained
-within a function. A function's node count is an inliner condition we want
-to utilize because it gives us an idea of the size of the  duplication if we
-inline the function.
+within a function. A function's node count is an IC we want to utilize because
+it gives us an idea of the size of the  duplication if we inline the function.
 
 	\item \textbf{Loop Nesting Depth (LND)}
 
@@ -65,7 +65,7 @@ functions.
 \end{itemize}
 
 \subsection{The SPEC2006 Benchmark Suite files}
-\label{sub:scheme:SPEC2006_files}
+\label{sub:meth:SPEC2006_files}
 
 The SPEC2006 Benchmark Suite files were chosen with the following criteria:
 
@@ -73,14 +73,15 @@ The SPEC2006 Benchmark Suite files were chosen with the following criteria:
 	\item The Benchmark Suite program code files were written in 32-bit C.
 
 	\item Clang-3.4 (on Ubuntu 14.04) was able to convert the inputted C files
-to LLVM IR assembly with the \lstinline!-S! and \lstinline!-emit-llvm! flags.
+to LLVM IR assembly code with the \lstinline!-S! and \lstinline!-emit-llvm!
+flags.
 
 	\item Jive was able to interpret all of the assembly commands in the
 outputted .ll files and construct RVSDGs from them.
 
-	\item The files could to be tested within a time limit of 200 seconds, run
-single-process, single-thread, on a Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz,
-with 3072 KB cache size, Ubuntu 14.04 64-bit Linux distro.
+	\item The files could to be tested within a time limit of 200 seconds,
+executed single-process, on a Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz, with
+3072 KB cache size, Ubuntu 14.04 64-bit Linux distro.
 \end{enumerate}
 
 \unsure[inline]{Confirm with Nico that there were no more requirements.}
@@ -109,11 +110,55 @@ testing:
 See Appendix~\ref{app:SPEC2006_files_used} for the complete list of .c files
 used for testing from each of the above benchmarks from SPEC2006.
 
-\subsection{SPEC2006 Benchmark Heuristics}
-\label{sub:scheme:SPEC2006_heuristics}
+\subsection{CNF clauses common for all SPEC2006 Benchmark Suites}
+\label{sub:meth:comon_CNFs}
 
-\todo[inline]{Say something about how we build the CNFs, the values used in
-common across all benchmarks, and then the different values used for each
-benchmark group of files. \newline
-Remember to mention that we profile them first, and the profiling data we use to
-build our CNFs are in the results section.}
+The heuristics used to decide whether or not to inline a call site are written
+with boolean login in Conjunctive Normal Form (CNF) using the ICs from
+Subsection~\ref{sub:meth:inlining_conditions}.
+
+However, a CNF expression whose clauses are ideal for one program will not be
+ideal for all programs. For some programs, it might even lead to a worse
+executable than if no inlining had been performed at all. Hence, for each
+SPEC2006 benchmark suite's .c files which passed the requirements listed in
+Subsection~\ref{sub:meth:SPEC2006_files}, we profiled the .c files and found the
+following CNFs for each set to be the best ones we could find manually.
+
+While a certain CNF may be ideal for the optimization of one program, the same
+does not hold for all. Even so, there are some CNF clauses which are worth
+keeping in all the CNFs used in our testing. These are as follow:
+
+\begin{itemize}
+	\item $SCC == 1$
+
+This clause simply states that if there's only \textit{one} call site invoking
+this function, then it can be inlined without worry of code duplication or work
+duplication.
+
+	\item \unsure{Think of more...?}
+\end{itemize}
+
+\subsection{Individual SPEC2006 Benchmark Suite's Heuristics}
+\label{sub:meth:SPEC2006_heuristics}
+
+In addition to the CNF clauses from Subsection~\ref{sub:meth:comon_CNFs} and
+through manual testing of hardcoded values, the following CNFs were the most
+optimal ones we found for each individual SPEC2006 Benchmark Suite:
+
+\begin{multicols}{2}
+	\begin{itemize}
+		\item 400.perlbench
+		\item 401.bzip2
+		\item 403.gcc
+		\item 429.mcf
+		\item 433.milc
+		\item 435.gromacs
+		\item 445.gobmk
+		\item 456.hmmer
+		\item 458.sjeng
+		\item 462.libquantum
+		\item 464.h264ref
+		\item 470.lbm
+		\item 482.sphinx3
+	\end{itemize}
+\end{multicols}
