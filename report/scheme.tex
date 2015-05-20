@@ -93,6 +93,8 @@ The remaining $\lambda$-nodes residing in $\phi$-regions not marked as loop
 breakers may then be inlined according to the same criteria as any non-recursive
 function.
 
+
+\unsure{Put a reference to Section~\ref{sub:fw:optimal_loop_breakers} here?}
 While there are better ways~\cite{BasMscThesis} to choose loop
 breakers\footnote{So as to minimize the amount of loop breakers per cycle in the
 $\phi$-region.}, we unfortunately did not have the time to implement one for
@@ -103,7 +105,7 @@ this project.
 
 The order in which the \applyNode s inlined are inlined, can make a difference
 for not only \textit{how many} \applyNode s are inlined, but also \textit{which}
-that get inlined. To illustrate this, let us give the reader the followin
+that get inlined. To illustrate this, let us give the reader the following
 example.
 
 As mentioned, the heuristic deciding whether or not to inline a specific
@@ -143,7 +145,7 @@ the \applyNode s, or before/after each inlining.}
 As our constructed example shows, the order in which the \applyNode s being
 inlined are visited matter. Because of this, our inliner is able to traverse the
 \applyNode s of the RVSDG given as input in either a top-down order, or a
-bottom-up order. Section~\ref{further_work:call_site_visit_order} discusses
+bottom-up order. Section~\ref{sub:fw:call_site_visit_order} discusses
 ideas for potential work for future research regarding the impact of the order
 of inlined call sites.
 
@@ -160,7 +162,7 @@ As mentioned, all \applyNode s eligible for inlining get inlined based on the
 same heuristic per run of our inliner. The heuristic is based on \textit{Inliner
 Conditions} (ICs), such as the following:
 
-
+%\begin{multicols}{3}
 \begin{itemize}
 	\item \textit{Node Count} (NC)
 
@@ -176,18 +178,19 @@ The amount of nested loops the \applyNode~resides within.
 The total amount of \applyNode s invoking the same function in the RVSDG given
 as input.
 \end{itemize}
+%\end{multicols}
 
 These ICs and others described in Section~\ref{sub:meth:inlining_conditions}
 allow us to write and re-write the inlining heuristic effectively, by letting us
 write them using \textit{Conjunctive Normal Form} (CNF). Thus, the CNFs written
 for our inliner heuristic are written in the following fashion:
-\lstinline"(NC <X || SCC < Y || (SCC < Z && LND > W))", where \lstinline!X!,
+\lstinline"(NC < X || SCC < Y || (SCC < Z && LND > W))", where \lstinline!X!,
 \lstinline!Y!, \lstinline!Z!, and \lstinline!W! are placeholder variables.
 
-While the work of Waterman~\cite{AdaptvCompilAndInlingWaterman} our approach is
-based upon utilizes a hillclimber algorithm to find the most optimal values for
-the placeholder variables for each individual program, we did not have
-sufficient time to implement a hillclimber algorithm in this project.
+While the work of Waterman~\cite{AdaptvCompilAndInlingWaterman}, which our
+approach is based upon, utilizes a hillclimber algorithm to find the most
+optimal values for the placeholder variables for each individual program, we did
+not have sufficient time to implement a hillclimber algorithm in this project.
 
 Still, while the placeholder variables used in our CNFs need to be hardcoded for
 each run of our inliner, this approach still permits us to search the parameter

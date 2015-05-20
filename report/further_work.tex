@@ -4,18 +4,67 @@
 \section{Further Work}
 \label{sec:further_work}
 
-\subsection{Dynamic profiling and adaptive compilation}
-\todo[inline]{Basically re-iterate Waterman's PhD idea.}
+In this section we've collected our ideas for potential future work discovered
+while working on the inliner for this project. First, in
+Section~\ref{sub:fw:adaptiv_comp} and Section~\ref{sub:fw:optimal_loop_breakers},
+we will discuss potential future work already described in
+literature~\cite{AdaptvStratInlSubst,AdaptvCompilAndInlingWaterman,BasMscThesis},
+before finishing with more original ideas for future work in \todo{Add final
+section reference if written.}Section~\ref{sub:fw:call_site_visit_order}.
+
+\subsection{Dynamic Profiling, Parametrization, and Adaptive Compilation}
+\label{sub:fw:adaptiv_comp}
+
+As mentioned in Section~\ref{sub:scheme:inlining_apply_nodes} and
+Section~\ref{sub:meth:SPEC2006_heuristics},
+Waterman~\cite{AdaptvCompilAndInlingWaterman} implemented a hillclimber
+algorithm to dynamically and adaptively re-compile a program so as to find the
+optimal inlining heuristic for each compilation.
+
+This is something we wanted to implement for the inliner of this project, but
+did not have the resources for. It is our belief that the strengths of Jive's
+RVSDG approach to compilation/inlining can be further exploited if the choosing
+of inlining heuristic was done dynamically and adaptively like Waterman
+proposes.
+
+The work of Cooper, et al.~\cite{AdaptvStratInlSubst} shows how the
+parametrization of the inliner Waterman~\cite{AdaptvCompilAndInlingWaterman}
+proposed can easily be expanded upon and added to, making it a more powerful
+tool. This is also something we believe that Jive could benefit from wrt. to
+inlining, but did not have the resources to implement.
 
 \subsection{Choosing loop breakers more carefully}
-\todo[inline]{Bas' MSc. idea}
+\label{sub:fw:optimal_loop_breakers}
+
+When deciding upon recursive functions to be marked as \textit{loop breakers},
+discussed in Section~\ref{sub:scheme:inlining_recur_apply_nodes}, our approach
+does not choose these carefully. Ideally, an approach such as the one
+Bas~\cite{BasMscThesis} proposes, would be more ideal because it makes an effort
+in choosing the minimum amount of loop breakers needed.
+
+Again, due to time and resources, we did not get the chance to implement Bas's
+suggested approach based on the Directed Blackout Feedback Vertex Set problem.
+However, it's utility in inlining functions belonging to recursive environments
+is obvious, and its implementation in Jive's inliner would have been
+advantageous.
 
 \subsection{The ordering of which call sites to order first}
-\label{further_work:call_site_visit_order}
-\todo[inline]{Lots to say on ordering of call sites to be inlined}
+\label{sub:fw:call_site_visit_order}
 
-\subsubsection{Something}
-\todo[inline]{If time permits, I want to briefly discuss the idea of evaluating
-all the apply nodes (in order), before inlining any. So as to be able to see the
-total cost of inlining a successive chain of function calls in one direction or
-the other.}
+To our knowledge, no other literature exist on the subject of the consequences
+of the ordering of inlined functions. As illustrated with the example from
+Section~\ref{sub:scheme:ordering_apply_nodes}, the order in which inlines are
+performed affects not only the total count of inlines, but also \textit{which}
+call sites are inlined.
+
+Since the RVSDG gives us a directed call graph for each program compiled, other
+approaches can be tested. One such approach could be to see whether there are
+properties ignored/gained which are inherent to the ordering of the call sites
+in a top-down ordering compared to a bottom-up ordering.
+
+Another approach could be to find the aggregate cost of inlining sequential call
+sites: profiling them first, before inlining them. Would this approach hide
+worthwile potential optimizations found if the call sites in the chain were
+inlined one by one? Or would more worthwile optimizations be found, if this
+approach gives an increased chance of applying optimization techniques like
+\textit{Common Subexpression Elimination}?
