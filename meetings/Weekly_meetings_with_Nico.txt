@@ -2,6 +2,28 @@ Weekly meetings with Nico
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+thu, 21st May, 2015:
+	tip:
+		ispell (commandline program)
+	report:
+		background:
+			Elaborate on state edges.
+			Replace lambdas with the name of the function in recursive figure
+		scheme:
+			Remove duplicated loop breaker
+			Split sentences.
+			Remove semi-colon, put colon.
+		methodology:
+			global vs benchmark CNFs, and remember to justify
+		Rewrite "didn't have time" -> to "not part of the project description"
+		future work:
+			Bas -> den Heijer
+			obvious -> too strong
+			dynamically -> automatically
+			sequential call site -> nested calls
+	code:
+		!!!!!Time the actual inliner function()!!!!!
+
 thur, 7th May, 2015:
 	report
 		introduction

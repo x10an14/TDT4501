@@ -172,12 +172,12 @@ execute with the values given as external inputs to the $\theta$-node.
 
 However, inside the $\theta$-node there is an extra first internal input, which
 is the predicate of the tail-controlled loop. If this predicate evaluates to
-\lstinline!true!, the rest of the internal inputs of the $\theta$-node are
-mapped to their corresponding internal outputs. This enables the iterative
-behaviour of an RVSDG $\theta$-node. Thus, the operations represented by its
-contained RVSDG subgraph are executed as a tail-controlled loop. Finally, when
-the predicate evaluates to false, the internal inputs are mapped to the external
-outputs of the $\theta$-node instead of the internal outputs.
+true, the rest of the internal inputs of the $\theta$-node are mapped to their
+corresponding internal outputs. This enables the iterative behaviour of an RVSDG
+$\theta$-node. Thus, the operations represented by its contained RVSDG subgraph
+are executed as a tail-controlled loop. Finally, when the predicate evaluates to
+false, the internal inputs are mapped to the external outputs of the
+$\theta$-node instead of the internal outputs.
 
 A $\theta$-node is equivalent to a \textit{do-while} loop in C/C++, as shown in
 Figure~\ref{fig:factorial_loop_ex}.
