@@ -13,6 +13,9 @@ report/report.pdf
 *.out
 *.toc
 
+## ispell backup files:
+*.bak
+
 ## Files related to export from Inkscape
 *.pdf_tex
 
