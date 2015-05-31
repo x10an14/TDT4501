@@ -577,17 +577,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="456.35316"
-     inkscape:cy="891.85004"
+     inkscape:zoom="0.5"
+     inkscape:cx="-79.698358"
+     inkscape:cy="555.96499"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1918"
+     inkscape:window-width="1920"
      inkscape:window-height="1030"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      showguides="false"
      inkscape:connector-spacing="2" />
   <metadata
@@ -639,19 +639,7 @@
          id="path6493-1-8-3-1-8-4-9-8"
          d="m 482.91194,12.683689 c 0,0 -38.35528,82.635806 -89.71789,-0.347177 31.03417,0.115106 61.0267,0.230757 89.71789,0.347177 z"
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:6.28114986;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <flowRoot
-         transform="matrix(2.0025586,0,0,2.1268464,309.9479,-1111.2025)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         id="flowRoot4800-1-7-5-1-3-2"
-         xml:space="preserve"><flowRegion
-           id="flowRegion4802-6-3-5-0-0-3"><rect
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
-             y="530.86218"
-             x="60.5"
-             height="59"
-             width="189"
-             id="rect4804-9-5-4-5-58-9" /></flowRegion><flowPara
-           id="flowPara14605">λ</flowPara></flowRoot>      <path
+      <path
          inkscape:connector-avoid="true"
          sodipodi:nodetypes="ccc"
          inkscape:connector-curvature="0"
@@ -1187,13 +1175,13 @@
        inkscape:connector-curvature="0" />
     <path
        style="display:none;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker13016)"
-       d="m 337.64823,354.26296 0,-9.46918 0.0836,0 0,-37.01502"
+       d="m 337.64823,354.26296 0,-46.4842 0.0836,0"
        id="path13008"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 251.73001,387.1515 0,-0.31773 -137.73521,0"
+       d="m 251.73001,387.1515 -137.73521,0 0,-0.31773"
        id="path15363"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
@@ -1209,43 +1197,7 @@
        id="path16461"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
-    <flowRoot
-       transform="matrix(2.0025586,0,0,2.1268464,279.06045,-513.89771)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="flowRoot4800-1-7-5-1-3-2-9"
-       xml:space="preserve"><flowRegion
-         id="flowRegion4802-6-3-5-0-0-3-7"><rect
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
-           y="530.86218"
-           x="60.5"
-           height="59"
-           width="189"
-           id="rect4804-9-5-4-5-58-9-3" /></flowRegion><flowPara
-         id="flowPara14605-7">λ</flowPara></flowRoot>    <flowRoot
-       transform="matrix(2.0025586,0,0,2.1268464,280.43852,-426.54786)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="flowRoot4800-1-7-5-1-3-2-1"
-       xml:space="preserve"><flowRegion
-         id="flowRegion4802-6-3-5-0-0-3-8"><rect
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
-           y="530.86218"
-           x="60.5"
-           height="59"
-           width="189"
-           id="rect4804-9-5-4-5-58-9-5" /></flowRegion><flowPara
-         id="flowPara14605-2">λ</flowPara></flowRoot>    <flowRoot
-       transform="matrix(2.0025586,0,0,2.1268464,281.18852,-389.29786)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="flowRoot4800-1-7-5-1-3-2-5"
-       xml:space="preserve"><flowRegion
-         id="flowRegion4802-6-3-5-0-0-3-2"><rect
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.49959278px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
-           y="530.86218"
-           x="60.5"
-           height="59"
-           width="189"
-           id="rect4804-9-5-4-5-58-9-0" /></flowRegion><flowPara
-         id="flowPara14605-4">λ</flowPara></flowRoot>    <path
+    <path
        style="display:none;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.19999981;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker15755-9)"
        d="m 679.17607,475.69108 0,-234.8223 -0.0884,0"
        id="path15747-3"
@@ -1291,7 +1243,7 @@
     </g>
     <path
        style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker13304-5)"
-       d="m 385.59417,380.96431 75.13009,0 0,0.0442"
+       d="m 385.59417,380.96431 75.13009,0"
        id="path13296-9"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
@@ -1307,5 +1259,65 @@
        id="path13008-7-1"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="0" />
-  </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3573"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(766.32698,86.267027)"><flowRegion
+         id="flowRegion3575"><rect
+           id="rect3577"
+           width="145.664"
+           height="56.568542"
+           x="-343.6539"
+           y="-64.866508"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start" /></flowRegion><flowPara
+         id="flowPara3579">fac</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3573-4"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(737.60615,678.81654)"><flowRegion
+         id="flowRegion3575-1"><rect
+           id="rect3577-4"
+           width="145.664"
+           height="56.568542"
+           x="-343.6539"
+           y="-64.866508"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start" /></flowRegion><flowPara
+         id="flowPara3579-3">fac</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3573-43"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(739.02038,772.15463)"><flowRegion
+         id="flowRegion3575-6"><rect
+           id="rect3577-1"
+           width="145.664"
+           height="56.568542"
+           x="-343.6539"
+           y="-64.866508"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start" /></flowRegion><flowPara
+         id="flowPara3579-0">fac</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3573-6"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(737.60616,806.09575)"><flowRegion
+         id="flowRegion3575-2"><rect
+           id="rect3577-2"
+           width="145.664"
+           height="56.568542"
+           x="-343.6539"
+           y="-64.866508"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start" /></flowRegion><flowPara
+         id="flowPara3579-4">fac</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3573-9"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(577.61835,187.06989)"><flowRegion
+         id="flowRegion3575-8"><rect
+           id="rect3577-5"
+           width="145.664"
+           height="56.568542"
+           x="-343.6539"
+           y="-64.866508"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20px;line-height:100%;font-family:Sans;-inkscape-font-specification:'Sans, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start" /></flowRegion><flowPara
+         id="flowPara3579-9">fac</flowPara></flowRoot>  </g>
 </svg>

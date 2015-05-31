@@ -6,12 +6,13 @@
 Since the 1950s, compilers have been translating higher-level programming
 languages into machine languages. The purpose of a compiler is two-fold:
 translate human-readable code into machine language, and optimize the translated
-code. Compilers use many code optimization techniques, such as \textit{Common
-Subexpression Elimination} (CSE)~\cite[Ch. 8.5]{DragonBook} and
-\textit{Dead Code Elimination} (DCE)~\cite[Ch. 8.5]{DragonBook}.
+code. Compilers use many code optimization techniques, in order to improve the
+quality of the emitted code. Common techniques are \textit{Common Subexpression
+Elimination} (CSE)~\cite[Ch. 8.5]{DragonBook}, \textit{Dead Code Elimination}
+(DCE)~\cite[Ch. 8.5]{DragonBook}, and \textit{inlining}~\cite[Ch.
+12.1]{DragonBook}.
 
-Another code optimization is \textit{inlining}~\cite[Ch. 12.1]{DragonBook},
-which replaces the call site of a function with its body.
+Inlining replaces the call site of a function with its body.
 Listing~\ref{lst:inlining} shows the definition of functions \lstinline!A()! and
 \lstinline!B()!. If \lstinline!A()! is inlined into \lstinline!B()!, the body of
 \lstinline!B()! becomes \lstinline!return y + 3 + 2!, permitting
@@ -41,18 +42,18 @@ The benefits of inlining are mainly two-fold: The first one is the removal of
 function call overhead. Function call overhead is the cost in memory needed on
 the stack, as well as the CPU cycles needed for setting up and performing the
 call. The second is the potential for unveiling the application of additional
-optimizations such as CF demonstrated in Listing~\ref{lst:inlining}.
+optimizations such as CF, demonstrated in Listing~\ref{lst:inlining}.
 
 The drawbacks of inlining are code duplication, and an increased compile time.
 In specific situations, work duplication can also occur~\cite{GHCPaper}.
 Listing~\ref{lst:code-dup} exemplifies a situation where inlining can lead to
-code duplication if either of \lstinline!C()!s invocations in \lstinline!D()!
+code duplication if either of \lstinline!C()!'s invocations in \lstinline!D()!
 are inlined. This is due to the big expression \lstinline!e! being copied into
-\lstinline!D()! as soon as one or more of \lstinline!C()! invocations are
-inlined. However,  duplication might be mitigated if CSE is applicable. Also, if
-both of \lstinline!C()!s invocations are inlined, then the definition of
-\lstinline!C()! may be removed through the application of DCE since
-\lstinline!C()! is \lstinline!static!.
+\lstinline!D()!. However, if both invocations are inlined, code code duplication
+might be mitigated through CSE. Additionally, if both of \lstinline!C()!'s
+invocations are inlined, then the function body of \lstinline!C()! may be
+removed through the application of DCE since \lstinline!C()! is
+\lstinline!static! and no longer invoked.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -77,7 +78,7 @@ duplication.}
 If inlining is performed blindly on all function call sites, non-termination of
 the compilation can occur. This can happen when the compiler attempts to inline
 recursive functions. Hence, recursive functions need to be handled carefully.
-The literature proposes mainly two approaches for inlining recursive functions:
+The predominant approaches for handling inlining of recursive functions are:
 
 \begin{enumerate}
 
@@ -114,7 +115,7 @@ this section.
 
 In Section~\ref{sec:methodology}, we describe how the implemented inliner is
 evaluated, as well as the inlining heuristics we chose for the SPEC2006
-Benchmark Suites used for testing. Section~\ref{sec:res} then reports on the
+Benchmark Suites used for testing. Section~\ref{sec:res} reports on the
 characteristics of the SPEC2006 Benchmark Suites used for the testing, as well
 as the results of the inliner. Also in Section~\ref{sec:res}, we focus on how
 different heuristics have different consequences, such as code duplication, and
