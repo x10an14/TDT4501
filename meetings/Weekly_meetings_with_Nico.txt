@@ -2,6 +2,12 @@ Weekly meetings with Nico
 
 Until further notice: Weekly meetings at Wednesday 1100.
 
+mon, 1st June, 2015:
+	code:
+		Add explicit "is exported" Inlining Condition
+	report:
+		NEED GRAPHS!!! Results!!!
+
 thu, 21st May, 2015:
 	tip:
 		ispell (commandline program)
