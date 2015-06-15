@@ -1,6 +1,6 @@
 reset
 unset key
-y1 = 0.0; y2 = 650.0; y3 = 3350.0; y4 = 3450.0;
+y1 = 0.0; y2 = 3250.0; y3 = 5500.0; y4 = 5650.0;
 set term postscript eps color
 set output 'avg_node_count.eps'
 
@@ -25,7 +25,8 @@ set bmargin at screen 0.15
 set tmargin at screen 0.15 + 0.75 * 0.5
 
 set yrange[y1:y2]
-plot 'profiling_data1.data' using 2:xtic(1)
+plot 'benchmark_averages.data' using 2 t "Pre-Inlining", \
+	'' using 30:xticlabels(1) t "Post-Inlining"
 
 unset xtics
 unset xlabel
@@ -34,15 +35,7 @@ set border 2+4+8
 set bmargin at screen 0.15 + 0.75*0.5 + 0.01
 set tmargin at screen 0.15 + 0.75 + 0.01
 set yrange [y3:y4]
-plot 'profiling_data1.data' using 2:xtic(1)
+plot 'benchmark_averages.data' using 2 t "Pre-Inlining", \
+	'' using 30:xticlabels(1) t "Post-Inlining"
 
 unset multiplot
-
-# Plot type settings
-#set boxwidth 1.0
-
-# Legend position
-
-#set output 'testy.png'
-
-
