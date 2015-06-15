@@ -11,7 +11,7 @@ values we decided upon for the CNF we used in our testing. Thereafter we show
 and discuss the results of our testing. Some focus is put on the status of Jive,
 and how its status may have affected our test results.
 
-\subsection{Profiling SPEC2006}
+\subsection{Profiling SPEC2006 and its functions}
 \label{sub:res:profiling}
 
 To decide upon the placeholder values for the the CNF introduced in
@@ -70,6 +70,41 @@ count of exported $\lambda$-nodes in the same benchmark.}
 	\label{fig:avg_lambda_count_pre}
 \end{centering}
 
+One of the IC most used in our final CNF form is \textit{Node Count} (NC). As
+such, it is of use to us to know what NC functions have on average in our
+SPEC2006 test files. Figure~\ref{fig:benchmarks_avg_nc_in_lambda_per_file}
+depicts this in a scatter plot.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_nc_in_lambdas_pre}
+	\end{minipage}
+	\captionof{figure}{Scatter plot showing the spread of average amount of nodes
+contained within each function per file in the Benchmarks Suite. The files are
+grouped by Benchmark along the horizontal axis.}
+	\label{fig:benchmarks_avg_nc_in_lambda_per_file}
+\end{centering}
+
+The spread of data points in
+Figure~\ref{fig:benchmarks_avg_nc_in_lambda_per_file} tells us that while there
+are some functions like the aforementioned of \textit{gcc}, the majority of them
+contain less than 100 nodes. Which conforms well with the stipulation that most
+applications majority of nodes are leaf nodes, which generally contain few
+operations. This makes it somewhat easier for us to decide what limits NC should
+present with regards to inlining, since we can see that a majority would be
+inlined if we inlined all functions satisfying \lstinline|NC < 200|.
+
+The histogram in Figure~\ref{fig:phis_and_lambdas_in_phis} tells us that there
+are no recursive environments containing more than one function in the
+Benchmarks tested. In other words, that all the recursive functions are
+\nolinebreak{self-recursive}. As such, we did not get to test our algorithm
+detailed in Section~\ref{sub:scheme:inlining_recur_apply_nodes} with the
+SPEC2006 Benchmark Suite, but in our own testing we did confirm that it
+permitted us to safely inline \textit{some} functions inside a recursive
+environment containing multiple functions.
+
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
 		\captionsetup{type=figure}
@@ -82,16 +117,74 @@ $\lambda$-nodes inside each $\phi$-region present in a benchmark.}
 	\label{fig:phis_and_lambdas_in_phis}
 \end{centering}
 
-The histogram in Figure~\ref{fig:phis_and_lambdas_in_phis} tells us that there
-are no recursive environments containing more than one function in the
-Benchmarks tested. In other words, that all the recursive functions are
-\nolinebreak{self-recursive}. As such, we did not get to test our algorithm
-detailed in Section~\ref{sub:scheme:inlining_recur_apply_nodes} with the
-SPEC2006 Benchmark Suite, but in our own testing we did confirm that it
-permitted us to safely inline \textit{some} functions inside a recursive
-environment containing multiple functions.
+Another property of functions of interest to us is the average amount of call
+sites contained within functions. This property gives us an idea as to the
+proportion of how many leaf nodes there are with no function calls in a
+benchmark, as well as the proportion of functions with $X$ amount of call sites
+on average.
 
-\subsection{Profiling \textit{Apply}-nodes}
+Figure~\ref{fig:benchmarks_avg_cin_lambda_per_file} shows us that on average the
+balance between functions with no call sites, and functions with, is not sharply
+skewed one way or the other. We do have some outliers, like the aforementioned
+files from \textit{gcc}, but one can safely say from the plot that a majority of
+the functions have less than two hundred call sites contained within.
+
+The histogram in Figure~\ref{fig:benchmarks_avg_cin_lambda_per_file} shows that
+beneath the average of two hundred call sites in function mark on the y-axis,
+there is a slight predominance for functions to have about one hundred or less.
+These observations are helpful in giving us upper bounds for how many functions
+could potentially be inlined by this IC.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_cin_pre_count}
+	\end{minipage}
+	\captionof{figure}{Scatter plot showing the spread of average amount of call
+sites contained in functions per file in the Benchmarks Suite. The files are
+grouped by Benchmark along the horizontal axis.}
+	\label{fig:benchmarks_avg_cin_lambda_per_file}
+\end{centering}
+
+The final function property we profile is the amount of call sites invoking a
+function. As the first clause of our CNF form states, if the function is not
+exported, and there's only one invocation of the function, it is an easy
+decision to inline.
+
+However, by graphing the spread of how many call sites each files' functions
+have on average, it gives us an idea of how many more functions could
+potentially be inlined if just some of its invocations are inlined.
+Figure~\ref{fig:benchmarks_avg_scc_lambda_per_file} shows us a scatter plot of
+this data across all the test files used in the Benchmark Suite. The few
+functions in the bottom right corner of the plot are functions which have no
+call sites inside the same file, but are exported, meaning that if the
+benchmark's program files were statically linked during compilation, there would
+be no functions with zero static call sites.
+
+What the data in Figure~\ref{fig:benchmarks_avg_scc_lambda_per_file} tells us,
+is that the majority of functions are called just once. Seeing as Jive has not
+statically linked the files in the benchmark during the creation of the RVSDG,
+this is understandable. If Jive was able to build the RVSDG with statically
+linked files, our suspicion is that the range of the vertical axis, and spread data along it, would most likely grow.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_scc_pre_count}
+	\end{minipage}
+	\captionof{figure}{Scatter plot showing the spread of average Static Call
+Counts for functions per file in the Benchmarks Suite. The files are grouped by
+Benchmark along the horizontal axis.}
+	\label{fig:benchmarks_avg_scc_lambda_per_file}
+\end{centering}
+
+However, as the data stands, we can see that if a function is not exported, and
+two of its invocations are inlined, there is a decent chance of applying DCE on
+the functions.
+
+\subsection{Profiling SPEC2006's \applyNode s}
 \label{sub:res:ic_profiling}
 
 In our profiling, the data we are most interested relates to the \applyNode s in
@@ -140,12 +233,10 @@ others, thereby achieving these numbers.
 		\hspace{-1em}
 		\includegraphics[width=\textwidth]{figures/gnuplot/avg_pc_cpc_pre_count}
 	\end{minipage}
-
-	\captionof{figure}{Scatterplot showing the spread of average Parameter Count
+	\captionof{figure}{Scatter plot showing the spread of average Parameter Count
 per file in the Benchmarks (plus signs), and the spread of average Constant
 Parameter Count (depicted by tilted plus signs). The files are grouped by
 Benchmark along the horizontal axis.}
-
 	\label{fig:benchmarks_avg_pc_cpc}
 \end{centering}
 
@@ -158,15 +249,40 @@ needed should be above two. Thus we avoid code size explosion by hindering
 function invocations with only one or two constant parameters, while we permit
 function invocations with more to become inlined.
 
-\todo[inline]{Show pre-inlining profiling results of: node count in lambda, loop
-nesting depth of apply node, static call count of lambda, calls in lambda node, and }
+Finally, one of the most important properties of a call site wrt. inlining is
+the amount of nested loops it resides within.
+Figure~\ref{fig:benchmarks_avg_lnd_per_file} plots the average LND count of the
+call sites in a Benchmark Suite test file. The scatter plot in
+Figure~\ref{fig:benchmarks_avg_lnd_per_file} tells us that there are no call
+sites (\applyNode s) residing within more than two nested loops. While research
+shows that most of a programs' execution time is spent inside of loops, it is
+useful to have an idea of the proportion of call sites within one, two, or zero
+loops. If the CNF clause checking for loop nesting depth of our CNFs final form
+set the bar at three or higher, the clause would be useless as there are no such
+call sites present in the Benchmark Suite's test files.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_lnd_pre_count}
+	\end{minipage}
+	\captionof{figure}{Scatter plot showing the spread of average Loop Nesting
+Depth for call sites per file in the Benchmarks Suite. The files are grouped by
+Benchmark along the horizontal axis.}
+	\label{fig:benchmarks_avg_lnd_per_file}
+\end{centering}
 
 \subsection{Final CNF}
 \label{sub:res:final_cnf}
 
+With the observations made from the profiling data, and some testing to find the
+optimum values wrt. to average node count size in the benchmarks, the following
+values were used for our test results:
+
 \begin{centering}
 \lstinline!(EXP == false && SCC = 1) || NC < 25 || CIN < 3 ||! \\
-\lstinline!(NC < 250 && CPC > 2) || (NC < 250 && LND > 0)! \\
+\lstinline!(NC < 200 && CPC > 2) || (NC < 200 && LND > 0)! \\
 \end{centering}
 
 \subsection{Inlining results}
@@ -199,7 +315,9 @@ Show that there is no strong correlation between the two.}
 		\hspace{-1em}
 		\includegraphics[width=\textwidth]{figures/gnuplot/average_static_known_minus_loop_brkrs_post_pre}
 	\end{minipage}
-	\captionof{figure}{Scatterplot plotting the benchmarks wall clock duration (y-axis) with the average amount of apply nodes before inlining (x-axis).}
+	\captionof{figure}{Scatter plot showing the sprad of the benchmarks' wall
+clock duration (y-axis) with the average amount of apply nodes before inlining
+(x-axis).}
 \end{centering}
 
 \todo[inline]{Check whether there is a strong correlation between the wall clock
