@@ -1,0 +1,15 @@
+reset
+set term postscript eps color
+set output "avg_lambda_count_pre.eps"
+
+set xlabel "Benchmarks"
+set xtics rotate by -45
+set ylabel "Linear avg. functions in Benchmark"
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+
+set style data histogram
+set style fill solid 1.0
+set boxwidth 1.0
+
+plot 'benchmark_averages.data' using 4:xticlabels(1) t "Avg. Function Count",\
+	'' using 7 t "Avg. Exported Function Count"

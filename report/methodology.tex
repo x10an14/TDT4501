@@ -7,10 +7,9 @@
 Using the \textit{Inliner Conditions} (ICs) described in
 Section~\ref{sub:meth:inlining_conditions}, the inliner of this project has been
 tested using C-language programming files from the SPEC2006 Benchmark Suite.
-This section first details the ICs, before explaining how the files tested from
-the SPEC2006 Benchmark Suite were chosen. Finally, we list the CNFs for each
-group of files from the SPEC2006 Benchmark Suite the inliner ran the benchmarks
-with.
+This section first details the ICs and the rationale behind CNF clauses used for
+testing, before explaining how the files tested from the SPEC2006 Benchmark
+Suite were chosen.
 
 \subsection{The Inlining Conditions}
 \label{sub:meth:inlining_conditions}
@@ -44,11 +43,10 @@ is no risk of code duplication.
 	\item \nopagebreak{\textbf{Parameter Count }(PC)}
 
 The greater the amount of parameters a function has, the greater the invocation
-cost of said function. This is can especially be the case when type conversion
-is required~\cite{AdaptvCompilAndInlingWaterman}. In some cases, the
-computational cost of an inlined function with low node count may be smaller
-than the cost of invoking it if it has many
-parameters~\cite{AdaptvCompilAndInlingWaterman}.
+cost of said function. This can especially be the case when type conversion is
+required~\cite{AdaptvCompilAndInlingWaterman}. In some cases, the computational
+cost of an inlined function with low node count may be smaller than the cost of
+invoking it if it has many parameters~\cite{AdaptvCompilAndInlingWaterman}.
 
 	\item \nopagebreak{\textbf{Constant Parameter Count }(CPC)}
 
@@ -65,9 +63,103 @@ parameter for two distinct reasons: leaf functions are often small and easily
 inlined, and a high percentage of total execution time is spent in leaf
 functions.
 
+	\item \nopagebreak{\textbf{Exported}(EXP)}
+
+This inlining condition tells us whether or not the function called is exported
+or not. If it is not, it is of greater interest to inline, because if all call
+sites are inlined, the declaration of the function can be removed through
+\textit{Dead Code Elimination}.
+
 \end{itemize}
 
-\subsection{The SPEC2006 Benchmark Suite files}
+\subsection{The CNF}
+\label{sub:meth:cnf}
+
+Section~\ref{sub:scheme:inlining_apply_nodes} explains the generic form a CNF
+may have, and how our inlining conditions introduced in
+Section~\ref{sub:meth:inlining_conditions} can help build such.
+
+While a certain CNF may prove quite helpful with one program, there is no
+guarantee that other programs would benefit equally, if at all, from the same
+CNF. In fact, a CNF which proves to be the best for the execution time of one
+program, may increase the execution time of another.
+
+Hence, care must be taken when selecting a CNF. Since today's compilers are
+expected to run in seconds or less, it is a difficult challenge finding
+compromises between a CNF that gives decent results for many different
+applications, yet is efficient enough not to slow down the compilation time too
+much. The potential code size increase of the compiled program cannot be
+forgotten either.
+
+With these limitations in mind, and through some inspiration from GCC
+Waterman~\cite{AdaptvCompilAndInlingWaterman}, we decided on a CNF built from
+the following clauses:
+
+\begin{enumerate}
+
+	\item \lstinline!EXP == false && SCC == 1!
+
+What this clause asks for is whether or not the function being called is not
+exported, and that there are no other call sites invoking this function. If so,
+then there is nothing to lose by inlining it. Not only is the function
+invocation cost removed, but there is no risk of negatively affecting the size
+of the compiled end result. This most often occurs after enough call sites have
+been inlined, so that \lstinline|SCC| becomes \lstinline|1|.
+
+	\item \lstinline!NC < X!
+	\label{sub:meth:cnf_clause2}
+
+This clause only asks whether or not the amount of operations inside the
+function being invoked are less than the placeholder value \lstinline!X!. This
+is to remove all small nodes which perform simple tasks, such as getter's,
+setter's, increments, and so forth. The code size does not run a big risk of
+being negatively affected by inlining these. In fact, inlining such function can
+conceivably increase potential optimizations such as \textit{Common
+Subexpression Elimination}.
+
+	\item \lstinline!CIN < Y!
+	\label{sub:meth:cnf_clause3}
+
+With the intention of having the placeholder \lstinline!Y! at lower values, this
+clause attempts to seek out the leaf nodes in nested calls.
+Research~\cite{AdaptvCompilAndInlingWaterman} shows that a lot of execution time
+are spent in these, and hence they are of interest to inline, in the hope that
+other optimization techniques may be applied on their operations.
+
+	\item \lstinline!NC < Z && CPC > V!
+	\label{sub:meth:cnf_clause4}
+
+This clause wants to inline call sites whose constant parameters exceed the
+placeholder value \lstinline!V!. The term \lstinline|NC < Z| is there to prevent
+code size explosion. limiting the inlining to functions whose node count is less
+than \lstinline|Z|. If the input parameters of the function are constant, then
+there's conceivably a bigger potential for other optimization techniques to be
+applied, if inlined.
+
+	\item \lstinline!NC < W && LND > T!
+	\label{sub:meth:cnf_clause5}
+
+The final clause is very similar to the previous one, but instead of looking for
+call sites with constant parameters, it looks for call sites residing inside of
+loops. It is well known that most of the execution time of a program is spent
+inside of loops. This makes the unveiling of potential optimizations of function
+calls inside of loops tempting. Again, to avoid code size explosion, and to help
+minimize the placeholder value \lstinline|T|, no functions with internal node
+count larger than \lstinline|W| are inlined by this clause.
+
+\end{enumerate}
+
+Thus, the final CNF has the form:
+
+\begin{centering}
+\lstinline!(EXP == true && SCC = 1)|| NC < Z || CIN < Y ||! \\
+\lstinline!(NC < Z && CPC > V)|| (NC < W && LND > T)! \\
+\end{centering}
+
+See Section~\ref{sub:res:final_cnf} for the final form with the placeholder
+values chosen.
+
+\subsection{The SPEC2006 Benchmarks}
 \label{sub:meth:SPEC2006_files}
 
 The SPEC2006 Benchmark Suite files were chosen with the following criteria:
@@ -82,93 +174,27 @@ flags.
 	\item \nopagebreak{Jive was able to interpret all of the assembly instructions in the}
 outputted .ll files and construct RVSDGs from them.
 
-	\item \nopagebreak{The files could to be tested within a time limit of 200}
-seconds\footnote{This due to a bug in the supplied library needed for compiling
-an executable using Jive.}, executed single-process, on a Intel(R) Core(TM)
-i5-4200M CPU @ 2.50GHz, with 3072 KB cache size, Ubuntu 14.04 64-bit Linux
-distro.
+	\item \nopagebreak{The files could to be tested within a time limit of 120}
+seconds\footnote{This due to a bug in the library needed for compiling an
+executable using Jive.}, executed single-process, on a Intel(R) Core(TM)
+i5-4200M CPU @ 2.50GHz, with 3072 KB cache size, Ubuntu 14.04 64-bit based Linux
+distribution.
 \end{enumerate}
 
 With these requirements, files from the following benchmarks were used for
 testing:
 
-\begin{multicols}{3}
-	\begin{itemize}
-		\item \nopagebreak{400.perlbench \newline \textit{w/X .c files}}
-		\item \nopagebreak{401.bzip2 \newline \textit{w/X .c files}}
-		\item \nopagebreak{403.gcc \newline \textit{w/X .c files}}
-		\item \nopagebreak{429.mcf \newline \textit{w/X .c files}}
-		\item \nopagebreak{433.milc \newline \textit{w/X .c files}}
-		\item \nopagebreak{435.gromacs \newline \textit{w/X .c files}}
-		\item \nopagebreak{445.gobmk \newline \textit{w/X .c files}}
-		\item \nopagebreak{456.hmmer \newline \textit{w/X .c files}}
-		\item \nopagebreak{458.sjeng \newline \textit{w/X .c files}}
-		\item \nopagebreak{462.libquantum \newline \textit{w/X .c files}}
-		\item \nopagebreak{464.h264ref \newline \textit{w/X .c files}}
-		\item \nopagebreak{470.lbm \newline \textit{w/X .c files}}
-		\item \nopagebreak{482.sphinx3 \newline \textit{w/X .c files}}
-	\end{itemize}
-\end{multicols}
+\todo[inline]{Fill table with final numbers.}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|
+>{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\rotatebox{60}{Benchmarks} & \rotatebox{90}{perlbench} & \rotatebox{90}{bzip2} & \rotatebox{90}{gcc} & \rotatebox{90}{mcf} & \rotatebox{90}{milc} & \rotatebox{90}{gromacs} & \rotatebox{90}{gobmk} & \rotatebox{90}{hmmer} & \rotatebox{90}{sjeng} & \rotatebox{90}{libquantum} & \rotatebox{90}{h264ref} & \rotatebox{90}{lbm} & \rotatebox{90}{sphinx3} \\ \hline
+\# files  &           &       &     &     &      &         &       &       &       &            &         &     &         \\ \hline
+\end{tabular}
+\end{table}
 
 See Appendix~\ref{app:SPEC2006_files_used} for the complete list of .c files
 used for testing from each of the above benchmarks from SPEC2006.
-
-\subsection{CNF clauses common for all SPEC2006 Benchmark Suites used}
-\label{sub:meth:common_CNFs}
-
-The heuristics used to decide whether or not to inline a call site are written
-with boolean logic in Conjunctive Normal Form (CNF) using the ICs from
-Section~\ref{sub:meth:inlining_conditions}.
-
-However, a CNF expression whose clauses are ideal for one program will not be
-ideal for all programs. For some programs, it might even lead to a worse
-executable than if no inlining had been performed at all. Hence, for each
-SPEC2006 benchmark suite's .c files which passed the requirements listed in
-Section~\ref{sub:meth:SPEC2006_files}, we profiled the .c files and found the
-following CNFs for each set to be the most decent ones we could find manually.
-See Section~\ref{sub:res:profiling} for the data found when profiling the
-SPEC2006 Benchmark Suite files.
-
-While a certain CNF may be ideal for the optimization of one program, the same
-does not hold for all. Even so, there are some CNF clauses which are worth
-keeping in all the CNFs used in our testing. These are as follow:
-
-\begin{itemize}
-	\item $SCC == 1$
-
-This clause simply states that if there's only \textit{one} call site invoking
-this function, and that the function is not exported, then it can be inlined
-without worry of code duplication or work duplication.
-
-	\item \unsure[inline]{Think of more...?}
-\end{itemize}
-
-\subsection{SPEC2006 Benchmark Suite's individual CNFs}
-\label{sub:meth:SPEC2006_heuristics}
-
-In addition to the CNF clauses from Section~\ref{sub:meth:common_CNFs} and
-through manual testing of ICs and values, the following CNFs were the most
-optimal ones we found for each individual SPEC2006 Benchmark Suite:
-
-\begin{multicols}{2}
-	\begin{itemize}
-		\item 400.perlbench
-		\item 401.bzip2
-		\item 403.gcc
-		\item 429.mcf
-		\item 433.milc
-		\item 435.gromacs
-		\item 445.gobmk
-		\item 456.hmmer
-		\item 458.sjeng
-		\item 462.libquantum
-		\item 464.h264ref
-		\item 470.lbm
-		\item 482.sphinx3
-	\end{itemize}
-\end{multicols}
-
-In an ideal world, we should not have looked for the most optimal CNFs ourselves
-manually. However, since implementing implementing a randomized hillclimber to
-find a good CNF per program compiled~\cite{AdaptvStratInlSubst} is outside of
-the scope of this project, we did not have the resources to implement one.

@@ -1,0 +1,13 @@
+reset
+set term postscript eps color
+set output 'avg_scc_pre_count.eps'
+
+set xlabel "Benchmarks"
+set ylabel "Linear avg. per file"
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+
+# Plot type
+set style data points
+set xrange[0:325]
+
+plot 'inliner_stats.data' using 20 t "Static Call Count per Function"

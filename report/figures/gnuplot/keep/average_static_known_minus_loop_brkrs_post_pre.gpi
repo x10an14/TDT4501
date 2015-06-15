@@ -1,5 +1,5 @@
 set term postscript eps color
-set output 'avg_pc_cpc_pre_count.eps'
+set output 'average_static_known_minus_loop_brkrs_post_pre.eps'
 
 set xlabel "Benchmarks"
 set xtics rotate by -45
@@ -12,5 +12,7 @@ set style data histogram
 set style fill solid 1.0
 set boxwidth 1.0
 
-plot 'benchmark_averages.data' using 16 t "Parameter Count", \
-	'' using 19:xticlabels(1) t "Constant Parameter Count"
+#set yrange [0:1]
+
+plot 'benchmark_averages.data' using 31 t "Statically Known Apply Nodes*", \
+	'' using 32:xticlabels(1) t "Statically Known Apply Nodes After Inlining"

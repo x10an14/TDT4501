@@ -3,11 +3,18 @@
 \usepackage{float}			%For forcing position of figures
 \usepackage{fancybox}		%For Sbox used for CenteredBox environment
 \usepackage[usenames,%
-dvipsnames]{xcolor}			%For the SkyBlue background color for lstlistings
+dvipsnames,table,xcraw]{xcolor}			%For the SkyBlue background color for lstlistings
 \usepackage{tabularx}		%for tablecontents wrapping inside cell, instead of cell breaking page width.
 \usepackage{enumerate}		%For getting different types of lists like a) II) and so forth.
 
 \usepackage{multicol}		%For spreading lists across multiple columns
+\usepackage{rotating}
+
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+
+\usepackage{epstopdf}
+\DeclareGraphicsExtensions{.eps,.png}
 
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}

@@ -1,0 +1,13 @@
+reset
+unset key
+set term postscript eps color
+set output 'avg_cpc_pre_count.eps'
+
+set xlabel "Benchmarks"
+set ylabel "Linear avg. per file"
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+
+# Plot type
+set style data points
+
+plot 'inliner_stats.data' using 29 t "Constant Parameter Count"

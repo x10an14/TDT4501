@@ -4,15 +4,14 @@
 \section{The Inliner}
 \label{sec:scheme}
 
-Our inliner, written in C++, utilizes Jive's RVSDG IR to operate on the program
-code given as input. As such, the inliner is both compiled into Jive, and
-utilizes functionalities offered by Jive. This section details the actions
-performed by the inliner, and the reasoning behind these. First, we list the
-action the inliner performs, before we go more into depth on the reasoning
-behind them.
+Our inliner utilizes Jive's RVSDG IR functionality to perform the inlining on
+the inputted assembly code program. As such, the inliner is both compiled into
+Jive, and utilizes functionalities offered by Jive. This section details the
+actions performed by the inliner, and the reasoning behind these. First, we give
+an overview of the actions performed by the inliner, before we go more into
+depth on the reasoning behind them.
 
-The following algorithm is executed by the inliner of this project when given an
-RVSDG as input:
+Following is the algorithm representing the steps executed by the inliner:
 
 \begin{enumerate}
 	\item For all recursive environments ($\phi$-regions):
@@ -89,25 +88,26 @@ the list of loop breakers.
 	\end{enumerate}
 \end{enumerate}
 
-In this manner it is guaranteed, by virtue of the SCC the call graph inside a
-$\phi$-region makes, that all $\lambda$-nodes are visited. It is also guaranteed
-that for every cycle in the SCC, there is at minimum \textit{one} $\lambda$-node
-marked as a loop breaker. As such, the inliner knows which recursive functions
-it must never attempt to inline, so as to ensure termination of the compilation.
-The remaining $\lambda$-nodes residing in $\phi$-regions not marked as loop
-breakers may then be inlined according to the same criteria as any non-recursive
-function.
+In this manner it is guaranteed, by virtue of the SCC made by the call graph
+inside a $\phi$-region, that all $\lambda$-nodes are visited. It is also
+guaranteed that for every cycle in the SCC, there is at least \textit{one}
+$\lambda$-node marked as a loop breaker. As such, the inliner knows which
+recursive functions it must never attempt to inline, so as to ensure termination
+of the compilation. The remaining $\lambda$-nodes residing in $\phi$-regions not
+marked as loop breakers may then be inlined according to the same criteria as
+any non-recursive function.
 
 While there are better ways~\cite{BasMscThesis} to choose loop
-breakers\footnote{So as to minimize the amount of loop breakers per cycle in the
-$\phi$-region, as mentioned in Section~\ref{sub:fw:optimal_loop_breakers}.}, implementing one in our inliner is outside the scope of this project.
+breakers\footnote{In the attempt of minimizing the amount of loop breakers in a
+$\phi$-region, as mentioned in Section~\ref{sub:fw:optimal_loop_breakers}.},
+implementing one in our inliner is outside the scope of this project.
 
 \subsection{The order of call sites inlined}
 \label{sub:scheme:ordering_apply_nodes}
 
 The order in which the \applyNode s are inlined, can make a difference for not
-only \textit{how many} \applyNode s are inlined, but also \textit{which} that
-get inlined. To illustrate this, let us give the reader the following example:
+only \textit{how many} \applyNode s are inlined, but also \textit{which} are
+inlined. To illustrate this, let us give the reader the following example:
 
 \textit{Given that the} heuristic deciding whether an \applyNode~is inlined or
 not depends upon whether the \textit{internal node count} of the function it
@@ -129,17 +129,17 @@ be inlined into $\lambda_1$.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.75\textwidth]{figures/inline_ordering_ex}
-	\caption{A minimal example of an RVSDG subgraph, depicting a function call
+	\includegraphics[width=0.75\textwidth]{figures/svg/inline_ordering_ex}
+	\caption{An example of an RVSDG subgraph, depicting a function call
 order in a program.}
 	\label{fig:inline_ordering_ex}
 \end{figure}
 
-This example assumes the node count contained within each
-function created by inlining to be the sum of the internal node counts of the
-original function and the one inlined. In other words, no optimizations or other
-compiler techniques are assumed performed on the RVSDG during the traversal of
-the \applyNode s, or before/after each inlining
+This example assumes the node count contained within each function created by
+inlining to be the sum of the internal node counts of the original function and
+the one inlined. In other words, no optimizations or other compiler techniques
+are performed on the RVSDG during the traversal of the \applyNode s, or
+before/after each inlining.
 
 As our example shows, the order in which the \applyNode s are inlined matters.
 And because the order matters, our inliner is able to traverse the \applyNode s
@@ -150,8 +150,8 @@ for future research regarding the impact of the order of inlined call sites.
 \subsection{Inlining a call site}
 \label{sub:scheme:inlining_apply_nodes}
 
-While there exist several~\cite{GHCPaper,AdaptvStratInlSubst} ways in literature
-in which inlining is performed, we decided upon our
+While there exist several~\cite{GHCPaper,AdaptvStratInlSubst} ways in which
+inlining is performed, we decided upon our
 approach~\cite{AdaptvCompilAndInlingWaterman} because it permits effective
 testing for an apt heuristic when deciding on whether or not to inline a call
 site.
@@ -184,6 +184,6 @@ for our inliner heuristic are written in the following fashion:
 \lstinline!Y!, \lstinline!Z!, and \lstinline!W! are placeholder values.
 
 While the work of Waterman~\cite{AdaptvCompilAndInlingWaterman}, which our
-approach is based upon, utilizes a hillclimber algorithm to adaptively find
-decent values for the placeholder variables for each individual run of the
-compiler, this is outside the scope of our project.
+approach builds upon, utilizes a hillclimber algorithm to adaptively find decent
+values for the placeholder variables for each individual run of the compiler,
+this is outside the scope of our project.

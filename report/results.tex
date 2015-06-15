@@ -4,53 +4,203 @@
 \section{Results}
 \label{sec:res}
 
-\unsure[inline]{Ask Nico whether result needs an introduction at all...}
+In this section, we first profile the Benchmarks introduced in
+Section~\ref{sec:methodology}, and then more specifically the \applyNode s in
+the Benchmark Suite, before we explain the reasoning behind the placeholder
+values we decided upon for the CNF we used in our testing. Thereafter we show
+and discuss the results of our testing. Some focus is put on the status of Jive,
+and how its status may have affected our test results.
 
-\subsection{Profiling results}
+\subsection{Profiling SPEC2006}
 \label{sub:res:profiling}
 
-\todo[inline]{Remember to mention/show the results of the amount of \applyNode s
-which link to static calls, vs all calls, and etc. Data which does not directly
-relate to the ICs.}
+To decide upon the placeholder values for the the CNF introduced in
+Section~\ref{sub:meth:cnf}, we profiled the SPEC2006 Benchmarks for the
+following properties among others:
 
-\begin{multicols}{2}
-	\begin{itemize}
-		\item 400.perlbench
-		\item 401.bzip2
-		\item 403.gcc
-		\item 429.mcf
-		\item 433.milc
-		\item 435.gromacs
-		\item 445.gobmk
-		\item 456.hmmer
-		\item 458.sjeng
-		\item 462.libquantum
-		\item 464.h264ref
-		\item 470.lbm
-		\item 482.sphinx3
-	\end{itemize}
-\end{multicols}
+First and foremost, while a higher node count may still result in faster
+execution in some cases, minimizing the amount of operations in a programs'
+RVSDG was one of our main motivations behind choosing the placeholder values of
+the CNF.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_node_count_pre_inlining}
+	\end{minipage}
+	\captionof{figure}{Histogram showing the average amount nodes present in
+each SPEC2006 Benchmark. The y-axis is broken due the two benchmark's \textit{
+h264ref} and \textit{lbm}'s big difference in average node count.}
+	\label{fig:benchmarks_avg_nc_pre_inlining}
+\end{centering}
+
+Figure~\ref{fig:benchmarks_avg_nc_pre_inlining} shows the (linearly) averaged
+node count for each of the SPEC2006 Benchmarks used. We use
+Figure~\ref{fig:benchmarks_avg_nc_pre_inlining} as our baseline, to which we
+compare the results of our testing in Section~\ref{sub:res:inlining}.
+
+However, we want to explain the reason behind \textit{lbm}'s high node count
+average: it is caused by one of \textit{lbm}'s files which contains functions
+that fill/modify large \lstinline!IO_FILE!s with content. \textit{h264ref} also
+stands out, though not as much as \textit{lbm}. It stands out due to its low
+average of nodes per file. It does so because it only has one file which made it
+past the requirements listed in Section~\ref{sub:meth:SPEC2006_files},
+specifically requirement 3, and the majority of this file consists of two leaf
+functions.
+
+This observation raises the obvious point that by profiling the functions in the
+benchmarks, we can observe how many of the functions are exported, seeing as
+Jive is unable to link the program files at compile time. This would give us an
+upper bound for how many functions we can remove through \textit{Dead Code
+Elimination} (DCE). Figure~\ref{fig:avg_lambda_count_pre} shows us how many functions
+there are on average in each Benchmark, and how big of an average of these are
+exported.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_lambda_count_pre}
+	\end{minipage}
+	\captionof{figure}{Histogram showing that there is a small number of
+functions we can hope to eliminate through DCE. The left bar shows the average
+count of $\lambda$-nodes per benchmark, while the right bar shows the average
+count of exported $\lambda$-nodes in the same benchmark.}
+	\label{fig:avg_lambda_count_pre}
+\end{centering}
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_phis_and_lambdas_in_phis}
+	\end{minipage}
+	\captionof{figure}{Histogram showing the average amount of $\phi$-regions
+per benchmark with the left bar. The left bar shows the average amount of
+$\lambda$-nodes inside each $\phi$-region present in a benchmark.}
+	\label{fig:phis_and_lambdas_in_phis}
+\end{centering}
+
+The histogram in Figure~\ref{fig:phis_and_lambdas_in_phis} tells us that there
+are no recursive environments containing more than one function in the
+Benchmarks tested. In other words, that all the recursive functions are
+\nolinebreak{self-recursive}. As such, we did not get to test our algorithm
+detailed in Section~\ref{sub:scheme:inlining_recur_apply_nodes} with the
+SPEC2006 Benchmark Suite, but in our own testing we did confirm that it
+permitted us to safely inline \textit{some} functions inside a recursive
+environment containing multiple functions.
+
+\subsection{Profiling \textit{Apply}-nodes}
+\label{sub:res:ic_profiling}
+
+In our profiling, the data we are most interested relates to the \applyNode s in
+the benchmarks. First we check in
+Figure~\ref{fig:statically_known_applies_vs_all_applies} how many \applyNode s
+each benchmark contains, and which of these we can potentially inline. Our
+definition of \textit{statically known} apply-\textit{nodes}, is as follows: if
+the $\lambda$-node invoked is directly connected to the \applyNode~in the RVSDG,
+or resides within a $\phi$-region, which in turn is connected directly to the
+\applyNode , it is statically known.
+
+We cannot inline \applyNode s which are not statically known, and since Jive is
+unable to link files at compile time, there is conceivably large portion of
+\applyNode s not statically known. If Jive had been able to create and process
+RVSDGs composed of linked object files, instead of just disparate files, the
+proportion of statically known \applyNode s may have been higher.
+Figure~\ref{fig:statically_known_applies_vs_all_applies} shows the (linear)
+average count of \applyNode s per SPEC2006 Benchmark in the left bar, and the
+(linear) average count of the statically known in the right bar.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_static_and_not_apply_nodes}
+	\end{minipage}
+	\captionof{figure}{Histogram showing the average count of \applyNode s (left
+bar), and the average count of statically known \applyNode s (right bar), per
+benchmark.}
+	\label{fig:statically_known_applies_vs_all_applies}
+\end{centering}
+
+As Figure~\ref{fig:statically_known_applies_vs_all_applies} also shows, there
+are only two benchmarks with more than ten statically known \applyNode s and
+$\lambda$-nodes each. This time \textit{gcc} is the one with numbers high above
+the rest with regards to the $\lambda$-node average, but what is shown is that
+\textit{gcc}'s \applyNode~average also stands above the rest. Further
+investigation reveals that there is one lone file inside the Benchmark which has
+over six thousand \applyNode s and almost eight hundred $\lambda$-nodes. This
+particular file contains almost only functions, many of which invoke multiple
+others, thereby achieving these numbers.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/avg_pc_cpc_pre_count}
+	\end{minipage}
+
+	\captionof{figure}{Scatterplot showing the spread of average Parameter Count
+per file in the Benchmarks (plus signs), and the spread of average Constant
+Parameter Count (depicted by tilted plus signs). The files are grouped by
+Benchmark along the horizontal axis.}
+
+	\label{fig:benchmarks_avg_pc_cpc}
+\end{centering}
+
+The data spread in Figure~\ref{fig:benchmarks_avg_pc_cpc} shows that there are
+few function calls with up to six parameters, some of which have up to five
+constant parameters in the invocation. The region of average parameter counts is
+most dense in the area between $1.5$ and $2.5$ on the vertical axis. To avoid
+inlining the majority of function calls, the lower limit of constant parameters
+needed should be above two. Thus we avoid code size explosion by hindering
+function invocations with only one or two constant parameters, while we permit
+function invocations with more to become inlined.
+
+\todo[inline]{Show pre-inlining profiling results of: node count in lambda, loop
+nesting depth of apply node, static call count of lambda, calls in lambda node, and }
+
+\subsection{Final CNF}
+\label{sub:res:final_cnf}
+
+\begin{centering}
+\lstinline!(EXP == false && SCC = 1) || NC < 25 || CIN < 3 ||! \\
+\lstinline!(NC < 250 && CPC > 2) || (NC < 250 && LND > 0)! \\
+\end{centering}
 
 \subsection{Inlining results}
 \label{sub:res:inlining}
 
-\todo[inline]{Replace with table and grapfs, but keep for LaTeX ease of use
-until then.}
+Table summarizing node count difference between benchmarks pre- and post-inlining:
+\begin{table}[h]
+	\centering
+	\caption{My caption}
+	\label{my-label}
+	\footnotesize
+	\begin{tabular}{|c|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+		\hline
+		{\bf \rotatebox{60}{benchmarks}} & \multicolumn{1}{l|}{{\it \rotatebox{90}{bzip2} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{gcc} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{gobmk} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{gromacs} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{hmmer} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{h264ref} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{lbm} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{libquantum} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{mcf} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{milc} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{perlbench} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{sjeng}}} & \multicolumn{1}{l|}{{\it \rotatebox{90}{sphinx3} }} \\ \hline
+		{\bf Average Node Count Pre-Inlining}  &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
+		{\bf Average Node Count Post-Inlining} &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
+		{\bf \% Difference in Node Count}      &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
+		{\bf \# Files per Benchmark}           &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
+		{\bf \% of files total in Benchmark}   &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
+\end{tabular}
+\end{table}
 
-\begin{multicols}{2}
-	\begin{itemize}
-		\item 400.perlbench
-		\item 401.bzip2
-		\item 403.gcc
-		\item 429.mcf
-		\item 433.milc
-		\item 435.gromacs
-		\item 445.gobmk
-		\item 456.hmmer
-		\item 458.sjeng
-		\item 462.libquantum
-		\item 464.h264ref
-		\item 470.lbm
-		\item 482.sphinx3
-	\end{itemize}
-\end{multicols}
+\todo[inline]{One graph showing the avg. wall clock ms time (per benchmark) on
+y-axis, and the average amount of apply nodes (per benchmark) on x-axis.\\
+Show that there is no strong correlation between the two.}
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/average_static_known_minus_loop_brkrs_post_pre}
+	\end{minipage}
+	\captionof{figure}{Scatterplot plotting the benchmarks wall clock duration (y-axis) with the average amount of apply nodes before inlining (x-axis).}
+\end{centering}
+
+\todo[inline]{Check whether there is a strong correlation between the wall clock
+time spent, vs Calls-In-Node combined with amount of lambdas/apply nodes.}

@@ -1,0 +1,42 @@
+reset
+unset key
+y1 = 0.00; y2 = 0.25; y3 = 0.465; y4 = 0.485;
+set term postscript eps color
+set output 'avg_phis_and_lambdas_in_phis.eps'
+
+#set xlabel "Benchmarks"
+#set ylabel "Linear avg. per benchmark"
+set xtics rotate by -45
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+set ytics 0,0.025
+
+# Plot type
+set style data histogram
+set style fill solid 1.0
+
+set multiplot
+set key off
+set border 1+2+8
+set xtics nomirror
+set ytics nomirror
+set lmargin at screen 0.12
+set rmargin at screen 0.95
+set bmargin at screen 0.15
+set tmargin at screen 0.15 + 0.75 * 0.5
+
+set yrange[y1:y2]
+plot 'benchmark_averages.data' using 3 t "Recursive Environments (phi nodes)", \
+	'' using 6:xticlabels(1) t "Functions Inside These (lambda nodes)"
+
+unset xtics
+unset xlabel
+unset ylabel
+set border 2+4+8
+set bmargin at screen 0.15 + 0.75*0.5 + 0.03
+set tmargin at screen 0.15 + 0.75 + 0.03
+set yrange [y3:y4]
+set ytics 0.045,0.005
+plot 'benchmark_averages.data' using 3 t "Recursive Environments (phi nodes)", \
+	'' using 6:xticlabels(1) t "Functions Inside These (lambda nodes)"
+
+unset multiplot
