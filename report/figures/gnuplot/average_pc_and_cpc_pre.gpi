@@ -1,0 +1,16 @@
+set term postscript eps color
+set output 'avg_pc_cpc_pre_count.eps'
+
+set xlabel "Benchmarks"
+set xtics rotate by -45
+set ylabel "Linear avg. per benchmark"
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+
+# Plot type
+set style data histogram
+# Plot type settings
+set style fill solid 1.0
+set boxwidth 1.0
+
+plot 'benchmark_averages.data' using 16 t "Parameter Count", \
+	'' using 19:xticlabels(1) t "Constant Parameter Count"

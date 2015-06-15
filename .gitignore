@@ -3,6 +3,7 @@
 
 ## Project files
 report/report.pdf
+report/figures/gnuplot/*.eps
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
