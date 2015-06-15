@@ -1,0 +1,38 @@
+reset
+unset key
+y1 = 0.0; y2 = 3250.0; y3 = 5500.0; y4 = 5650.0;
+set term postscript eps color
+set output 'avg_node_count_pre_inlining.eps'
+
+#set xlabel "Benchmarks"
+#set ylabel "Linear avg. # nodes per benchmark"
+set xtics rotate by -45
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+
+# Plot type
+set style data histogram
+set style fill solid 1.0
+
+set multiplot
+set key off
+set border 1+2+8
+set xtics nomirror
+set ytics nomirror
+set lmargin at screen 0.12
+set rmargin at screen 0.95
+set bmargin at screen 0.15
+set tmargin at screen 0.15 + 0.75 * 0.5
+
+set yrange[y1:y2]
+plot 'benchmark_averages.data' using 2:xticlabels(1) t "Pre-Inlining"
+
+unset xtics
+unset xlabel
+unset ylabel
+set border 2+4+8
+set bmargin at screen 0.15 + 0.75*0.5 + 0.01
+set tmargin at screen 0.15 + 0.75 + 0.01
+set yrange [y3:y4]
+plot 'benchmark_averages.data' using 2:xticlabels(1) t "Pre-Inlining"
+
+unset multiplot

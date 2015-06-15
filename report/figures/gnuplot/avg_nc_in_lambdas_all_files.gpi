@@ -1,0 +1,37 @@
+reset
+unset key
+y1 = 0.0; y2 = 280.0; y3 = 6410.0; y4 = 6440.0;
+set term postscript eps color
+set output "avg_nc_in_lambdas_all_files.eps"
+
+set xlabel "SPEC2006 Benchmark files"
+set ylabel "Linear avg. of node count inside functions"
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+
+set style data points
+
+set multiplot
+set key off
+set border 1+2+8
+set xtics nomirror
+set ytics nomirror
+set lmargin at screen 0.12
+set rmargin at screen 0.95
+set bmargin at screen 0.15
+set tmargin at screen 0.15 + 0.75 * 0.5
+
+set yrange[y1:y2]
+
+plot 'inliner_stats.data' using 7 t "Node Count inside Functions
+
+unset xtics
+unset xlabel
+unset ylabel
+set border 2+4+8
+set bmargin at screen 0.15 + 0.75*0.5 + 0.03
+set tmargin at screen 0.15 + 0.75 + 0.03
+set yrange [y3:y4]
+
+plot 'inliner_stats.data' using 7 t "Node Count inside Functions
+
+unset multiplot
