@@ -4,8 +4,7 @@ y1 = 0.0; y2 = 3250.0; y3 = 5500.0; y4 = 5650.0;
 set term postscript eps color
 set output 'avg_node_count_pre_inlining.eps'
 
-#set xlabel "Benchmarks"
-#set ylabel "Linear avg. # nodes per benchmark"
+set ylabel "Linear avg. per benchmark"
 set xtics rotate by -45
 set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
 

@@ -4,8 +4,53 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
+In this section we first \nolinebreak{re-iterate} our results from
+Section~\ref{sec:res}, and reflect on the implications Jive's status has on our
+results. Thereafter, we discuss the what we consider to be the more crucial
+points of our inliner, before we finish with acknowledging all who helped with
+this project.
+
+\subsection{Summary \& reflection of results}
+\label{sub:conclusion:summary}
+
+The implemented inliner's effect on the linear average of operations in the test
+files from the SPEC2006 Benchmark Suite is disputable, due to the fact that Jive
+is still under development. This brings the risk that the compilations are not
+\nolinebreak{bug-free}, and the challenge that it is not able to statically link
+files at compile time. Nor is Jive able at this point in time to produce
+executable code we could test.
+
+Yet in spite of these drawbacks, Jive shows promise, enabling our inliner to
+reduce the linear average of operations across the Benchmark Suite with $6.78\%$
+and $6.98\%$, when traversing the call sites in a \nolinebreak{top-down} or
+bottom up order respectively. If improvements like the ones discussed in
+Section~\ref{sec:further_work} could be implemented, we have little doubt that
+the strengths exhibited by our inliner could be further improved and utilized to
+beneficial effect.
+
+Our scientific contribution in this project is the notion of traversing the call
+sites in a \nolinebreak{top-down} or \nolinebreak{bottom-up} order in the RVSDG
+of the program. While Section~\ref{sub:fw:call_site_visit_order} expands more on
+our thoughts on this, we do want to point out that our implemented traverser
+described in Section~\ref{sec:scheme} has an algorithmic complexity of $O(N^2
+Log N)$. Effort was not put into optimizing the traversal algorithm, since that
+was not a part of the project description. Hence, we speculate that while the
+traversal ordering could be worthwhile, some effort should be put into optimizing the traversal of the algorithm.
 
 \subsection{Acknowledgments}
 
-\thanks{Nico~Reissmann, Magnus~Jahre, and Christian~Chavez are with the
-Norwegian University of Science and Technology (NTNU).}
+First of all, I would like to thank Nico Rei\ss mann for his tutelage, guidance,
+and last but not least, patience in his role as my supervisor for this project.
+While the experience has taught me a great deal of things, his contribution of
+efforts and his own time to both the project and my supervision cannot be
+understated.
+
+While this project is not on par with a Master Thesis, it is the most
+challenging one I've had to date. Thus, I'd also like to thank Torje Digernes,
+Bj\o rn \AA ge Tungesvik, Einar Johan S\o m\aa en, J\o rgen Kvalsvik, for their
+tips, debugging help, support, and tutorials teaching me to utilize the tools
+needed for this project, some of which I had little prior experience with.
+
+Finally I'd also like to thank Dag Frode Solberg, and all the others who helped
+me by reading through my reporting, and/or just giving me their time and effort
+in improving my project and report.

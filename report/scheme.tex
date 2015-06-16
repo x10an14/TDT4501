@@ -95,7 +95,7 @@ $\lambda$-node marked as a loop breaker. As such, the inliner knows which
 recursive functions it must never attempt to inline, so as to ensure termination
 of the compilation. The remaining $\lambda$-nodes residing in $\phi$-regions not
 marked as loop breakers may then be inlined according to the same criteria as
-any non-recursive function.
+any \nolinebreak{non-recursive} function.
 
 While there are better ways~\cite{BasMscThesis} to choose loop
 breakers\footnote{In the attempt of minimizing the amount of loop breakers in a
@@ -116,13 +116,13 @@ Figure~\ref{fig:inline_ordering_ex} will either inline \textit{both} of the
 depicted \applyNode s, or just one of them.
 
 If the inliner evaluates the \applyNode s in Figure~\ref{fig:inline_ordering_ex}
-in a top-down order, $\lambda_1$ can be inlined into $\lambda_2$. The newly
+in a \nolinebreak{top-down} order, $\lambda_1$ can be inlined into $\lambda_2$. The newly
 created $\lambda_{1-2}$ with an internal node count of $3$ can be inlined into
 $\lambda_3$, resulting in all of them being inlined into a new single function:
 $\lambda_{1-2-3}$.
 
 However, if the inliner evaluates the \applyNode s in
-Figure~\ref{fig:inline_ordering_ex} in a bottom-up order instead, $\lambda_3$
+Figure~\ref{fig:inline_ordering_ex} in a \nolinebreak{bottom-up} order instead, $\lambda_3$
 can be inlined into $\lambda_2$. But the newly created function
 $\lambda_{2-3}$'s amount of nodes contained within exceeds 3, and can hence not
 be inlined into $\lambda_1$.
@@ -143,7 +143,7 @@ before/after each inlining.
 
 As our example shows, the order in which the \applyNode s are inlined matters.
 And because the order matters, our inliner is able to traverse the \applyNode s
-of the RVSDG given as input in either a top-down order, or a bottom-up order.
+of the RVSDG given as input in either a \nolinebreak{top-down} order, or a \nolinebreak{bottom-up} order.
 Section~\ref{sub:fw:call_site_visit_order} discusses ideas for potential work
 for future research regarding the impact of the order of inlined call sites.
 
@@ -177,7 +177,7 @@ as input.
 \end{itemize}
 
 These ICs and others described in Section~\ref{sub:meth:inlining_conditions}
-allow us to write and re-write the inlining heuristic effectively, by letting us
+allow us to write and \nolinebreak{re-write} the inlining heuristic effectively, by letting us
 write them using \textit{Conjunctive Normal Form} (CNF). Thus, the CNFs written
 for our inliner heuristic are written in the following fashion:
 \lstinline"(NC < X || SCC < Y || (SCC < Z && LND > W))", where \lstinline!X!,

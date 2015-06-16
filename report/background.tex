@@ -5,7 +5,7 @@
 \label{background:RVSDG}
 
 The \textit{Regionalized Value State Dependence Graph}~\cite{RVSDG:HiPEACpaper}
-(RVSDG) is a \textit{directed acyclic demand-based dependence graph},
+(RVSDG) is a \textit{directed acyclic \nolinebreak{demand-based} dependence graph},
 consisting of nodes representing computations and edges representing the
 dependencies between nodes. Each node has inputs and outputs connected through
 edges. The arity and order of inputs and outputs depend on the operation the
@@ -48,7 +48,7 @@ are the operands used in an addition, such as in
 Figure~\ref{fig:simple_node_RVSDG_ex}.
 
 State dependence edges are used to preserve the semantics of the program when
-the program has side-effecting operations. If there are no data dependencies
+the program has \nolinebreak{side-effecting} operations. If there are no data dependencies
 between operations, state dependence edges can give the needed order of
 execution. Figure~\ref{fig:load_dependence_ex} illustrates the use of state
 dependence edges, depicted as dotted edges.
@@ -130,9 +130,9 @@ one case. All subregions must have the same order and arity of internal inputs
 and outputs, even if the subgraph in each region does not depend on all of the
 internal outputs.
 
-A $\gamma$-node is equivalent to a \textit{switch-case} without fall-through in
+A $\gamma$-node is equivalent to a \textit{switch-case} without \nolinebreak{fall-through} in
 C/C++. Each case of the switch statement corresponds to a subregion of the
-$\gamma$-node. Hence, a simple \textit{if-statement} with no else-clause can be
+$\gamma$-node. Hence, a simple \textit{if-statement} with no \nolinebreak{else-clause} can be
 represented by a $\gamma$-node with two subregions. The true subregion contains
 the RVSDG subgraph that represents the body of the if-statement, whereas the
 false subregion of the $\gamma$-node simply routes all inputs through. See
@@ -161,7 +161,7 @@ left.}
 
 \item \textbf{$\theta$-nodes: Tail-controlled loops}
 
-\textit{$\theta$-nodes} represent tail-controlled loops. As with
+\textit{$\theta$-nodes} represent \nolinebreak{tail-controlled} loops. As with
 $\gamma$-nodes, its inputs (and outputs) are all the dependencies needed for the
 RVSDG subgraph in its subregion.
 
@@ -171,11 +171,11 @@ exemplifies. This enables the complex node's contained in the RVSDG subgraph to
 execute with the values given as external inputs to the $\theta$-node.
 
 However, inside the $\theta$-node there is an extra first internal input, which
-is the predicate of the tail-controlled loop. If this predicate evaluates to
+is the predicate of the \nolinebreak{tail-controlled} loop. If this predicate evaluates to
 true, the rest of the internal inputs of the $\theta$-node are mapped to their
 corresponding internal outputs. This enables the iterative behavior of an RVSDG
 $\theta$-node. Thus, the operations represented by its contained RVSDG subgraph
-are executed as a tail-controlled loop. Finally, when the predicate evaluates to
+are executed as a \nolinebreak{tail-controlled} loop. Finally, when the predicate evaluates to
 false, the internal inputs are mapped to the external outputs of the
 $\theta$-node instead of the internal outputs.
 

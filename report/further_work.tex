@@ -9,17 +9,17 @@ while working on the inliner for this project. First, in
 Section~\ref{sub:fw:adaptiv_comp} and
 Section~\ref{sub:fw:optimal_loop_breakers}, discuss potential future work
 already described in
-literature~\cite{AdaptvStratInlSubst,AdaptvCompilAndInlingWaterman,BasMscThesis}, as well as quickly give our opinion of their applications
-to this project/Jive. Thereafter we finish with a more original idea for future
-work in Section~\ref{sub:fw:call_site_visit_order}.
+literature~\cite{AdaptvStratInlSubst,AdaptvCompilAndInlingWaterman,BasMscThesis}, as well as quickly their applications
+to this project and/or Jive. Thereafter we finish with a more original idea for
+future work in Section~\ref{sub:fw:call_site_visit_order}.
 
-\subsection{Dynamic Profiling, Parametrization, and Adaptive Compilation}
+\subsection{Parametrization and Adaptive Compilation}
 \label{sub:fw:adaptiv_comp}
 
 As mentioned in Section~\ref{sub:scheme:inlining_apply_nodes},
 Waterman~\cite{AdaptvCompilAndInlingWaterman} implemented a hillclimber
-algorithm to adaptively re-compile a program for finding the most decent
-inlining heuristic for each compilation.
+algorithm to adaptively \nolinebreak{re-compile} a program for finding the most
+decent inlining heuristic for each compilation.
 
 It is our belief that the strengths of Jive's RVSDG approach to
 compilation/inlining can be further exploited if the choosing of inlining
@@ -40,7 +40,8 @@ discussed in Section~\ref{sub:scheme:inlining_recur_apply_nodes}, our approach
 does not choose these carefully. Ideally, an approach such as the one
 den~Heijer~\cite{BasMscThesis} proposes, should be utilized because it makes an
 effort in choosing the minimum amount of loop breakers needed. This enables a
-larger amount of the functions residing in recursive environments to be inlined.
+larger amount of the functions residing in recursive environments to potentially
+be inlined.
 
 Again, we believe the addition of using den~Heijer's approach based on the
 Directed Blackout Feedback Vertex Set problem would have been beneficial to
@@ -50,24 +51,35 @@ implement in Jive's inliner.
 \label{sub:fw:call_site_visit_order}
 
 To our knowledge, no other literature exist on the subject of the consequences
-of the ordering of inlined functions. As illustrated with the example from
+of the ordering of inlined functions. While this could be because of the extra
+time it takes to execute our $O(N^2 Log N)$ traversal, we were unable to find
+anything else related to this notion.
+
+As illustrated with the example from
 Section~\ref{sub:scheme:ordering_apply_nodes}, the order in which inlines are
 performed affects not only the total count of inlines, but also \textit{which}
-call sites are inlined.
+call sites are inlined. Section~\ref{sub:res:inlining_bottom_up} also shows that
+there changing the ordering has consequences for both the time it takes to
+execute the inliner, as well as the total amount of operations in the compiled
+program.
 
 Since the RVSDG gives us a directed call graph for each program compiled, other
 approaches can be tested. One such approach could be to see whether there are
-inherent properties discovered when ordering the call sites in a top-down
-ordering as opposed to a bottom-up ordering.
+other inherent properties that can be discovered, when ordering the call sites
+in a \nolinebreak{top-down} ordering as opposed to a \nolinebreak{bottom-up}
+ordering, beyond the ones discussed in Section~\ref{sub:res:inlining_bottom_up}.
 
 Another approach could be to find the aggregate cost of inlining nested function
 calls: profiling them first, before inlining them. This could perhaps become
-useful, if not even more effective, when the inliner has a long chain of nested
+useful, if not even more effective, when the inliner has a large stack of nested
 function calls. If the sum of inlining all the function calls in the chain
 exceeds the limits set by the inliner heuristic, could the profiling help find
 out which parts of the chain are most advantageous to inline first?
 
-While interesting food for thought, this is outside the scope of our project,
-and hence we have not done more implement a feature permitting our inliner to
-visit the nodes in a top-down or bottom-up order. Section~\ref{sub:res:inlining}
-reports the difference when we changed the order of inlining.
+Finally, while we have not been able to come up with a workable algorithm that
+would enable this, the reasons we propose behind the different consequences of
+ordering in Section~\ref{sub:res:inlining_bottom_up} may perhaps point to
+another ordering entirely: alternating between the bottom and top of the nested
+call stack.
+
+While these notions are interesting, they are outside the scope of our project.

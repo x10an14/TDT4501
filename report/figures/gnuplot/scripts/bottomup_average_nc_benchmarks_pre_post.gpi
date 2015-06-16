@@ -1,0 +1,14 @@
+reset
+set term postscript eps color
+set output 'bottom_up_avg_nc_pre_post_benchmarks.eps'
+
+set xtics rotate by -45
+set ylabel "Linear avg. per Benchmark"
+set grid ytics lc rgb "#bbbbbb" lw 1 lt 0
+
+# Plot type
+set style data histogram
+set style fill solid 1.0
+
+plot 'bottomup_benchmark_averages.data' using 2:xticlabels(1) t "Pre-inlining Avg. NC", \
+	'' using 14 t "Post-inlining Avg. NC"

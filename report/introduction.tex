@@ -3,9 +3,9 @@
 \section{Introduction}
 \label{introduction}
 
-Since the 1950s, compilers have been translating higher-level programming
+Since the 1950s, compilers have been translating \nolinebreak{higher-level} programming
 languages into machine languages. The purpose of a compiler is two-fold:
-translate human-readable code into machine language, and optimize the translated
+translate \nolinebreak{human-readable} code into machine language, and optimize the translated
 code. Compilers use many code optimization techniques, in order to improve the
 quality of the emitted code. Common techniques are \textit{Common Subexpression
 Elimination} (CSE)~\cite[Ch. 8.5]{DragonBook}, \textit{Dead Code Elimination}
@@ -75,14 +75,14 @@ duplication.}
 	\label{lst:code-dup}
 \end{centering}
 
-If inlining is performed blindly on all function call sites, non-termination of
+If inlining is performed blindly on all function call sites, \nolinebreak{non-termination} of
 the compilation can occur. This can happen when the compiler attempts to inline
 recursive functions. Hence, recursive functions need to be handled carefully.
 The predominant approaches for handling inlining of recursive functions are:
 
 \begin{enumerate}
 
-	\item Avoid non-termination of the compilation by only inlining recursive
+	\item Avoid \nolinebreak{non-termination} of the compilation by only inlining recursive
 functions to a certain depth~\cite{GHCPaper,InlineWhenHowSerrano}, and
 therefore breaking the recursive cycle.
 
@@ -91,7 +91,7 @@ to be \textit{loop breakers}, and mark them to never be inlined. Loop breakers
 are chosen so that the recursive call cycle will be broken in the mutually
 recursive environment. Having chosen correct loop breakers permits inlining of
 the remaining recursive functions in the mutually recursive environment,
-\textit{without} risking non-termination of the
+\textit{without} risking \nolinebreak{non-termination} of the
 compiler~\cite{BasMscThesis,GHCPaper}.
 
 \end{enumerate}
@@ -108,8 +108,8 @@ computations.
 
 Section~\ref{sec:scheme} details the scheme of our project, and explains how the
 inliner is able to handle recursive functions, as well as how the inliner
-permits the configuration of different heuristics to allow rapid exploration of
-the parameter space. How the RVSDG affects the design of an inliner, and the
+permits the configuration of different heuristics to allow exploration of the
+parameter space. How the RVSDG helps the design of our inliner, and the
 algorithms used by the heuristics deciding what to inline, are also detailed in
 this section.
 
@@ -118,10 +118,7 @@ evaluated, as well as the inlining heuristics we chose for the SPEC2006
 Benchmark Suites used for testing. Section~\ref{sec:res} reports on the
 characteristics of the SPEC2006 Benchmark Suites used for the testing, as well
 as the results of the inliner. Also in Section~\ref{sec:res}, we focus on how
-different heuristics have different consequences, such as code duplication, and
-others.
-
-\todo[inline]{Remember to write about RVSDG + inliner in conclusion}
+different heuristics have different consequences.
 
 In Section~\ref{sec:related_work} we summarize the existing related literature
 found in our background study for this project. Following, in

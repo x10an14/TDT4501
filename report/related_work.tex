@@ -8,13 +8,13 @@ As mentioned in Section \ref{introduction}, compilers have existed, and
 optimized code, since the last half of the 20th century. Inlining has long been
 an important optimization for most compilers. W. Davidson and M. Holler
 ~\cite{SubprogInlining} examine the hypothesis that the increased code size of
-inlined code affects execution time on demand-paged virtual memory machines.
+inlined code affects execution time on \nolinebreak{demand-paged} virtual memory machines.
 Using equations developed to describe the execution time of an inlined program,
-they test this hypothesis through the use of a source-to-source subprogram
+they test this hypothesis through the use of a source-\nolinebreak{to-source} subprogram
 inliner.
 
 Cavazos and F.P. O'Boyle~\cite{AutoTuningJavaHeuristics} use a genetic algorithm
-in their auto-tuning heuristics to show how conjunctive normal form (CNF) can
+in their \nolinebreak{auto-tuning} heuristics to show how conjunctive normal form (CNF) can
 easily be used to decide if and when to inline a specific call site. They report
 between 17\% and 37\% execution time improvements without code size explosion.
 
@@ -38,7 +38,7 @@ inlining scheme, can achieve improved results compared to GCCs inliner. Their
 results range from 4\% to 31\% run time decrease compared to GCCs inliner.
 
 E. Hank et al.~\cite{RegionBasedCompilationIntroduction} introduce a new
-technique called \textit{Region-Based Compilation}. They examine the benefits an
+technique called \textit{\nolinebreak{Region-Based} Compilation}. They examine the benefits an
 aggressive compiler gains from inlining on Very Long Instruction Word (VLIW)
 architectures. The paper reports that aggresive inlining can become costly, with
 an average code size expansion of 400\%. However, their results also show that
@@ -60,7 +60,7 @@ They disprove this using the IBM\textregistered XL Compile Suite, measuring how
 many additional loops they were able to fuse in the SPECint2000 and SPECfp2000
 benchmark suites. The results reported indicate that the compiler already
 catches most of the potential loop fusion optimizations, and the results cannot
-justify an inter-procedural loop fusion implementation.
+justify an \nolinebreak{inter-procedural} loop fusion implementation.
 
 Deshpande and A. Edwards~\cite{deshpande2012statically} detail an inlining
 algorithm meant to improve inlining in the GHC. The algorithm improved the
@@ -70,7 +70,7 @@ multiple recursive calls through unrolling recursion. No results were reported.
 W. Hwu and P. Chang~\cite{InlineFuncExpCProgs} explore how program profile
 information could be used to decide whether or not to statically inline C
 functions. Their motivation was to remove costly function calls in a C program,
-in addition to unveil potential optimizations. Through the use of the IMPACT-I C
+in addition to unveil potential optimizations. Through the use of the \nolinebreak{IMPACT-I} C
 compiler, they profile dynamic program information, resulting in a call graph
 with weighted edges. They report 0\% to 99\% reduction of dynamic function calls
 in their test benchmarks.

@@ -5,11 +5,16 @@
 \label{sec:res}
 
 In this section, we first profile the Benchmarks introduced in
-Section~\ref{sec:methodology}, and then more specifically the \applyNode s in
-the Benchmark Suite, before we explain the reasoning behind the placeholder
-values we decided upon for the CNF we used in our testing. Thereafter we show
-and discuss the results of our testing. Some focus is put on the status of Jive,
-and how its status may have affected our test results.
+Section~\ref{sec:methodology}. Then, we profile the \applyNode s in the
+Benchmark Suite specifically, before we explain the reasoning behind the
+placeholder values we decided upon for the CNF we used in our testing.
+
+Thereafter we show and discuss the results of our testing. We test with both the
+top-down and bottom-up traversals discussed in
+Section~\ref{sub:scheme:ordering_apply_nodes}. Some focus is put on the status
+of Jive, and how its status may have affected our test results.
+
+All averages discussedi in this section are linear averages.
 
 \subsection{Profiling SPEC2006 and its functions}
 \label{sub:res:profiling}
@@ -20,7 +25,7 @@ following properties among others:
 
 First and foremost, while a higher node count may still result in faster
 execution in some cases, minimizing the amount of operations in a programs'
-RVSDG was one of our main motivations behind choosing the placeholder values of
+RVSDG was one of our main motivations behind deciding the placeholder values of
 the CNF.
 
 \begin{centering}
@@ -30,32 +35,32 @@ the CNF.
 		\includegraphics[width=\textwidth]{figures/gnuplot/avg_node_count_pre_inlining}
 	\end{minipage}
 	\captionof{figure}{Histogram showing the average amount nodes present in
-each SPEC2006 Benchmark. The y-axis is broken due the two benchmark's \textit{
-h264ref} and \textit{lbm}'s big difference in average node count.}
+each SPEC2006 Benchmark. The y-axis is broken up due the two benchmark's
+\textit{ h264ref} and \textit{lbm}'s big difference in average node count.}
 	\label{fig:benchmarks_avg_nc_pre_inlining}
 \end{centering}
 
-Figure~\ref{fig:benchmarks_avg_nc_pre_inlining} shows the (linearly) averaged
+Figure~\ref{fig:benchmarks_avg_nc_pre_inlining} shows the averaged
 node count for each of the SPEC2006 Benchmarks used. We use
 Figure~\ref{fig:benchmarks_avg_nc_pre_inlining} as our baseline, to which we
-compare the results of our testing in Section~\ref{sub:res:inlining}.
+compare the results of our testing in Sections~\ref{sub:res:inlining_top_down}
+and \ref{sub:res:inlining_bottom_up}.
 
-However, we want to explain the reason behind \textit{lbm}'s high node count
-average: it is caused by one of \textit{lbm}'s files which contains functions
-that fill/modify large \lstinline!IO_FILE!s with content. \textit{h264ref} also
-stands out, though not as much as \textit{lbm}. It stands out due to its low
-average of nodes per file. It does so because it only has one file which made it
-past the requirements listed in Section~\ref{sub:meth:SPEC2006_files},
-specifically requirement 3, and the majority of this file consists of two leaf
-functions.
+The reason behind \textit{lbm}'s high node count average is caused by one of
+\textit{lbm}'s files which contains functions that fill/modify large
+\lstinline!IO_FILE!s with content. \textit{h264ref} also stands out, though not
+as much as \textit{lbm}. It stands out due to its low average of nodes per file.
+It does so because it only has one file which made it past the requirements
+listed in Section~\ref{sub:meth:SPEC2006_files}, specifically requirement 3, and
+the majority of this file consists of two leaf functions.
 
 This observation raises the obvious point that by profiling the functions in the
 benchmarks, we can observe how many of the functions are exported, seeing as
 Jive is unable to link the program files at compile time. This would give us an
 upper bound for how many functions we can remove through \textit{Dead Code
-Elimination} (DCE). Figure~\ref{fig:avg_lambda_count_pre} shows us how many functions
-there are on average in each Benchmark, and how big of an average of these are
-exported.
+Elimination} (DCE). Figure~\ref{fig:avg_lambda_count_pre} shows us how many
+functions there are on average in each Benchmark, and how big of an average of
+these are exported.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -70,10 +75,10 @@ count of exported $\lambda$-nodes in the same benchmark.}
 	\label{fig:avg_lambda_count_pre}
 \end{centering}
 
-One of the IC most used in our final CNF form is \textit{Node Count} (NC). As
-such, it is of use to us to know what NC functions have on average in our
-SPEC2006 test files. Figure~\ref{fig:benchmarks_avg_nc_in_lambda_per_file}
-depicts this in a scatter plot.
+One of the IC most used in our final CNF form is \textit{Node Count} (NC).
+Hence, knowing what NC functions have on average in our test files is helpful.
+Figure~\ref{fig:benchmarks_avg_nc_in_lambda_per_file} depicts this in a scatter
+plot.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -81,9 +86,9 @@ depicts this in a scatter plot.
 		\hspace{-1em}
 		\includegraphics[width=\textwidth]{figures/gnuplot/avg_nc_in_lambdas_pre}
 	\end{minipage}
-	\captionof{figure}{Scatter plot showing the spread of average amount of nodes
-contained within each function per file in the Benchmarks Suite. The files are
-grouped by Benchmark along the horizontal axis.}
+	\captionof{figure}{Scatter plot showing the spread of average amount of
+nodes contained within each function per file in the Benchmarks Suite. The files
+are grouped by Benchmark along the horizontal axis.}
 	\label{fig:benchmarks_avg_nc_in_lambda_per_file}
 \end{centering}
 
@@ -119,9 +124,9 @@ $\lambda$-nodes inside each $\phi$-region present in a benchmark.}
 
 Another property of functions of interest to us is the average amount of call
 sites contained within functions. This property gives us an idea as to the
-proportion of how many leaf nodes there are with no function calls in a
-benchmark, as well as the proportion of functions with $X$ amount of call sites
-on average.
+proportion of how many leaf nodes there are, containing no function calls, in a
+benchmark, in addition to the proportion of functions with $X$ amount of call
+sites on average.
 
 Figure~\ref{fig:benchmarks_avg_cin_lambda_per_file} shows us that on average the
 balance between functions with no call sites, and functions with, is not sharply
@@ -166,7 +171,8 @@ What the data in Figure~\ref{fig:benchmarks_avg_scc_lambda_per_file} tells us,
 is that the majority of functions are called just once. Seeing as Jive has not
 statically linked the files in the benchmark during the creation of the RVSDG,
 this is understandable. If Jive was able to build the RVSDG with statically
-linked files, our suspicion is that the range of the vertical axis, and spread data along it, would most likely grow.
+linked files, our suspicion is that the range of the vertical axis, and spread
+data along it, would most likely grow.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -201,9 +207,9 @@ unable to link files at compile time, there is conceivably large portion of
 \applyNode s not statically known. If Jive had been able to create and process
 RVSDGs composed of linked object files, instead of just disparate files, the
 proportion of statically known \applyNode s may have been higher.
-Figure~\ref{fig:statically_known_applies_vs_all_applies} shows the (linear)
+Figure~\ref{fig:statically_known_applies_vs_all_applies} shows the )
 average count of \applyNode s per SPEC2006 Benchmark in the left bar, and the
-(linear) average count of the statically known in the right bar.
+) average count of the statically known in the right bar.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -233,10 +239,10 @@ others, thereby achieving these numbers.
 		\hspace{-1em}
 		\includegraphics[width=\textwidth]{figures/gnuplot/avg_pc_cpc_pre_count}
 	\end{minipage}
-	\captionof{figure}{Scatter plot showing the spread of average Parameter Count
-per file in the Benchmarks (plus signs), and the spread of average Constant
-Parameter Count (depicted by tilted plus signs). The files are grouped by
-Benchmark along the horizontal axis.}
+	\captionof{figure}{Scatter plot showing the spread of average Parameter
+Count per file in the Benchmarks (plus signs), and the spread of average
+Constant Parameter Count (depicted by tilted plus signs). The files are grouped
+by Benchmark along the horizontal axis.}
 	\label{fig:benchmarks_avg_pc_cpc}
 \end{centering}
 
@@ -249,17 +255,17 @@ needed should be above two. Thus we avoid code size explosion by hindering
 function invocations with only one or two constant parameters, while we permit
 function invocations with more to become inlined.
 
-Finally, one of the most important properties of a call site wrt. inlining is
-the amount of nested loops it resides within.
+Finally, one of the most important properties of a call site with regards to
+inlining is the amount of nested loops it resides within.
 Figure~\ref{fig:benchmarks_avg_lnd_per_file} plots the average LND count of the
 call sites in a Benchmark Suite test file. The scatter plot in
 Figure~\ref{fig:benchmarks_avg_lnd_per_file} tells us that there are no call
 sites (\applyNode s) residing within more than two nested loops. While research
 shows that most of a programs' execution time is spent inside of loops, it is
 useful to have an idea of the proportion of call sites within one, two, or zero
-loops. If the CNF clause checking for loop nesting depth of our CNFs final form
-set the bar at three or higher, the clause would be useless as there are no such
-call sites present in the Benchmark Suite's test files.
+loops. If the CNF clause checking for LND of our CNFs final form sets the
+threshold at three or higher, the clause would be useless, since there are no
+call sites satisfying the requirement present in the test files.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
@@ -277,48 +283,186 @@ Benchmark along the horizontal axis.}
 \label{sub:res:final_cnf}
 
 With the observations made from the profiling data, and some testing to find the
-optimum values wrt. to average node count size in the benchmarks, the following
-values were used for our test results:
+optimum values with regards to average node count size in the benchmarks, the
+following values were used for our test results:
 
 \begin{centering}
 \lstinline!(EXP == false && SCC = 1) || NC < 25 || CIN < 3 ||! \\
 \lstinline!(NC < 200 && CPC > 2) || (NC < 200 && LND > 0)! \\
 \end{centering}
 
-\subsection{Inlining results}
-\label{sub:res:inlining}
+\subsection{Inlining results: top-down traversal}
+\label{sub:res:inlining_top_down}
 
-Table summarizing node count difference between benchmarks pre- and post-inlining:
-\begin{table}[h]
-	\centering
-	\caption{My caption}
-	\label{my-label}
-	\footnotesize
-	\begin{tabular}{|c|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-		\hline
-		{\bf \rotatebox{60}{benchmarks}} & \multicolumn{1}{l|}{{\it \rotatebox{90}{bzip2} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{gcc} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{gobmk} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{gromacs} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{hmmer} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{h264ref} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{lbm} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{libquantum} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{mcf} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{milc} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{perlbench} }} & \multicolumn{1}{l|}{{\it \rotatebox{90}{sjeng}}} & \multicolumn{1}{l|}{{\it \rotatebox{90}{sphinx3} }} \\ \hline
-		{\bf Average Node Count Pre-Inlining}  &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
-		{\bf Average Node Count Post-Inlining} &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
-		{\bf \% Difference in Node Count}      &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
-		{\bf \# Files per Benchmark}           &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
-		{\bf \% of files total in Benchmark}   &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             &                             \\ \hline
-\end{tabular}
-\end{table}
+Since Jive is not able to produce executable code, we are unable to test the
+timing of the RVSDGs our inliner has been executed on. Hence, as mentioned in
+Section~\ref{sub:res:profiling}, our motivation has been to reduce the amount of
+operations. This because we interpret the NC to be generally representative of
+the time it would have taken to execute the optimized code.
 
-\todo[inline]{One graph showing the avg. wall clock ms time (per benchmark) on
-y-axis, and the average amount of apply nodes (per benchmark) on x-axis.\\
-Show that there is no strong correlation between the two.}
+Figure~\ref{fig:res:topdown_post_pre_nc_benchmarks} shows a histogram where the
+averaged NC per benchmark is represented before and after the inliner has been
+executed. While we repeat that these results must be taken with the proverbial
+grain of salt due to Jive's inability to statically link the files of the
+benchmarks, we do hope that they are somewhat representative of how the effects
+of our inliner.
 
 \begin{centering}
 	\noindent\begin{minipage}{\textwidth}
 		\captionsetup{type=figure}
 		\hspace{-1em}
-		\includegraphics[width=\textwidth]{figures/gnuplot/average_static_known_minus_loop_brkrs_post_pre}
+		\includegraphics[width=\textwidth]{figures/gnuplot/top_down_avg_nc_pre_post_benchmarks}
 	\end{minipage}
-	\captionof{figure}{Scatter plot showing the sprad of the benchmarks' wall
-clock duration (y-axis) with the average amount of apply nodes before inlining
-(x-axis).}
+	\captionof{figure}{Histogram showing the average NC per SPEC2006
+Benchmark before (left bar), and after (right bar) inlining.}
+	\label{fig:res:topdown_post_pre_nc_benchmarks}
 \end{centering}
 
-\todo[inline]{Check whether there is a strong correlation between the wall clock
-time spent, vs Calls-In-Node combined with amount of lambdas/apply nodes.}
+Figure~\ref{fig:res:topdown_wc_scatterplot} shows the spread of how much time
+the inliner needs for processing the files in from the Benchmark Suite. Again,
+the results are somewhat skewed due to Jive's status. Jive does not have all of
+the common compiler techniques implemented either. Optimization techniques such
+as auto vectorization and alias analysis are lacking in their entirety, and what
+optimizations it does have are not completely bug-free.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/top_down_wc_scatterplot}
+	\end{minipage}
+	\captionof{figure}{Scatterplot showing the spread of the time it takes in
+(wall clock ms.) to execute the inliner per .c file tested in a top-down
+traversal order.}
+	\label{fig:res:topdown_wc_scatterplot}
+\end{centering}
+
+However, with the exception of the few outliers, we see that the majority of
+test files were executed in under one second. As to the outliers needing up
+towards 80 seconds to execute, due to Jive's status as under development, it is
+difficult to determine for sure whether the majority of the time is spent in the
+traversal of call sites, or in the necessary functions offered by
+Jive\footnote{Discussed further in Section~\ref{sub:conclusion:summary}.}.
+
+Table~\ref{sub:res:top_down_table} summarizes the NC results per SPEC2006
+Benchmark pre- and post-inlining, giving a bit more detail and summarizing the
+effects across all the files in the Benchmark Suite. The weighted average of
+post-inlining NC divided by pre-inlining NC across all benchmarks give us a
+$6.79\%$ average reduction in NC after executing our inliner.
+
+\begin{table}[h!]
+	\centering
+	\caption{Top-down post- and pre-inlining Node Count averages per SPEC2006 Benchmark}
+	\label{sub:res:top_down_table}
+	\begin{tabular}{|c|c|c|c|c|c|}
+	\hline
+	\multicolumn{1}{|l|}{{\bf \rotatebox{75}{ SPEC2006 Benchmarks } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ Average Node Count Pre-Inlining } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ Average Node Count Post-Inlining } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ \% Difference in Node Count } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ \# Files per Benchmark } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ \% of files total in Benchmark } }} \\ \hline
+	{\it bzip2 } & 1481.250 & 494.750 & 33.401\% & 4 & 1.254 \\ \hline
+	{\it gcc } & 1771.660 & 1368.319 & 77.234\% & 47 & 14.734 \\ \hline
+	{\it gobmk } & 2152.158 & 2001.421 & 92.996\% & 19 & 5.956 \\ \hline
+	{\it gromacs } & 1838.741 & 1700.941 & 92.506\% & 85 & 26.646 \\ \hline
+	{\it h264ref } & 61.000 & 61.000 & 100.000\% & 1 & 0.313 \\ \hline
+	{\it hmmer } & 1537.667 & 1482.222 & 96.394\% & 45 & 14.107 \\ \hline
+	{\it lbm } & 5612.000 & 5627.500 & 100.276\% & 2 & 0.627 \\ \hline
+	{\it libquantum } & 297.000 & 321.750 & 108.333\% & 8 & 2.508 \\ \hline
+	{\it mcf } & 437.222 & 438.667 & 100.330\% & 9 & 2.821 \\ \hline
+	{\it milc } & 439.231 & 441.019 & 100.407\% & 52 & 16.301 \\ \hline
+	{\it perlbench } & 850.857 & 872.571 & 102.552\% & 7 & 2.194 \\ \hline
+	{\it sjeng } & 1133.125 & 1058.375 & 93.403\% & 8 & 2.508 \\ \hline
+	{\it sphinx3 } & 1182.406 & 1199.875 & 101.477\% & 32 & 10.031 \\ \hline
+	\end{tabular}
+\end{table}
+
+
+\FloatBarrier
+
+\subsection{Inlining results: bottom-up traversal}
+\label{sub:res:inlining_bottom_up}
+
+The testing for the bottom-up ordering was performed identically as the top-down
+orderings tests. Thus we will display the same table and figures, but with new
+data and our guesses as to the difference between the two. The one notable
+exception between the two being that one of the test files in the \textit{hmmer}
+benchmark was unable to complete the execution within the allotted 120 seconds.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/bottom_up_avg_nc_pre_post_benchmarks}
+	\end{minipage}
+	\captionof{figure}{Histogram showing the average NC per SPEC2006
+Benchmark before (left bar), and after (right bar) inlining.}
+	\label{fig:res:bottomup_post_pre_nc_benchmarks}
+\end{centering}
+
+Figure~\ref{fig:res:bottomup_post_pre_nc_benchmarks} shows a very similar trend
+to Figure~\ref{fig:res:topdown_post_pre_nc_benchmarks}. So from NC alone there
+does not seem to be much difference between the averaged NCs per benchmark.
+
+The spread in Figure~\ref{fig:res:bottomup_wc_scatterplot} shows that while the
+spread along the vertical axis does not go as high in the bottom-up traversal as
+for the top-down traversal, there are more test files requiring more than half a
+second to execute with the inliner. While the top-down ordering takes an average
+$1279.213$ ms. to execute, the bottom up ordering takes $1576.028$ ms.
+
+Table~\ref{sub:res:bottom_up_table} summarizes the same results from the
+SPEC2006 Benchmark Suite as Table~\ref{sub:res:top_down_table}, though with
+bottom-up traversal instead. However, what is worth noticing, is that the
+weighted average of post-inlining NC divided by pre-inlining NC across all
+benchmarks gives a $6.98\%$ average reduction in NC after executing our
+inliner.
+
+\begin{centering}
+	\noindent\begin{minipage}{\textwidth}
+		\captionsetup{type=figure}
+		\hspace{-1em}
+		\includegraphics[width=\textwidth]{figures/gnuplot/bottom_up_wc_scatterplot}
+	\end{minipage}
+	\captionof{figure}{Scatterplot showing the spread of the time it takes in
+(wall clock ms.) to execute the inliner per .c file tested in a bottom-up
+traversal order.}
+	\label{fig:res:bottomup_wc_scatterplot}
+\end{centering}
+
+The discrepancy between the top-down and bottom-up traversals averages of NC and
+execution time may be explained by the following: Top-down traversal inlines
+leaf nodes first into their callees, while bottom-up inlines the first functions
+in nested functions calls first. While some research suggests that the majority
+of execution is sometimes spent in leaf nodes, the call sites in side of nested
+loops, which we also seek to optimize, will be the ones most likely to be
+inlined first with the bottom-up ordering. This could account for the increased
+reduction of operations, since as more operations are collected closer to the
+root function\footnote{Comparable to C/C++'s \lstinline!main()!.}, the chances
+for applying DCE increases.
+
+The timing can also be accounted for, since leaf nodes tend to have a lesser NC,
+the cost for Jive to inline a leaf node is very likely smaller than inlining a
+function from the the top of the nested call stack into its predecessor. Thus,
+for optimal results, a balance could perhaps be found between the two.
+
+
+\begin{table}[h]
+	\centering
+	\caption{Bottom-up post- and pre-inlining Node Count averages per SPEC2006 Benchmark}
+	\label{sub:res:bottom_up_table}
+	\begin{tabular}{|c|c|c|c|c|c|}
+	\hline
+	\multicolumn{1}{|l|}{{\bf \rotatebox{75}{ SPEC2006 Benchmarks } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ Average Node Count Pre-Inlining } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ Average Node Count Post-Inlining } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ \% Difference in Node Count } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ \# Files per Benchmark } }} & \multicolumn{1}{l|}{{\bf \rotatebox{75}{ \% of files total in Benchmark } }} \\ \hline
+	{\it bzip2 } & 1481.250 & 494.750 & 33.401\% & 4 & 1.258 \\ \hline
+	{\it gcc } & 1771.660 & 1351.766 & 76.299\% & 47 & 14.780 \\ \hline
+	{\it gobmk } & 2152.158 & 1974.842 & 91.761\% & 19 & 5.975 \\ \hline
+	{\it gromacs } & 1838.741 & 1690.400 & 91.932\% & 85 & 26.730 \\ \hline
+	{\it h264ref } & 61.000 & 61.000 & 100.000\% & 1 & 0.314 \\ \hline
+	{\it hmmer } & 1555.455 & 1523.886 & 97.970\% & 44 & 13.836 \\ \hline
+	{\it lbm } & 5612.000 & 5627.500 & 100.276\% & 2 & 0.629 \\ \hline
+	{\it libquantum } & 297.000 & 325.375 & 109.554\% & 8 & 2.516 \\ \hline
+	{\it mcf } & 437.222 & 438.667 & 100.330\% & 9 & 2.830 \\ \hline
+	{\it milc } & 439.231 & 440.635 & 100.320\% & 52 & 16.352 \\ \hline
+	{\it perlbench } & 850.857 & 872.571 & 102.552\% & 7 & 2.201 \\ \hline
+	{\it sjeng } & 1133.125 & 1077.875 & 95.124\% & 8 & 2.516 \\ \hline
+	{\it sphinx3 } & 1182.406 & 1188.656 & 100.529\% & 32 & 10.063 \\ \hline
+	\end{tabular}
+\end{table}
+
+\FloatBarrier

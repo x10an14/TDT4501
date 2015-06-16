@@ -6,7 +6,7 @@
 
 Using the \textit{Inliner Conditions} (ICs) described in
 Section~\ref{sub:meth:inlining_conditions}, the inliner of this project has been
-tested using C-language programming files from the SPEC2006 Benchmark Suite.
+tested using \nolinebreak{C-language} programming files from the SPEC2006 Benchmark Suite.
 This section first details the ICs and the rationale behind CNF clauses used for
 testing, before explaining how the files tested from the SPEC2006 Benchmark
 Suite were chosen.
@@ -177,22 +177,20 @@ flags.
 	\item \nopagebreak{The files could to be tested within a time limit of 120}
 seconds\footnote{This due to a bug in the library needed for compiling an
 executable using Jive.}, executed single-process, on a Intel(R) Core(TM)
-i5-4200M CPU @ 2.50GHz, with 3072 KB cache size, Ubuntu 14.04 64-bit based Linux
+i5-4200M CPU @ 2.50GHz, with 3072 KiB cache size, Ubuntu 14.04 64-bit based Linux
 distribution.
 \end{enumerate}
 
 With these requirements, files from the following benchmarks were used for
 testing:
 
-\todo[inline]{Fill table with final numbers.}
-
-\begin{table}[h]
+\begin{table}[hp]
 \centering
 \begin{tabular}{|
 >{\columncolor[HTML]{EFEFEF}}l |l|l|l|l|l|l|l|l|l|l|l|l|l|}
 \hline
 \rotatebox{60}{Benchmarks} & \rotatebox{90}{perlbench} & \rotatebox{90}{bzip2} & \rotatebox{90}{gcc} & \rotatebox{90}{mcf} & \rotatebox{90}{milc} & \rotatebox{90}{gromacs} & \rotatebox{90}{gobmk} & \rotatebox{90}{hmmer} & \rotatebox{90}{sjeng} & \rotatebox{90}{libquantum} & \rotatebox{90}{h264ref} & \rotatebox{90}{lbm} & \rotatebox{90}{sphinx3} \\ \hline
-\# files  &           &       &     &     &      &         &       &       &       &            &         &     &         \\ \hline
+\# files  & 7 & 4 & 47 & 9 & 52 & 85 & 19 & 45 & 8 & 8 & 1 & 2 & 32 \\ \hline
 \end{tabular}
 \end{table}
 
