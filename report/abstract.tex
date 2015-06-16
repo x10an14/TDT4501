@@ -2,6 +2,30 @@
 
 \begin{abstract}
 
-\blindtext
+Inlining is one of many compiler optimization techniques used in the process of
+optimizing programming code. The art of inlining sufficiently and correctly to
+achieve optimized executables is a delicate one. One must also extra take care
+when inlining recursive functions, lest that the compilers ends up in a
+\nolinebreak{non-terminating} inlining cycle.
+
+We implement an inliner in the new compiler backend Jive, and test it with a
+subset of the files in the SPEC2006 Benchmark Suite. The implemented inliner is
+also designed to be order to the performed inlines, following a strict top-down
+or bottom-up approach of nested call stacks.
+
+The focus of our implementation is to handle as wide a variety of applications
+from the SPEC2006 Benchmark Suite as possible, and checked specifically for the
+change in count of operations in the program after the inliner had executed.
+
+We also comment on the benefits of inlining in Jive, since it is able to convert
+Clang IR into a \textit{demand-based} and \textit{directed acyclic graph},
+namely a Regionalized Value State Dependence Graph.
+
+Our results show that both our focus on ensuring that the
+call sites are inlined in a top-down or bottom-up fashion trough the nested call
+stack is potentially generalizable. We managed to achieve a $6.78\%$ and
+$6.98\%$ reduction in count of operations, with a top-down and bottom-up
+traversal respectively.
+
 
 \end{abstract}
